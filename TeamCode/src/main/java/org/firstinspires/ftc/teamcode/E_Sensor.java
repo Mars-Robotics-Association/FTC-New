@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-public abstract class E1_Sensor extends _Root
+public abstract class E_Sensor extends _Root
 {
     //Variables that apply to all sensors
 

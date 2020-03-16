@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-public abstract class B1_Control extends _Root
+public abstract class B_Control extends _Root
 {
     //Variables that apply to all controls
 

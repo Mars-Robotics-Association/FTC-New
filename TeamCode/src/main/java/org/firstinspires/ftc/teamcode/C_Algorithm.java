@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-public abstract class C1_Algorithm extends _Root
+public abstract class C_Algorithm extends _Root
 {
     //Variables that apply to all algorithms
 

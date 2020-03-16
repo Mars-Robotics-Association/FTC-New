@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-public interface class Root
+public abstract class A1_Root
 {
     //Global Variables
 
     //Global Methods
-    void Init();
+    public abstract void Init();
 }

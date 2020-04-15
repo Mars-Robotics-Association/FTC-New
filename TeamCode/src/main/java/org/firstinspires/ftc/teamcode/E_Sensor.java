@@ -10,4 +10,9 @@ public abstract class E_Sensor extends _Root
     public void Init() {
 
     }
+
+    @Override
+    public void Loop(){
+
+    }
 }

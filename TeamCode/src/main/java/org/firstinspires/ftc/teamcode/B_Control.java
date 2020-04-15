@@ -10,4 +10,9 @@ public abstract class B_Control extends _Root
     public void Init() {
 
     }
+
+    @Override
+    public void Loop(){
+
+    }
 }

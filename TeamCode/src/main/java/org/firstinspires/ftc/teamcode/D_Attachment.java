@@ -10,6 +10,11 @@ public abstract class D_Attachment extends _Root
     public void Init() {
 
     }
+
+    @Override
+    public void Loop(){
+
+    }
     //Variables that apply to all attachments
 
     //Meathods that apply to all attachments

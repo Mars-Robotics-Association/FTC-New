@@ -11,4 +11,9 @@ public abstract class C_Algorithm extends _Root
 
     }
 
+    @Override
+    public void Loop(){
+
+    }
+
 }

@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 public class CB1_MecanumDriveCalc extends CB_DriveAlgorithms
 {
-    //Calculates the necassary speeds and directions for the wheels to move at when going any angle. Also allows for sweeps turns/corkscrews
+    //Calculates the necessary speeds and directions for the wheels to move at when going any angle. Also allows for sweeps turns/corkscrews
     public double[] CalculateWheelSpeedsTurning(double angleToMoveAt, double speed, double turnOffset) //TODO Separate out corkscrew and have it controllable
     {
         double FrontRightPower = 0;

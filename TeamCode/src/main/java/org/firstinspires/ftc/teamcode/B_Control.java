@@ -11,8 +11,5 @@ public abstract class B_Control extends _Root
 
     }
 
-    @Override
-    public void Loop(){
-
-    }
+    public abstract void Loop();
 }

@@ -10,10 +10,4 @@ public abstract class C_Algorithm extends _Root
     public void Init() {
 
     }
-
-    @Override
-    public void Loop(){
-
-    }
-
 }

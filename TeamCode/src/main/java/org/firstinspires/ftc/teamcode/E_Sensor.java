@@ -7,7 +7,5 @@ public abstract class E_Sensor extends _Root
 
     //Methods that apply to all sensors
     @Override
-    public void Init() {
-
-    }
+    public abstract void Init();
 }

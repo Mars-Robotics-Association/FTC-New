@@ -14,8 +14,13 @@ interface AB_ControllerInputListener
 
     void LB1Pressed();
     void RB1Pressed();
-    void LJS1Pressed();
-    void RJS1Pressed();
+    void LT1Pressed();
+    void RT1Pressed();
+
+    void LB1Released();
+    void RB1Released();
+    void LT1Released();
+    void RT1Released();
 
 
     void A2Pressed();
@@ -30,6 +35,11 @@ interface AB_ControllerInputListener
 
     void LB2Pressed();
     void RB2Pressed();
-    void LJS2Pressed();
-    void RJS2Pressed();
+    void LT2Pressed();
+    void RT2Pressed();
+
+    void LB2Released();
+    void RB2Released();
+    void LT2Released();
+    void RT2Released();
 }

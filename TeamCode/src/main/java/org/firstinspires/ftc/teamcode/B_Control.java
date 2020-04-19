@@ -11,5 +11,6 @@ public abstract class B_Control extends _Root
 
     }
 
+    public abstract void Start();
     public abstract void Loop();
 }

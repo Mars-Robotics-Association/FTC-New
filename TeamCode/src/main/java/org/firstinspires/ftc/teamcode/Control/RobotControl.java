@@ -1,16 +1,17 @@
-package org.firstinspires.ftc.teamcode;
-
-import android.provider.ContactsContract;
+package org.firstinspires.ftc.teamcode.Control;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-public class BA1_RobotControl extends B_Control
+import org.firstinspires.ftc.teamcode.Algorithm.DriveAlgorithm;
+import org.firstinspires.ftc.teamcode.Sensor.IMU;
+
+public class RobotControl extends Control
 {
     //References
     OpMode opMode;
-    CB_DriveAlgorithm DriveCalc;
-    EB1_IMU IMU;
+    DriveAlgorithm DriveCalc;
+    IMU IMURef;
 
     //Variables
     private double BaseOffset = 0;
@@ -27,10 +28,10 @@ public class BA1_RobotControl extends B_Control
     private double[] MotorSpeeds;
 
 
-    public BA1_RobotControl(OpMode setOpMode, CB_DriveAlgorithm setDriveCalc, EB1_IMU setIMU, double setBaseSpeed, double setBaseOffset, DcMotor[] setMotors) {
+    public RobotControl(OpMode setOpMode, DriveAlgorithm setDriveCalc, IMU setIMU, double setBaseSpeed, double setBaseOffset, DcMotor[] setMotors) {
         opMode = setOpMode;
         DriveCalc = setDriveCalc;
-        IMU = setIMU;
+        IMURef = setIMU;
         BaseSpeed = setBaseSpeed;
         BaseOffset = setBaseOffset;
         Motors = setMotors;
@@ -50,7 +51,7 @@ public class BA1_RobotControl extends B_Control
     @Override
     public void Loop() {
         double directMoveAngle = MoveAngle + BaseOffset;
-        if(IsHeadless){directMoveAngle += (IMU.angles.firstAngle - HeadlessOffset);}
+        if(IsHeadless){directMoveAngle += (IMURef.GetAngles().firstAngle - HeadlessOffset);}
         MotorSpeeds = DriveCalc.CalculateWheelSpeeds(directMoveAngle, CurrentSpeed, 0);
 
         int i = 0;
@@ -75,6 +76,6 @@ public class BA1_RobotControl extends B_Control
     }
 
     public void ResetHeadlessOffset() {
-        HeadlessOffset = IMU.GetAngles().firstAngle;
+        HeadlessOffset = IMURef.GetAngles().firstAngle;
     }
 }

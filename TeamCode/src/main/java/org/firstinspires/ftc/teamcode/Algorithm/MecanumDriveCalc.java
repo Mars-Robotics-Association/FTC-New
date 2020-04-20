@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Algorithm;
 
-public class CB1_MecanumDriveCalc extends CB_DriveAlgorithm
+public class MecanumDriveCalc extends DriveAlgorithm
 {
     //Calculates the necessary speeds and directions for the wheels to move at when going any angle. Also allows for sweeps turns/corkscrews
     @Override

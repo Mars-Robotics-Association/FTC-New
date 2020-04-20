@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.External;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import java.util.*;
 
-class AA_ControllerInput extends A_External //TODO eventually refactor
+class ControllerInput extends External //TODO eventually refactor
 {
     //REFERENCES
     private OpMode opMode;
@@ -35,10 +35,10 @@ class AA_ControllerInput extends A_External //TODO eventually refactor
     private boolean RT2Down = false;
 
     //A list of all the listeners
-    private List<AB_ControllerInputListener> listeners = new ArrayList<AB_ControllerInputListener>();
+    private List<ControllerInputListener> listeners = new ArrayList<ControllerInputListener>();
 
     //Add a new listener
-    public void addListener(AB_ControllerInputListener toAdd) {
+    public void addListener(ControllerInputListener toAdd) {
         listeners.add(toAdd);
     }
 
@@ -46,168 +46,168 @@ class AA_ControllerInput extends A_External //TODO eventually refactor
     //Pressed
     public void A1Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.A1Pressed();
     }
     public void B1Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.B1Pressed();
     }
     public void X1Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.X1Pressed();
     }
     public void Y1Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.Y1Pressed();
     }
     public void A2Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.A2Pressed();
     }
     public void B2Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.B2Pressed();
     }
     public void X2Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.X2Pressed();
     }
     public void Y2Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.Y2Pressed();
     }
     public void RB1Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.RB1Pressed();
     }
     public void LB1Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.LB1Pressed();
     }
     public void RT1Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.RT1Pressed();
     }
     public void LT1Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.LT1Pressed();
     }
     public void RB2Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.RB2Pressed();
     }
     public void LB2Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.LB2Pressed();
     }
     public void RT2Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.RT2Pressed();
     }
     public void LT2Pressed() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.LT2Pressed();
     }
 
     //Released
     public void A1Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.A1Released();
     }
     public void B1Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.B1Released();
     }
     public void X1Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.X1Released();
     }
     public void Y1Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.Y1Released();
     }
     public void A2Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.A2Released();
     }
     public void B2Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.B2Released();
     }
     public void X2Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.X2Released();
     }
     public void Y2Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.Y2Released();
     }
     public void RB1Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.RB1Released();
     }
     public void LB1Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.LB1Released();
     }
     public void RT1Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.RT1Released();
     }
     public void LT1Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.LT1Released();
     }
     public void RB2Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.RB2Released();
     }
     public void LB2Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.LB2Released();
     }
     public void RT2Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.RT2Released();
     }
     public void LT2Released() {
         // Notify listeners
-        for (AB_ControllerInputListener CIL : listeners)
+        for (ControllerInputListener CIL : listeners)
             CIL.LT2Released();
     }
 
-    public AA_ControllerInput (OpMode setOpMode){
+    public ControllerInput(OpMode setOpMode){
         opMode = setOpMode;
     }
 

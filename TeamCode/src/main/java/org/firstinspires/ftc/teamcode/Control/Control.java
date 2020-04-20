@@ -1,6 +1,8 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Control;
 
-public abstract class B_Control extends _Root
+import org.firstinspires.ftc.teamcode._Root;
+
+public abstract class Control extends _Root
 {
     //Variables that apply to all controls
 

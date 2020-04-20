@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Algorithm;
 
-public abstract class CB_DriveAlgorithm extends C_Algorithm
+public abstract class DriveAlgorithm extends Algorithm
 {
     public abstract double[] CalculateWheelSpeeds(double angleToMoveAt, double speed, double turnOffset);
 }

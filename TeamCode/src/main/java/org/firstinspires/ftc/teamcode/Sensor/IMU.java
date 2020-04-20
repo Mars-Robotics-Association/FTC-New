@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Sensor;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-public class EB1_IMU extends EB_ValueSensor
+public class IMU extends ValueSensor
 {
     // References
     private BNO055IMU imu;
@@ -22,7 +22,7 @@ public class EB1_IMU extends EB_ValueSensor
     Orientation angles;
     Acceleration acceleration;
 
-    public EB1_IMU(OpMode opMode)
+    public IMU(OpMode opMode)
     {
         this.opmode = opMode;
     }

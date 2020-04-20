@@ -1,6 +1,8 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Attachment;
 
-public abstract class D_Attachment extends _Root
+import org.firstinspires.ftc.teamcode._Root;
+
+public abstract class Attachment extends _Root
 {
     //Variables that apply to all attachments
 

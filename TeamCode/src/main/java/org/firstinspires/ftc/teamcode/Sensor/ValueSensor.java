@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Sensor;
 
-public abstract class EB_ValueSensor extends E_Sensor
+public abstract class ValueSensor extends Sensor
 {
     @Override
     public abstract void Init();

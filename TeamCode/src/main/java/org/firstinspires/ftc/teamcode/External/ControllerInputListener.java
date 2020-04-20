@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.External;
 
-interface ControllerInputListener
+public interface ControllerInputListener
 {
     void A1Pressed();
     void B1Pressed();

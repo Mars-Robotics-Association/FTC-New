@@ -1,7 +1,7 @@
 ------FTC Team 13474 and Team 16776 The Mars Robotics Association Code Library------
 //TODO fill this out
 
-Structure:
+STRUCTURE:
 
 _Root- The root interface of everything. Contains Init() and could have more if needed.
 

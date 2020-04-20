@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Algorithm.DriveAlgorithm;
 import org.firstinspires.ftc.teamcode.Sensor.IMU;
 
-public class RobotControl extends Control
+public class ChassisControl extends Control
 {
     //References
     OpMode opMode;
@@ -28,7 +28,7 @@ public class RobotControl extends Control
     private double[] MotorSpeeds;
 
 
-    public RobotControl(OpMode setOpMode, DriveAlgorithm setDriveCalc, IMU setIMU, double setBaseSpeed, double setBaseOffset, DcMotor[] setMotors) {
+    public ChassisControl(OpMode setOpMode, DriveAlgorithm setDriveCalc, IMU setIMU, double setBaseSpeed, double setBaseOffset, DcMotor[] setMotors) {
         opMode = setOpMode;
         DriveCalc = setDriveCalc;
         IMURef = setIMU;

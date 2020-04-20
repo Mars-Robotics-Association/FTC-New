@@ -5,16 +5,16 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import java.util.*;
 
-class ControllerInput extends External //TODO eventually refactor
+public class ControllerInputManager extends External //TODO eventually refactor
 {
     //REFERENCES
     private OpMode opMode;
-    private Gamepad gamepad1;
-    private Gamepad gamepad2;
+    private Gamepad Gamepad1;
+    private Gamepad Gamepad2;
 
     //LOCAL MEMBER VARIABLES
     //misc.
-    private double triggerThreshold = 0.1;
+    private double TriggerThreshold = 0.1;
 
     //buttons
     private boolean A1Down = false;
@@ -41,6 +41,43 @@ class ControllerInput extends External //TODO eventually refactor
     public void addListener(ControllerInputListener toAdd) {
         listeners.add(toAdd);
     }
+
+    //GETTERS
+    //Gamepad1
+    public double GetLJSX1()
+    {
+        return Gamepad1.left_stick_x;
+    }
+    public double GetLJSY1()
+    {
+        return Gamepad1.left_stick_y;
+    }
+    public double GetRJSX1()
+    {
+        return Gamepad1.right_stick_x;
+    }
+    public double GetRJSY1()
+    {
+        return Gamepad1.right_stick_y;
+    }
+    //Gamepad2
+    public double GetLJSX2()
+    {
+        return Gamepad2.left_stick_x;
+    }
+    public double GetLJSY2()
+    {
+        return Gamepad2.left_stick_y;
+    }
+    public double GetRJSX2()
+    {
+        return Gamepad2.right_stick_x;
+    }
+    public double GetRJSY2()
+    {
+        return Gamepad2.right_stick_y;
+    }
+
 
     //EVENTS
     //Pressed
@@ -207,169 +244,169 @@ class ControllerInput extends External //TODO eventually refactor
             CIL.LT2Released();
     }
 
-    public ControllerInput(OpMode setOpMode){
+    public ControllerInputManager(OpMode setOpMode){
         opMode = setOpMode;
     }
 
     @Override
     public void Init() {
-        gamepad1 = opMode.gamepad1;
-        gamepad2 = opMode.gamepad2;
+        Gamepad1 = opMode.gamepad1;
+        Gamepad2 = opMode.gamepad2;
     }
 
     public void Loop(){
         //DETECT EVENTS
         //Pressed
         //A1 button
-        if(gamepad1.a == true && A1Down == false){
+        if(Gamepad1.a == true && A1Down == false){
             A1Pressed();
         }
         //B1 button
-        if(gamepad1.b == true && B1Down == false){
+        if(Gamepad1.b == true && B1Down == false){
             B1Pressed();
         }
         //X1 button
-        if(gamepad1.x == true && X1Down == false){
+        if(Gamepad1.x == true && X1Down == false){
             X1Pressed();
         }
         //Y1 button
-        if(gamepad1.y == true && Y1Down == false){
+        if(Gamepad1.y == true && Y1Down == false){
             Y1Pressed();
         }
         //A2 button
-        if(gamepad2.a == true && A2Down  == false){
+        if(Gamepad2.a == true && A2Down  == false){
             A2Pressed();
         }
         //B2 button
-        if(gamepad2.b == true && B2Down  == false){
+        if(Gamepad2.b == true && B2Down  == false){
             B2Pressed();
         }
         //X2 button
-        if(gamepad2.x == true && X2Down  == false){
+        if(Gamepad2.x == true && X2Down  == false){
             X1Pressed();
         }
         //Y2 button
-        if(gamepad2.y == true && Y2Down  == false){
+        if(Gamepad2.y == true && Y2Down  == false){
             Y1Pressed();
         }
         //LB1 button
-        if(gamepad1.left_bumper == true && LB1Down  == false){
+        if(Gamepad1.left_bumper == true && LB1Down  == false){
             LB1Pressed();
         }
         //RB1 button
-        if(gamepad1.right_bumper == true && RB1Down  == false){
+        if(Gamepad1.right_bumper == true && RB1Down  == false){
             RB1Pressed();
         }
         //LT1 button
-        if(gamepad1.left_trigger > triggerThreshold && LT1Down  == false){
+        if(Gamepad1.left_trigger > TriggerThreshold && LT1Down  == false){
             LT1Pressed();
         }
         //RT1 button
-        if(gamepad1.right_trigger > triggerThreshold && RT1Down  == false){
+        if(Gamepad1.right_trigger > TriggerThreshold && RT1Down  == false){
             RT1Pressed();
         }
         //LB2 button
-        if(gamepad2.left_bumper == true && LB2Down  == false){
+        if(Gamepad2.left_bumper == true && LB2Down  == false){
             LB2Pressed();
         }
         //RB2 button
-        if(gamepad2.right_bumper == true && RB2Down   == false){
+        if(Gamepad2.right_bumper == true && RB2Down   == false){
             RB2Pressed();
         }
         //LT2 button
-        if(gamepad2.left_trigger > triggerThreshold && LT2Down  == false){
+        if(Gamepad2.left_trigger > TriggerThreshold && LT2Down  == false){
             LT1Pressed();
         }
         //RT2 button
-        if(gamepad2.right_trigger > triggerThreshold && RT2Down  == false){
+        if(Gamepad2.right_trigger > TriggerThreshold && RT2Down  == false){
             RT1Pressed();
         }
 
 
         //Released
         //A1 button
-        if(gamepad1.a == false && A1Down == true){
+        if(Gamepad1.a == false && A1Down == true){
             A1Released();
         }
         //B1 button
-        if(gamepad1.b == false && B1Down == true){
+        if(Gamepad1.b == false && B1Down == true){
             B1Released();
         }
         //X1 button
-        if(gamepad1.x == false && X1Down == true){
+        if(Gamepad1.x == false && X1Down == true){
             X1Released();
         }
         //Y1 button
-        if(gamepad1.y == false && Y1Down == true){
+        if(Gamepad1.y == false && Y1Down == true){
             Y1Released();
         }
         //A2 button
-        if(gamepad2.a == false && A2Down  == true){
+        if(Gamepad2.a == false && A2Down  == true){
             A2Released();
         }
         //B2 button
-        if(gamepad2.b == false && B2Down  == true){
+        if(Gamepad2.b == false && B2Down  == true){
             B2Released();
         }
         //X2 button
-        if(gamepad2.x == false && X2Down  == true){
+        if(Gamepad2.x == false && X2Down  == true){
             X1Released();
         }
         //Y2 button
-        if(gamepad2.y == false && Y2Down  == true){
+        if(Gamepad2.y == false && Y2Down  == true){
             Y1Released();
         }
         //LB1 button
-        if(gamepad1.left_bumper == false && LB1Down  == true){
+        if(Gamepad1.left_bumper == false && LB1Down  == true){
             LB1Released();
         }
         //RB1 button
-        if(gamepad1.right_bumper == false && RB1Down  == true){
+        if(Gamepad1.right_bumper == false && RB1Down  == true){
             RB1Released();
         }
         //LT1 button
-        if(gamepad1.left_trigger <= triggerThreshold && LT1Down  == true){
+        if(Gamepad1.left_trigger <= TriggerThreshold && LT1Down  == true){
             LT1Released();
         }
         //RT1 button
-        if(gamepad1.right_trigger <= triggerThreshold && RT1Down  == true){
+        if(Gamepad1.right_trigger <= TriggerThreshold && RT1Down  == true){
             RT1Released();
         }
         //LB2 button
-        if(gamepad2.left_bumper == false && LB2Down  == true){
+        if(Gamepad2.left_bumper == false && LB2Down  == true){
             LB2Released();
         }
         //RB2 button
-        if(gamepad2.right_bumper == false && RB2Down   == true){
+        if(Gamepad2.right_bumper == false && RB2Down   == true){
             RB2Released();
         }
         //LT2 button
-        if(gamepad2.left_trigger <= triggerThreshold && LT2Down  == true){
+        if(Gamepad2.left_trigger <= TriggerThreshold && LT2Down  == true){
             LT1Released();
         }
         //RT2 button
-        if(gamepad2.right_trigger <= triggerThreshold && RT2Down  == true){
+        if(Gamepad2.right_trigger <= TriggerThreshold && RT2Down  == true){
             RT1Released();
         }
 
 
         //SET VARS TO CURRENT VALUES
-        A1Down  = gamepad1.a;
-        B1Down  = gamepad1.b;
-        X1Down  = gamepad1.x;
-        Y1Down  = gamepad1.y;
-        LB1Down  = gamepad1.left_bumper;
-        RB1Down  = gamepad1.right_bumper;
-        LT1Down  = gamepad1.left_trigger > triggerThreshold;
-        RT1Down  = gamepad1.right_trigger > triggerThreshold;
-        A2Down  = gamepad1.a;
-        B2Down  = gamepad1.b;
-        X2Down  = gamepad1.x;
-        Y2Down = gamepad1.y;
-        LB2Down   = gamepad1.left_bumper;
-        RB2Down  = gamepad1.right_bumper;
-        LT2Down  = gamepad1.left_trigger > triggerThreshold;
-        RT2Down  = gamepad1.right_trigger > triggerThreshold;
+        A1Down  = Gamepad1.a;
+        B1Down  = Gamepad1.b;
+        X1Down  = Gamepad1.x;
+        Y1Down  = Gamepad1.y;
+        LB1Down  = Gamepad1.left_bumper;
+        RB1Down  = Gamepad1.right_bumper;
+        LT1Down  = Gamepad1.left_trigger > TriggerThreshold;
+        RT1Down  = Gamepad1.right_trigger > TriggerThreshold;
+        A2Down  = Gamepad1.a;
+        B2Down  = Gamepad1.b;
+        X2Down  = Gamepad1.x;
+        Y2Down = Gamepad1.y;
+        LB2Down   = Gamepad1.left_bumper;
+        RB2Down  = Gamepad1.right_bumper;
+        LT2Down  = Gamepad1.left_trigger > TriggerThreshold;
+        RT2Down  = Gamepad1.right_trigger > TriggerThreshold;
 
     }
 }

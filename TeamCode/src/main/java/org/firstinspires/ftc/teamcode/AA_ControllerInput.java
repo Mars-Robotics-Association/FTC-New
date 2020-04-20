@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import java.util.*;
 
-class AA_ControllerInput extends A_External
+class AA_ControllerInput extends A_External //TODO eventually refactor
 {
     //REFERENCES
     private OpMode opMode;

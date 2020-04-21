@@ -1,12 +1,16 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Algorithm.MecanumDriveCalc;
+import org.firstinspires.ftc.teamcode.Attachment.ExampleToggleAttachment;
 
+@TeleOp(name = "Example", group = "Experimental")
 public class ExampleTeleOp extends TeleOpMode
 {
     //REFERENCES
+    ExampleToggleAttachment attachment;
 
     //VARIABLES
     //-Motor Names-
@@ -27,6 +31,8 @@ public class ExampleTeleOp extends TeleOpMode
         Motors[2] = hardwareMap.dcMotor.get(RR);
         Motors[3] = hardwareMap.dcMotor.get(RL);
 
+        attachment = new ExampleToggleAttachment();
+
         InitTeleOpControl();
     }
 
@@ -37,6 +43,10 @@ public class ExampleTeleOp extends TeleOpMode
 
     @Override
     public void loop() {
+        if(InputManager.Gamepad1.right_trigger > 0.2) {
+            attachment.Run();
+        }
+
         RobotChassisControl.SetMoveAngle(0, true);
         LoopTeleOpControl();
     }

@@ -9,8 +9,8 @@ public class ControllerInputManager extends External //TODO eventually refactor
 {
     //REFERENCES
     private OpMode opMode;
-    private Gamepad Gamepad1;
-    private Gamepad Gamepad2;
+    public Gamepad Gamepad1;
+    public Gamepad Gamepad2;
 
     //LOCAL MEMBER VARIABLES
     //misc.

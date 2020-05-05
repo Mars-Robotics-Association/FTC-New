@@ -9,9 +9,7 @@ public abstract class Control extends _Root
 
     //Methods that apply to all controls
     @Override
-    public void Init() {
-
-    }
+    public abstract void Init();
 
     public abstract void Start();
     public abstract void Loop();

@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Algorithm;
 
-public class AutonomousDriveAlgorithms extends DriveAlgorithm
+public class EncoderAutonomousAlgorithms extends DriveAlgorithm
 {
     //REFERENCES
     MecanumDriveCalc MotorSpeedCalc;
@@ -9,7 +9,7 @@ public class AutonomousDriveAlgorithms extends DriveAlgorithm
 
 
     //Initializer for class
-    public AutonomousDriveAlgorithms()
+    public EncoderAutonomousAlgorithms()
     {
         MotorSpeedCalc = new MecanumDriveCalc();
     }

@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Algorithm;
 
-public class EncoderAutonomousAlgorithms extends DriveAlgorithm
+public class MecanumEncoderAutoAlgs extends AutonomousDriveAlgorithm
 {
     //REFERENCES
     MecanumDriveCalc MotorSpeedCalc;
@@ -9,7 +9,7 @@ public class EncoderAutonomousAlgorithms extends DriveAlgorithm
 
 
     //Initializer for class
-    public EncoderAutonomousAlgorithms()
+    public MecanumEncoderAutoAlgs()
     {
         MotorSpeedCalc = new MecanumDriveCalc();
     }
@@ -20,6 +20,25 @@ public class EncoderAutonomousAlgorithms extends DriveAlgorithm
         return MotorSpeedCalc.CalculateWheelSpeeds(angleToMoveAt, speed, turnOffset);
     }
 
+    @Override
+    public int[] CalculateForwards(int distance) {
+        int[] out = new int[4];
+        out[0] = distance;
+        out[1] = -distance;
+        out[2] = distance;
+        out[3] = -distance;
+        return new int[0];
+    }
+
+    @Override
+    public int[] CalculateSideways(int distance) {
+        return new int[0];
+    }
+
+    @Override
+    public double[] CalculateTurn(double degrees) {
+        return new double[0];
+    }
 
 
     //A simple method that returns whether a value is close enough to the target

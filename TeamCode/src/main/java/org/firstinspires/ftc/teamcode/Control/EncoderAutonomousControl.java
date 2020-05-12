@@ -58,11 +58,9 @@ public class EncoderAutonomousControl extends AutonomousControl
     public void EncoderMoveY(double distance, double speed)
     {
         StopAndResetEncoders();
-
         EncodedDistance = (int)((EncoderTicksForward)*distance);//find ticks for distance: ticks per inch = (encoderTicks/wheelDiameter)
-
         int[] motorDists = DriveCalc.CalculateForwards(EncodedDistance);
-
+        
         int i = 0;
         for (DcMotor m:Motors) {
             m.setTargetPosition(motorDists[i]);
@@ -70,7 +68,6 @@ public class EncoderAutonomousControl extends AutonomousControl
         }
 
         SetMotorSpeeds(speed);
-
         SetRunToPosition();
     }
 

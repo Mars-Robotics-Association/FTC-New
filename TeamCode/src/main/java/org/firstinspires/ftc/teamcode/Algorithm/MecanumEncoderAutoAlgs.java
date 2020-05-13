@@ -32,6 +32,11 @@ public class MecanumEncoderAutoAlgs extends AutonomousDriveAlgorithm
 
     @Override
     public int[] CalculateSideways(int distance) {
+        int[] out = new int[4];
+        out[0] = distance;
+        out[1] = distance;
+        out[2] = -distance;
+        out[3] = -distance;
         return new int[0];
     }
 
@@ -42,6 +47,7 @@ public class MecanumEncoderAutoAlgs extends AutonomousDriveAlgorithm
 
 
     //A simple method that returns whether a value is close enough to the target
+    @Override
     public boolean IsCloseEnough(double target, double current, double threshold)
     {
         if(Math.abs(target - current) <= threshold)

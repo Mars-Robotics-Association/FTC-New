@@ -12,5 +12,6 @@ public abstract class AutonomousDriveAlgorithm extends DriveAlgorithm
     public abstract int[] CalculateForwards(int distance);
     public abstract int[] CalculateSideways(int distance);
     public abstract double[] CalculateTurn(double speed);
+    public abstract boolean IsCloseEnough(double target, double current, double threshold);
 
 }

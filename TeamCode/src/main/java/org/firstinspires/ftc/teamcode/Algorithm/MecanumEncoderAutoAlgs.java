@@ -41,8 +41,18 @@ public class MecanumEncoderAutoAlgs extends AutonomousDriveAlgorithm
     }
 
     @Override
-    public double[] CalculateTurn(double degrees) {
+    public double[] CalculateTurn(double speed) {
+        double[] out = new double[4];
+        out[0] = speed;
+        out[1] = speed;
+        out[2] = speed;
+        out[3] = speed;
         return new double[0];
+    }
+
+    public double CalculateRelativeAngle(double degrees, double robotAngle)
+    {
+        return (degrees - robotAngle);
     }
 
 

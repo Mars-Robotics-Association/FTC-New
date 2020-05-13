@@ -30,10 +30,16 @@ public class EncoderAutonomousControl extends AutonomousControl
     private double[] MotorSpeeds;
 
     //Encoder Vars
-    int EncoderTicksForward = 1;
-    int EncoderTicksSideToSide = 1;
-    int EncodedDistance = 0;
-    int EncoderThreshold = 20;
+    private int EncoderTicksForward = 1;
+    private int EncoderTicksSideToSide = 1;
+    private int EncodedDistance = 0;
+    private int EncoderThreshold = 20;
+
+    //Turning Vars
+    private boolean IsTurning = false;
+    private double TargetAngle = 0;
+    private double TurnSpeed = 0;
+    private double TurnThreshold = 5;
 
     public EncoderAutonomousControl(OpMode setOpMode, DcMotor[] motors)
     {
@@ -53,9 +59,24 @@ public class EncoderAutonomousControl extends AutonomousControl
 
     @Override
     public void Loop() {
-        if(DriveCalc.IsCloseEnough(EncodedDistance, Motors[0].getCurrentPosition(), EncoderThreshold))
+        if(DriveCalc.IsCloseEnough(EncodedDistance, Motors[0].getCurrentPosition(), EncoderThreshold) && !IsTurning)
         {
             StopAndResetEncoders();
+        }
+
+        if(IsTurning)//If robot needs to turn
+        {
+            if(TargetAngle > IMURef.GetAngles().firstAngle - (HeadlessOffset + BaseOffset)) {
+                DriveCalc.CalculateTurn(TurnSpeed);
+            }
+
+            if(TargetAngle < IMURef.GetAngles().firstAngle - (HeadlessOffset + BaseOffset)) {
+                DriveCalc.CalculateTurn(-TurnSpeed);
+            }
+
+            if(DriveCalc.IsCloseEnough(TargetAngle, IMURef.GetAngles().firstAngle - (HeadlessOffset + BaseOffset), TurnThreshold)){
+                IsTurning = false;
+            }
         }
     }
 
@@ -95,7 +116,9 @@ public class EncoderAutonomousControl extends AutonomousControl
 
     public void RampTurn(double degrees, double speed)
     {
-
+        IsTurning = true;
+        TargetAngle = degrees;
+        TurnSpeed = speed;
     }
 
     public void SetMotorSpeeds(double speed)

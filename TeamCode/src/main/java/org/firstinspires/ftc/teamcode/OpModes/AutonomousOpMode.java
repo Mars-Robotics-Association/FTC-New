@@ -1,16 +1,66 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.teamcode.Algorithm.DriveAlgorithm;
+import org.firstinspires.ftc.teamcode.Control.AutonomousControl;
+import org.firstinspires.ftc.teamcode.Control.ChassisControl;
+import org.firstinspires.ftc.teamcode.Control.EncoderAutonomousControl;
+import org.firstinspires.ftc.teamcode.External.ControllerInputManager;
+import org.firstinspires.ftc.teamcode.Sensor.IMU;
 
 public abstract class AutonomousOpMode extends OpMode
 {
-    @Override
-    public void init() {
+    //REFERENCES
+    //Default Refs
+    protected DriveAlgorithm DriveCalc;
+    protected DcMotor[] Motors;
 
+    //Other
+    protected AutonomousControl AutonomousControl;
+    protected ControllerInputManager InputManager;
+    protected IMU RobotIMU;
+
+
+    //VARIABLES
+    //Default Stats
+    protected double BaseSpeed = 1;
+    protected double BaseOffset = 0;
+
+
+    @Override
+    public abstract void init();
+    @Override
+    public abstract void start();
+    @Override
+    public abstract void loop();
+
+    //ManagementFunctions
+    public void SetTeleOpStats(DriveAlgorithm setDriveCalc, double setBaseSpeed, double setBaseOffset, DcMotor[] setMotors) {
+        DriveCalc = setDriveCalc;
+        BaseSpeed = setBaseSpeed;
+        BaseOffset = setBaseOffset;
+        Motors = setMotors;
     }
 
-    @Override
-    public void loop() {
+    protected void InitTeleOpControl(){
+        InputManager = new ControllerInputManager(this);
+        InputManager.Init();
 
+        RobotIMU = new IMU(this);
+        RobotIMU.Init();
+
+        AutonomousControl = new EncoderAutonomousControl(this, Motors);
+        AutonomousControl.Init();
+    }
+
+    protected void StartTeleOpControl(){
+        RobotIMU.Start();
+    }
+
+    protected void LoopTeleOpControl(){
+        InputManager.Loop();
+        AutonomousControl.Loop();
     }
 }

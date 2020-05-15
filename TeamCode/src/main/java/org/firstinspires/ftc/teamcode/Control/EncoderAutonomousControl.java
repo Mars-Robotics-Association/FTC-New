@@ -40,6 +40,8 @@ public class EncoderAutonomousControl extends AutonomousControl
     private double TargetAngle = 0;
     private double TurnSpeed = 0;
     private double TurnThreshold = 5;
+    private double InitialTurnDif = 0;
+    private double TurnRampOffset = 0.1;
 
     public EncoderAutonomousControl(OpMode setOpMode, DcMotor[] motors)
     {
@@ -66,12 +68,14 @@ public class EncoderAutonomousControl extends AutonomousControl
 
         if(IsTurning)//If robot needs to turn
         {
-            if(TargetAngle > IMURef.GetAngles().firstAngle - (HeadlessOffset + BaseOffset)) {
-                DriveCalc.CalculateTurn(TurnSpeed);
+            double turnDif = TargetAngle - (IMURef.GetAngles().firstAngle - (HeadlessOffset + BaseOffset));
+
+            if(turnDif > 1) {
+                DriveCalc.CalculateTurn(TurnSpeed * (turnDif / InitialTurnDif) + TurnRampOffset); //multiplies turn speed by the percent of remaining distance with an offset
             }
 
-            if(TargetAngle < IMURef.GetAngles().firstAngle - (HeadlessOffset + BaseOffset)) {
-                DriveCalc.CalculateTurn(-TurnSpeed);
+            if(turnDif < 1) {
+                DriveCalc.CalculateTurn(TurnSpeed * (turnDif / InitialTurnDif) - TurnRampOffset); //multiplies turn speed by the percent of remaining distance with an offset
             }
 
             if(DriveCalc.IsCloseEnough(TargetAngle, IMURef.GetAngles().firstAngle - (HeadlessOffset + BaseOffset), TurnThreshold)){
@@ -119,6 +123,7 @@ public class EncoderAutonomousControl extends AutonomousControl
         IsTurning = true;
         TargetAngle = degrees;
         TurnSpeed = speed;
+        InitialTurnDif = TargetAngle - (IMURef.GetAngles().firstAngle - (HeadlessOffset + BaseOffset));
     }
 
     public void SetMotorSpeeds(double speed)

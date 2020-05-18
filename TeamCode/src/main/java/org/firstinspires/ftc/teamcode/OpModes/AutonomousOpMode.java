@@ -19,7 +19,6 @@ public abstract class AutonomousOpMode extends OpMode
 
     //Other
     protected AutonomousControl AutonomousControl;
-    protected ControllerInputManager InputManager;
     protected IMU RobotIMU;
 
 
@@ -37,16 +36,14 @@ public abstract class AutonomousOpMode extends OpMode
     public abstract void loop();
 
     //ManagementFunctions
-    public void SetTeleOpStats(DriveAlgorithm setDriveCalc, double setBaseSpeed, double setBaseOffset, DcMotor[] setMotors) {
+    public void SetAutonomousStats(DriveAlgorithm setDriveCalc, double setBaseSpeed, double setBaseOffset, DcMotor[] setMotors) {
         DriveCalc = setDriveCalc;
         BaseSpeed = setBaseSpeed;
         BaseOffset = setBaseOffset;
         Motors = setMotors;
     }
 
-    protected void InitTeleOpControl(){
-        InputManager = new ControllerInputManager(this);
-        InputManager.Init();
+    protected void InitAutonomousControl(){
 
         RobotIMU = new IMU(this);
         RobotIMU.Init();
@@ -55,12 +52,11 @@ public abstract class AutonomousOpMode extends OpMode
         AutonomousControl.Init();
     }
 
-    protected void StartTeleOpControl(){
+    protected void StartAutonomousControl(){
         RobotIMU.Start();
     }
 
-    protected void LoopTeleOpControl(){
-        InputManager.Loop();
+    protected void LoopAutonomousControl(){
         AutonomousControl.Loop();
     }
 }

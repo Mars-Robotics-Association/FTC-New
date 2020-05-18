@@ -13,7 +13,3 @@
 
 // Include common definitions from above.
 apply from: '../build.common.gradle'
-
-dependencies {
-    implementation 'de.esoco:coroutines:0.9.1'
-}

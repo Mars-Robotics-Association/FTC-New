@@ -43,6 +43,8 @@ public class EncoderAutonomousControl extends AutonomousControl
     private double InitialTurnDif = 0;
     private double TurnRampOffset = 0.1;
 
+
+    //Initializer
     public EncoderAutonomousControl(OpMode setOpMode, DcMotor[] motors)
     {
         opMode = setOpMode;
@@ -68,22 +70,39 @@ public class EncoderAutonomousControl extends AutonomousControl
 
         if(IsTurning)//If robot needs to turn
         {
-            double turnDif = TargetAngle - (IMURef.GetAngles().firstAngle - (HeadlessOffset + BaseOffset));
-
-            if(turnDif > 1) {
-                DriveCalc.CalculateTurn(TurnSpeed * (turnDif / InitialTurnDif) + TurnRampOffset); //multiplies turn speed by the percent of remaining distance with an offset
-            }
-
-            if(turnDif < 1) {
-                DriveCalc.CalculateTurn(TurnSpeed * (turnDif / InitialTurnDif) - TurnRampOffset); //multiplies turn speed by the percent of remaining distance with an offset
-            }
-
-            if(DriveCalc.IsCloseEnough(TargetAngle, IMURef.GetAngles().firstAngle - (HeadlessOffset + BaseOffset), TurnThreshold)){
-                IsTurning = false;
-            }
+            LoopTurn();
         }
     }
 
+    //Loop code if we are moving
+    private void LoopMove()
+    {
+
+    }
+
+    //Loop code if we are turning
+    private void LoopTurn()
+    {
+        double turnDif = TargetAngle - (IMURef.GetAngles().firstAngle - (HeadlessOffset + BaseOffset)); //get the difference in degrees between the current and target angles
+
+        //turn right
+        if(turnDif > 1) {
+            DriveCalc.CalculateTurn(TurnSpeed * (turnDif / InitialTurnDif) + TurnRampOffset); //multiplies turn speed by the percent of remaining distance with an offset
+        }
+
+        //turn left
+        if(turnDif < 1) {
+            DriveCalc.CalculateTurn(TurnSpeed * (turnDif / InitialTurnDif) - TurnRampOffset); //multiplies turn speed by the percent of remaining distance with an offset
+        }
+
+        //if close enough, stop turning
+        if(DriveCalc.IsCloseEnough(TargetAngle, IMURef.GetAngles().firstAngle - (HeadlessOffset + BaseOffset), TurnThreshold)){
+            IsTurning = false;
+        }
+    }
+
+
+    //Move forward and backwards using encoders
     public void EncoderMoveY(double distance, double speed)
     {
         StopAndResetEncoders();
@@ -101,6 +120,7 @@ public class EncoderAutonomousControl extends AutonomousControl
         SetRunToPosition();
     }
 
+    //Move side to side using encoders
     public void EncoderMoveX(double distance, double speed)
     {
         StopAndResetEncoders();
@@ -118,6 +138,7 @@ public class EncoderAutonomousControl extends AutonomousControl
         SetRunToPosition();
     }
 
+    //Turn with a ramp applied (so it slows down as it gets closer
     public void RampTurn(double degrees, double speed)
     {
         IsTurning = true;
@@ -126,6 +147,7 @@ public class EncoderAutonomousControl extends AutonomousControl
         InitialTurnDif = TargetAngle - (IMURef.GetAngles().firstAngle - (HeadlessOffset + BaseOffset));
     }
 
+    //Set the speed of all motors
     public void SetMotorSpeeds(double speed)
     {
         for (DcMotor m:Motors) {
@@ -133,13 +155,15 @@ public class EncoderAutonomousControl extends AutonomousControl
         }
     }
 
+    //enable run to position on all motors
     public void SetRunToPosition()
     {
         for (DcMotor m:Motors) {
-            m.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            m.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
 
+    //Stop and reset all motors
     public void StopAndResetEncoders()
     {
         EncodedDistance = 0;

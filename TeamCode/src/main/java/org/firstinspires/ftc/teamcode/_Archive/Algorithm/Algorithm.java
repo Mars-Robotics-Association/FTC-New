@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.Archive.Algorithm;
+package org.firstinspires.ftc.teamcode._Archive.Algorithm;
 
-import org.firstinspires.ftc.teamcode.Archive._Root;
+import org.firstinspires.ftc.teamcode._Archive._ArchiveRoot;
 
-public abstract class Algorithm extends _Root
+public abstract class Algorithm extends _ArchiveRoot
 {
     //Variables that apply to all algorithms
 

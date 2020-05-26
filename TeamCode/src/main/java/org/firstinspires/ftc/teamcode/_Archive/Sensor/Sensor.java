@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.Archive.Sensor;
+package org.firstinspires.ftc.teamcode._Archive.Sensor;
 
-import org.firstinspires.ftc.teamcode.Archive._Root;
+import org.firstinspires.ftc.teamcode._Archive._ArchiveRoot;
 
-public abstract class Sensor extends _Root
+public abstract class Sensor extends _ArchiveRoot
 {
     //Variables that apply to all sensors
 

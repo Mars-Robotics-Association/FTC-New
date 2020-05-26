@@ -1,14 +1,14 @@
-package org.firstinspires.ftc.teamcode.Archive.OpModes;
+package org.firstinspires.ftc.teamcode._Archive.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Archive.Algorithm.DriveAlgorithm;
-import org.firstinspires.ftc.teamcode.Archive.Control.ChassisControl;
-import org.firstinspires.ftc.teamcode.Archive.Sensor.IMU;
-import org.firstinspires.ftc.teamcode.Archive.External.*;
+import org.firstinspires.ftc.teamcode._Archive.Algorithm.DriveAlgorithm;
+import org.firstinspires.ftc.teamcode._Archive.Control.ChassisControl;
+import org.firstinspires.ftc.teamcode._Archive.Sensor.IMU;
+import org.firstinspires.ftc.teamcode._Archive.External.*;
 
-public abstract class TeleOpMode extends OpMode implements ControllerInputListener
+public abstract class TeleOpMode extends OpMode implements ControllerInputListenerOld
 {
     //REFERENCES
     //Default Refs
@@ -17,7 +17,7 @@ public abstract class TeleOpMode extends OpMode implements ControllerInputListen
 
     //Other
     protected ChassisControl RobotChassisControl;
-    protected ControllerInputManager InputManager;
+    protected ControllerInputManagerOld InputManager;
     protected IMU RobotIMU;
 
 
@@ -43,7 +43,7 @@ public abstract class TeleOpMode extends OpMode implements ControllerInputListen
     }
 
     protected void InitTeleOpControl(){
-        InputManager = new ControllerInputManager(this);
+        InputManager = new ControllerInputManagerOld(this);
         InputManager.addListener(this);
         InputManager.Init();
 

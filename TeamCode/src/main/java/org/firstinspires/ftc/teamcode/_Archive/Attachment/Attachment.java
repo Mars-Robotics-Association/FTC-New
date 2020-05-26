@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.Archive.Attachment;
+package org.firstinspires.ftc.teamcode._Archive.Attachment;
 
-import org.firstinspires.ftc.teamcode.Archive._Root;
+import org.firstinspires.ftc.teamcode._Archive._ArchiveRoot;
 
-public abstract class Attachment extends _Root
+public abstract class Attachment extends _ArchiveRoot
 {
     //Variables that apply to all attachments
 

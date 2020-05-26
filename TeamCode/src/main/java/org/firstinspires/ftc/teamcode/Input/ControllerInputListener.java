@@ -1,7 +1,11 @@
-package org.firstinspires.ftc.teamcode.Archive.External;
+package org.firstinspires.ftc.teamcode.Input;
 
-public interface ControllerInputListener
-{
+public interface ControllerInputListener extends EventInputListener {
+    @Override
+    public void Started();
+    @Override
+    public void Stopped();
+
     void A1Pressed();
     void B1Pressed();
     void X1Pressed();

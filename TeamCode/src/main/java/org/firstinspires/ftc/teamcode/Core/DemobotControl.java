@@ -24,4 +24,11 @@ public class DemobotControl
     }
 
     //Methods
+    private void RawDrive() {}
+    private void OdometryDrive() {}
+    private void SpotTurn() {}
+    private void SweepTurn() {}
+    private void ShooterGoBoom() {}
+    private void AimShooter() {}
+    private void Intake() {}
 }

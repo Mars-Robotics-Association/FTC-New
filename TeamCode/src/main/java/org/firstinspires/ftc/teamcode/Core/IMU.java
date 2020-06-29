@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.Core;
 
-public class IMU {
+public class
+IMU {
 }

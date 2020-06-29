@@ -1,9 +1,4 @@
-package org.firstinspires.ftc.teamcode.Input;
-
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.firstinspires.ftc.teamcode._Archive.Input;
 
 public abstract class EventInput
 {

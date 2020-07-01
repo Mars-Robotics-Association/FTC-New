@@ -1,9 +1,14 @@
 package org.firstinspires.ftc.teamcode.Core;
 
+import android.graphics.Path;
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
 import org.firstinspires.ftc.teamcode.Attachments.DemoArcShooter;
 import org.firstinspires.ftc.teamcode.AutonomousFunctions.DemoChassisAutoFuncs;
 import org.firstinspires.ftc.teamcode.AutonomousFunctions.DemoShooterAutoFuncs;
 import org.firstinspires.ftc.teamcode.Odometry.DemoBotOdometry;
+import org.firstinspires.ftc.teamcode.Vuforia.DemobotTargetFinder;
 
 public class DemobotControl
 {
@@ -13,22 +18,73 @@ public class DemobotControl
     private DemoArcShooter Shooter;
     private DemoChassisAutoFuncs ChassisAutoFuncs;
     private DemoShooterAutoFuncs ShooterAutoFuncs;
+    private DemobotTargetFinder VuforiaTargetFinder;
+    private PIDController PID;
 
     //Variables
+    OpMode CurrentOpMode;
+    private double GyroOffset;
 
 
     //Initializer
-    public DemobotControl()
+    public DemobotControl(OpMode setOpMode)
     {
-
+        CurrentOpMode = setOpMode;
     }
 
-    //Methods
-    private void RawDrive() {}
-    private void OdometryDrive() {}
-    private void SpotTurn() {}
-    private void SweepTurn() {}
-    private void ShooterGoBoom() {}
-    private void AimShooter() {}
-    private void Intake() {}
+    //Setup Methods
+    public void Init(){
+        Odometry = new DemoBotOdometry();
+        Imu = new IMU(CurrentOpMode);
+        Shooter = new DemoArcShooter();
+        ChassisAutoFuncs = new DemoChassisAutoFuncs();
+        ShooterAutoFuncs = new DemoShooterAutoFuncs();
+        VuforiaTargetFinder = new DemobotTargetFinder();
+        PID = new PIDController();
+    }
+
+    public void Start(){
+        Imu.Start();
+    }
+
+    //Callable Methods
+    public void RawDrive(double angle, double speed, double turnOffset) {
+        //Used in teleop to move robot at any angle using imu and pid controller
+        //Enter angle to move, speed, and a turn offset for turning while moving
+    }
+    public void OdometryDrive(double angle, double speed, double distance) {
+        //Used to autonomously drive a certain distance at a certain angle.
+        //Enter angle, speed, and distance
+    }
+    public void SpotTurn(double angle, double speed) {
+        //Turns the robot on center of the wheel axis using a ramp turn
+        //Enter target angle and turn speed
+    }
+    public void SweepTurn(double angle, double speed, double turnOffset) {
+        //Turns the robot gradually
+        //Enter target angle, speed, and turn offset
+    }
+    public void ShooterGoBoom(double distanceFromTarget, double heightFromTarget) {
+        //Shoots the ball at target with either linear or arc shooter
+        //Enter distance and height from target
+    }
+    public void AimShooter() {
+        //Aims the shooter at the specified target
+        //Enter vumark to look for
+    }
+    public void Intake() {
+        //Runs the intake of the robot
+    }
+
+    //Getter Methods
+    public double GetRobotAngle(){
+        //Returns the gyro with an offset applied
+        return Imu.GetAngles().firstAngle - GyroOffset;
+    }
+
+    //Private
+    private void OffsetGyro(){
+        //Offsets the gryo so the current heading can be zero with GetRobotAngle()
+        GyroOffset = Imu.GetAngles().firstAngle;
+    }
 }

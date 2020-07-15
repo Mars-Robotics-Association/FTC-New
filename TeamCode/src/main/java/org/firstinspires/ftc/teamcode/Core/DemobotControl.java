@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Core;
 
-import android.graphics.Path;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Attachments.DemoArcShooter;
@@ -19,7 +17,7 @@ public class DemobotControl
     private DemoChassisAutoFuncs ChassisAutoFuncs;
     private DemoShooterAutoFuncs ShooterAutoFuncs;
     private DemobotTargetFinder VuforiaTargetFinder;
-    private PIDController PID;
+    private org.firstinspires.ftc.teamcode.Core.PID PID; //Look here: https://github.com/tekdemo/MiniPID-Java for how to use it
 
     //Variables
     OpMode CurrentOpMode;
@@ -40,7 +38,7 @@ public class DemobotControl
         ChassisAutoFuncs = new DemoChassisAutoFuncs();
         ShooterAutoFuncs = new DemoShooterAutoFuncs();
         VuforiaTargetFinder = new DemobotTargetFinder();
-        PID = new PIDController();
+        PID = new PID(0,0,0);//Create the pid controller. Specify (p,i,d) constants
     }
 
     public void Start(){

@@ -2,25 +2,28 @@ package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Attachments.DemoArcShooter;
-import org.firstinspires.ftc.teamcode.AutonomousFunctions.DemoChassisAutoFuncs;
-import org.firstinspires.ftc.teamcode.AutonomousFunctions.DemoShooterAutoFuncs;
+import org.firstinspires.ftc.teamcode.Mechanical.DemoArcShooter;
+import org.firstinspires.ftc.teamcode.AutonomousFunctions.DemobotAutoFuncs;
+import org.firstinspires.ftc.teamcode.Mechanical.DemobotChassis;
 import org.firstinspires.ftc.teamcode.Odometry.DemoBotOdometry;
 import org.firstinspires.ftc.teamcode.Vuforia.DemobotTargetFinder;
+
+//The class used to control the demobot. Autonomous functions, opmodes, and other scripts can call
+//methods in here to control the demobot.
 
 public class DemobotControl
 {
     //Dependencies
     private DemoBotOdometry Odometry;
     private IMU Imu;
+    private DemobotChassis Chassis;
     private DemoArcShooter Shooter;
-    private DemoChassisAutoFuncs ChassisAutoFuncs;
-    private DemoShooterAutoFuncs ShooterAutoFuncs;
+    private DemobotAutoFuncs AutoFuncs;
     private DemobotTargetFinder VuforiaTargetFinder;
-    private org.firstinspires.ftc.teamcode.Core.PID PID; //Look here: https://github.com/tekdemo/MiniPID-Java for how to use it
+    private PID Pid; //Look here: https://github.com/tekdemo/MiniPID-Java for how to use it
+    private OpMode CurrentOpMode;
 
     //Variables
-    OpMode CurrentOpMode;
     private double GyroOffset;
 
 
@@ -30,22 +33,22 @@ public class DemobotControl
         CurrentOpMode = setOpMode;
     }
 
-    //Setup Methods
+    //SETUP METHODS//
     public void Init(){
         Odometry = new DemoBotOdometry();
         Imu = new IMU(CurrentOpMode);
+        Chassis = new DemobotChassis();
         Shooter = new DemoArcShooter();
-        ChassisAutoFuncs = new DemoChassisAutoFuncs();
-        ShooterAutoFuncs = new DemoShooterAutoFuncs();
+        AutoFuncs = new DemobotAutoFuncs(this);
         VuforiaTargetFinder = new DemobotTargetFinder();
-        PID = new PID(0,0,0);//Create the pid controller. Specify (p,i,d) constants
+        Pid = new PID(0,0,0);//Create the pid controller. Specify (p,i,d) constants
     }
 
     public void Start(){
         Imu.Start();
     }
 
-    //Callable Methods
+    //CALLABLE METHODS//
     public void RawDrive(double angle, double speed, double turnOffset) {
         //Used in teleop to move robot at any angle using imu and pid controller
         //Enter angle to move, speed, and a turn offset for turning while moving
@@ -74,13 +77,21 @@ public class DemobotControl
         //Runs the intake of the robot
     }
 
-    //Getter Methods
+    //GETTER METHODS//
     public double GetRobotAngle(){
         //Returns the gyro with an offset applied
         return Imu.GetAngles().firstAngle - GyroOffset;
     }
+    //Dependency Getters
+    public DemoBotOdometry GetOdometry(){return Odometry;}
+    public IMU GetImu(){return Imu;}
+    public DemobotChassis GetChassis(){return Chassis;}
+    public DemoArcShooter GetShooter(){return Shooter;}
+    public DemobotAutoFuncs GetAutoFuncs(){return AutoFuncs;}
+    public DemobotTargetFinder GetVuforiaTargetFinder(){return VuforiaTargetFinder;}
+    public PID GetPID(){return Pid;}
 
-    //Private
+    //PRIVATE METHODS//
     private void OffsetGyro(){
         //Offsets the gryo so the current heading can be zero with GetRobotAngle()
         GyroOffset = Imu.GetAngles().firstAngle;

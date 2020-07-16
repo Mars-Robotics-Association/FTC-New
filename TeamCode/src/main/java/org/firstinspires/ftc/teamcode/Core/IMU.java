@@ -24,6 +24,7 @@ public class IMU
     // Variables
     private Orientation angles;
     private Acceleration gravity;
+    private double Offset;
 
     public IMU (OpMode setOpMode) {
         opMode = setOpMode;
@@ -52,15 +53,26 @@ public class IMU
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
     }
 
-    public Orientation GetAngles()
+
+    ////GETTERS////
+    public Orientation GetRawAngles()
     {
-        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        //return the raw angles from the imu
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles;
     }
-
+    public double GetRobotAngle(){
+        //return the firstangle from the imu with an offset applied from ResetGyro()
+        return GetRawAngles().firstAngle - Offset;
+    }
     public Acceleration GetGravity()
     {
         gravity  = imu.getGravity();
         return gravity;
+    }
+
+    ////CALLABLE METHODS////
+    public void ResetGyro(){
+        Offset = GetRawAngles().firstAngle;
     }
 }

@@ -37,7 +37,7 @@ public class DemobotControl
     public void Init(){
         Odometry = new DemoBotOdometry();
         Imu = new IMU(CurrentOpMode);
-        Chassis = new DemobotChassis();
+        Chassis = new DemobotChassis(CurrentOpMode, Imu);
         Shooter = new DemoArcShooter();
         AutoFuncs = new DemobotAutoFuncs(this);
         VuforiaTargetFinder = new DemobotTargetFinder();
@@ -80,7 +80,7 @@ public class DemobotControl
     //GETTER METHODS//
     public double GetRobotAngle(){
         //Returns the gyro with an offset applied
-        return Imu.GetAngles().firstAngle - GyroOffset;
+        return Imu.GetRawAngles().firstAngle - GyroOffset;
     }
     //Dependency Getters
     public DemoBotOdometry GetOdometry(){return Odometry;}
@@ -94,6 +94,6 @@ public class DemobotControl
     //PRIVATE METHODS//
     private void OffsetGyro(){
         //Offsets the gryo so the current heading can be zero with GetRobotAngle()
-        GyroOffset = Imu.GetAngles().firstAngle;
+        GyroOffset = Imu.GetRawAngles().firstAngle;
     }
 }

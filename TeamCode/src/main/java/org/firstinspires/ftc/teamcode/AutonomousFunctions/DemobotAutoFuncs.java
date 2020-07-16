@@ -26,7 +26,21 @@ public class DemobotAutoFuncs
 
     ////CALLABLE METHODS////
     //Movement
-    public void MoveAtAngle(double angle, double distance, double speed){}
+    public void MoveAtAngle(double angle, double distance, double speed){
+        //Move robot at angle until it goes a certain distance using odometry
+
+        //Reset everything
+        Chassis.StopAndResetEncoders();
+        Odometry.Reset();
+        //Set the target distance to go
+        Odometry.SetTargetDist(distance);
+        //Loop while not close enough within the threshold
+        while (!Odometry.IsCloseEnough(40)) {//TODO: determine good threshold and scale with speed OR just wait till current > target
+            //Move
+            Chassis.MoveAtAngle(angle, speed, 0);
+        }
+        //TODO: Brake at end?
+    }
     public void SpotTurn(double angle, double speed, double rampVal){}
     public void SweepTurn(double angle, double speed, double sweepVal){}
     public void GoToLine(double speed, double lightVal){}

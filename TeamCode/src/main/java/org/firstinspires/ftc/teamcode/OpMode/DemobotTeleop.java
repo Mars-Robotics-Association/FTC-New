@@ -10,11 +10,15 @@ import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 @TeleOp(name = "Demobot TeleOp")
 public class DemobotTeleop extends OpMode implements ControllerInputListener
 {
-    //Dependencies
-    DemobotControl Control;
-    ControllerInput CInput;
+    ////Dependencies////
+    private DemobotControl Control;
+    private ControllerInput CInput;
 
-    //Variable
+    ////Variables////
+    //Tweaking Vars
+    private double TurnWhileDrivingSpeed = 1;//used to change how fast robot turns when driving
+    private double DriveSpeed = 1;//used to change how fast robot drives
+    private double TurnSpeed = 1;//used to change how fast robot turns
 
 
     @Override
@@ -25,6 +29,7 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
         //Sets up controller input
         CInput = new ControllerInput(this);
+        CInput.Init();
         CInput.addListener(this);
     }
 
@@ -35,10 +40,14 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void loop() {
-        //Manage Robot Movement
-        //Move
-        if(Math.abs(CInput.GetRJSX1()) > 0.1 || Math.abs(CInput.GetRJSY1()) > 0.1){
-            Control.RawDrive(CInput.CalculateLJSAngle1(),CInput.CalculateLJSMag1(),0);
+        ////Manage Robot Movement////
+        //MOVE if left joystick magnitude > 0.1
+        if(CInput.CalculateLJSMag1() > 0.1){
+            Control.RawDrive(CInput.CalculateLJSAngle1(),CInput.CalculateLJSMag1() * DriveSpeed,CInput.GetRJSX1() * TurnWhileDrivingSpeed);//(angle, speed, turnOffset)
+        }
+        //TURN if right joystick magnitude > 0.1 and not moving
+        else if(Math.abs(CInput.GetRJSX1()) > 0.1){
+            Control.RawTurn(CInput.GetRJSX1()*TurnSpeed);//turns at speed according to rjs1
         }
     }
 

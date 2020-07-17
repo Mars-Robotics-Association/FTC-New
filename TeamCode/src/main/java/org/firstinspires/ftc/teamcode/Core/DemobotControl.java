@@ -50,8 +50,13 @@ public class DemobotControl
 
     //CALLABLE METHODS//
     public void RawDrive(double angle, double speed, double turnOffset) {
-        //Used in teleop to move robot at any angle using imu and pid controller
+        //Used in continuously in teleop to move robot at any angle using imu and pid controller
         //Enter angle to move, speed, and a turn offset for turning while moving
+    }
+    public void RawTurn(double speed){
+        //Used continuously in teleop to turn the robot
+        //Enter speed for turn- positive speed turns left, negative right
+        Chassis.SpotTurn(speed);
     }
     public void OdometryDrive(double angle, double speed, double distance) {
         //Used to autonomously drive a certain distance at a certain angle.

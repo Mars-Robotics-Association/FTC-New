@@ -19,6 +19,8 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
     private double TurnWhileDrivingSpeed = 1;//used to change how fast robot turns when driving
     private double DriveSpeed = 1;//used to change how fast robot drives
     private double TurnSpeed = 1;//used to change how fast robot turns
+    //Utility Vars
+    private boolean Busy = false;
 
 
     @Override
@@ -40,14 +42,17 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void loop() {
-        ////Manage Robot Movement////
-        //MOVE if left joystick magnitude > 0.1
-        if(CInput.CalculateLJSMag1() > 0.1){
-            Control.RawDrive(CInput.CalculateLJSAngle1(),CInput.CalculateLJSMag1() * DriveSpeed,CInput.GetRJSX1() * TurnWhileDrivingSpeed);//(angle, speed, turnOffset)
-        }
-        //TURN if right joystick magnitude > 0.1 and not moving
-        else if(Math.abs(CInput.GetRJSX1()) > 0.1){
-            Control.RawTurn(CInput.GetRJSX1()*TurnSpeed);//turns at speed according to rjs1
+        //Only run if robot isn't busy
+        if(!Busy) {
+            ////Manage Robot Movement////
+            //MOVE if left joystick magnitude > 0.1
+            if (CInput.CalculateLJSMag1() > 0.1) {
+                Control.RawDrive(CInput.CalculateLJSAngle1(), CInput.CalculateLJSMag1() * DriveSpeed, CInput.GetRJSX1() * TurnWhileDrivingSpeed);//(angle, speed, turnOffset)
+            }
+            //TURN if right joystick magnitude > 0.1 and not moving
+            else if (Math.abs(CInput.GetRJSX1()) > 0.1) {
+                Control.RawTurn(CInput.GetRJSX1() * TurnSpeed);//turns at speed according to rjs1
+            }
         }
     }
 
@@ -113,7 +118,8 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void LT1Pressed() {
-
+        Busy = true;
+        Control.Brake();
     }
 
     @Override
@@ -133,7 +139,8 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void LT1Released() {
-
+        Busy = false;
+        Control.GetChassis().SetModeRunUsingEncoders();
     }
 
     @Override

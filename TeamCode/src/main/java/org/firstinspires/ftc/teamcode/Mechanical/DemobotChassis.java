@@ -126,6 +126,13 @@ public class DemobotChassis
         RRBrakePos = RR.getCurrentPosition();
         RLBrakePos = RL.getCurrentPosition();
     }
+    public void Brake(){
+        //Stop the robot and hold position. Meant to be called once
+        UpdateBrakePos();
+        SetTargetEncoderPos(FRBrakePos, FLBrakePos, RRBrakePos, RLBrakePos);
+        SetModeGoToEncoderPos();
+        SetMotorSpeeds(0.5,0.5,0.5,0.5);
+    }
 
     public double[] CalculateWheelSpeedsTurning(double degrees, double speed, double turnSpeed)
     {

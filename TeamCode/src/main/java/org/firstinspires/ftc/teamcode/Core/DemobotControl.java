@@ -58,6 +58,10 @@ public class DemobotControl
         //Enter speed for turn- positive speed turns left, negative right
         Chassis.SpotTurn(speed);
     }
+    public void Brake(){
+        //Called once to brake the robot
+        Chassis.Brake();
+    }
     public void OdometryDrive(double angle, double speed, double distance) {
         //Used to autonomously drive a certain distance at a certain angle.
         //Enter angle, speed, and distance

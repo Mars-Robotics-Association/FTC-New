@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode.AutonomousFunctions;
 import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 import org.firstinspires.ftc.teamcode.Mechanical.DemobotChassis;
 import org.firstinspires.ftc.teamcode.Odometry.DemoBotOdometry;
+import org.firstinspires.ftc.teamcode.Core.IMU;
 
 public class DemobotAutoFuncs
 {
@@ -12,7 +13,7 @@ public class DemobotAutoFuncs
     DemobotControl Control;
     DemobotChassis Chassis;
     DemoBotOdometry Odometry;
-
+    IMU Imu;
     //Variables
 
 
@@ -22,6 +23,7 @@ public class DemobotAutoFuncs
         Control = setControl;
         Chassis = Control.GetChassis();
         Odometry = Control.GetOdometry();
+        Imu = Control.GetImu();
     }
 
     ////CALLABLE METHODS////
@@ -41,7 +43,16 @@ public class DemobotAutoFuncs
         }
         //TODO: Brake at end?
     }
-    public void SpotTurn(double angle, double speed, double rampVal){}
+
+    public void SpotTurn(double angle, double speed, double rampVal){
+        while(Math.abs(Imu.GetRobotAngle()-angle)<10) {
+            Chassis.SpotTurn(speed);
+            Chassis.StopAndResetEncoders();
+            Chassis.SetModeRunUsingEncoders();
+        }
+    }
+
+
     public void SweepTurn(double angle, double speed, double sweepVal){}
     public void GoToLine(double speed, double lightVal){}
     //Shooter/Intake

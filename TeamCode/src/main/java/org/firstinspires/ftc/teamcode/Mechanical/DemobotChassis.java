@@ -55,12 +55,16 @@ public class DemobotChassis
 
         //Sets the mode so that robot can drive and record encoder values
         SetModeRunUsingEncoders();
+
         //Gets speeds for the motors
         double[] speeds = CalculateWheelSpeedsTurning(angle, speed, turnSpeed);
+
         //Uses pid controller to correct for error using (currentAngle, targetAngle)
         double pidOffset = PidController.getOutput(Imu.GetRobotAngle(), angle);
+
         //set the powers of the motors with pid offset applied
         SetMotorSpeeds(speeds[0]+pidOffset, speeds[1]+pidOffset, speeds[2]+pidOffset, speeds[3]+pidOffset);
+
         //Updates brake pos, as this is called continuously as robot is driving
         UpdateBrakePos();
     }
@@ -71,8 +75,10 @@ public class DemobotChassis
 
         //Use motors and record encoder values
         SetModeRunUsingEncoders();
+
         //Set motor speeds all equal, as this causes it to do a spot turn
         SetMotorSpeeds(speed, speed, speed, speed);
+
         //Update the values for breaking
         UpdateBrakePos();
     }

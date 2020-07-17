@@ -182,7 +182,7 @@ public class PID
 	/**
 	 * Set the maximum output value contributed by the I component of the system
 	 * This can be used to prevent large windup issues and make tuning simpler
-	 * @param maximum. Units are the same as the expected output value
+	 * Units are the same as the expected output value
 	 */
 	public void setMaxIOutput(double maximum){
 		// Internally maxError and Izone are similar, but scaled for different purposes. 
@@ -238,7 +238,7 @@ public class PID
 	 * Configure setpoint for the PID calculations<br>
 	 * This represents the target for the PID system's, such as a 
 	 * position, velocity, or angle. <br>
-	 * @see PID#getOutput(actual) <br>
+	 * <br>
 	 * @param setpoint
 	 */
 	public void setSetpoint(double setpoint){
@@ -355,10 +355,7 @@ public class PID
 	/**
 	 * Calculate the output value for the current PID cycle.<br>
 	 * In one parameter mode, the last configured setpoint will be used.<br>
-	 * @see PID#setSetpoint()
-	 * @param actual The monitored value, typically as a sensor input.
-	 * @param setpoint The target value for the system
-	 * @return calculated output value for driving the system
+
 	 */
 	public double getOutput(double actual){
 		return getOutput(actual,setpoint);
@@ -410,7 +407,7 @@ public class PID
 	 * values and increase I term overshoot.<br>
 	 * Uses an exponential wieghted rolling sum filter, according to a simple <br>
 	 * <pre>output*(1-strength)*sum(0..n){output*strength^n}</pre> algorithm.
-	 * @param output valid between [0..1), meaning [current output only.. historical output only)
+	 * valid between [0..1), meaning [current output only.. historical output only)
 	 */
 	public void setOutputFilter(double strength){
 		if(strength==0 || bounded(strength,0,1)){

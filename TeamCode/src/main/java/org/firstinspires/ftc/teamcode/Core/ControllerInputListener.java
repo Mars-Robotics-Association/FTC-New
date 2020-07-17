@@ -1,4 +1,6 @@
-package org.firstinspires.ftc.teamcode._Archive.Input;
+package org.firstinspires.ftc.teamcode.Core;
+
+import org.firstinspires.ftc.teamcode._Archive.Input.EventInputListener;
 
 public interface ControllerInputListener extends EventInputListener {
     @Override

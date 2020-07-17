@@ -1,12 +1,14 @@
-package org.firstinspires.ftc.teamcode._Archive.Input;
+package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode._Archive.Input.EventInput;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ControllerInput extends EventInput 
+public class ControllerInput extends EventInput
 {
     //REFERENCES
     public Gamepad Gamepad1;
@@ -409,5 +411,27 @@ public class ControllerInput extends EventInput
         LT2Down  = Gamepad1.left_trigger > TriggerThreshold;
         RT2Down  = Gamepad1.right_trigger > TriggerThreshold;
 
+
+
+    }
+
+    public double CalculateLJSAngle1(){
+        //Calculate angle of left joystick on gamepad 1
+        double Y = GetRJSY1(); //X input
+        double X = GetRJSX1(); //Y input
+        double leftStickBaring = Math.atan2(Y,-X); //get measurement of joystick angle
+        leftStickBaring = Math.toDegrees(leftStickBaring);
+        leftStickBaring -= 90;
+        if(leftStickBaring < 0)//convert degrees to positive if needed
+        {
+            leftStickBaring = 360 + leftStickBaring;
+        }
+        return leftStickBaring;
+    }
+
+    public double CalculateLJSMag1(){
+        //Calculate magnitude of the left joystick on the right gamepad
+        //Distance formula for calculating joystick power
+        return Math.abs(Math.sqrt(Math.pow(GetLJSX1() - 0, 2) + Math.pow(GetLJSY1() - 0, 2)));
     }
 }

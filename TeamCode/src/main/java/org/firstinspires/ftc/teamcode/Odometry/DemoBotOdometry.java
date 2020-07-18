@@ -24,7 +24,7 @@ public class DemoBotOdometry
         //Sets the target X and Y for odometry
         TargetDist = dist;
     }
-    public boolean IsCloseEnough(double threshold){
+    public boolean IsAtTargetDist(double threshold){
         //Determines whether the robot is close enough to the target distance
         if(Math.abs(TargetDist - CalculateDistance()) < threshold){return true;}
         else {return false;}

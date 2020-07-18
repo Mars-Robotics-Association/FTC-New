@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.AutonomousFunctions;
 
 //The collection of autonomous routines used by the demobot.
+//NEEDS REV HUB, DEMOBOT CHASSIS
 
 import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 import org.firstinspires.ftc.teamcode.Mechanical.DemobotChassis;
@@ -37,14 +38,14 @@ public class DemobotAutoFuncs
         //Set the target distance to go
         Odometry.SetTargetDist(distance);
         //Loop while not close enough within the threshold
-        while (!Odometry.IsCloseEnough(40)) {//TODO: determine good threshold and scale with speed OR just wait till current > target
+        while (!Odometry.IsAtTargetDist(40)) {//TODO: determine good threshold and scale with speed OR just wait till current > target
             //Move
             Chassis.MoveAtAngle(angle, speed, 0);
         }
-        //TODO: Brake at end?
+        Chassis.Brake();
     }
 
-    public void SpotTurn(double angle, double speed, double rampVal){
+    public void SpotTurn(double angle, double speed, double rampVal){//TODO: Review
         while(Math.abs(Imu.GetRobotAngle()-angle)<10) {
             Chassis.SpotTurn(speed);
             Chassis.StopAndResetEncoders();

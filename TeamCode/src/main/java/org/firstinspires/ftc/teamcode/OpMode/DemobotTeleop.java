@@ -7,6 +7,12 @@ import org.firstinspires.ftc.teamcode.Core.ControllerInput;
 import org.firstinspires.ftc.teamcode.Core.ControllerInputListener;
 import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 
+//The class for controlling the robot in teleop. Includes basic drive movement, shooter operations,
+//and advanced autonomous functions.
+
+//REQUIRED TO RUN: Phones | REV Hub | Demobot Chassis | Shooter | Odometry Unit
+//REQUIRED TO FUNCTION: Controllers
+
 @TeleOp(name = "Demobot TeleOp")
 public class DemobotTeleop extends OpMode implements ControllerInputListener
 {

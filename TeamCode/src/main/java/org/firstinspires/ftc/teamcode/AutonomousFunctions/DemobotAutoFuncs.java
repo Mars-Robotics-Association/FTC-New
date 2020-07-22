@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.AutonomousFunctions;
 
-//The collection of autonomous routines used by the demobot.
-//NEEDS REV HUB, DEMOBOT CHASSIS
-
 import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 import org.firstinspires.ftc.teamcode.Mechanical.DemobotChassis;
 import org.firstinspires.ftc.teamcode.Odometry.DemoBotOdometry;
 import org.firstinspires.ftc.teamcode.Core.IMU;
+
+//The collection of autonomous routines used by the demobot.
+
+//REQUIRED TO RUN: Phones | REV Hub | Demobot Chassis | Odometry Unit
 
 public class DemobotAutoFuncs
 {

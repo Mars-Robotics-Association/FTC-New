@@ -11,6 +11,8 @@ import org.firstinspires.ftc.teamcode.Vuforia.DemobotTargetFinder;
 //The class used to control the demobot. Autonomous functions, opmodes, and other scripts can call
 //methods in here to control the demobot.
 
+//REQUIRED TO RUN: Phones | REV Hub | Demobot Chassis | Shooter | Odometry Unit
+
 public class DemobotControl
 {
     //Dependencies

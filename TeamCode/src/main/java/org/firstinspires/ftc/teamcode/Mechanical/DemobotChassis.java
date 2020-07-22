@@ -7,7 +7,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Core.IMU;
 import org.firstinspires.ftc.teamcode.Core.PID;
 
-//Class for controlling the chassis of the demobot. Includes basic turning and driving
+//Class for controlling the chassis of the demobot. Includes basic turning and driving. NOTE: the
+//turn and move stuff here has to be called continuously (every loop), or it won't function properly.
+
+//REQUIRED TO RUN: DemobotChassis (configured properly) | Phones | REV Hub
+
 public class DemobotChassis
 {
     //Dependencies

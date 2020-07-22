@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.Odometry;
 
+//For getting input back from the odometry unit and running calculations based on it.
+
+//REQUIRED TO RUN: Phones | REV Hub | Odometry Unit
+
 public class DemoBotOdometry
 {
     //Dependencies
@@ -28,6 +32,10 @@ public class DemoBotOdometry
         //Determines whether the robot is close enough to the target distance
         if(Math.abs(TargetDist - CalculateDistance()) < threshold){return true;}
         else {return false;}
+    }
+    public void SetEncoderVals(double x, double y){
+        X = x;
+        Y = y;
     }
 
     ////PRIVATE METHODS////

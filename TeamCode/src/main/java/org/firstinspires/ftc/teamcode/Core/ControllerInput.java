@@ -8,6 +8,13 @@ import org.firstinspires.ftc.teamcode._Archive.Input.EventInput;
 import java.util.ArrayList;
 import java.util.List;
 
+//Calls event based commands from the controllers as well as providing direct access. To use, make a
+//class interface to ControllerInputListener.java, create an instance of this class, call input.AddListener(this),
+//then input.Init(), then there will be errors so click on red light bulb and hit "implement methods".
+
+//REQUIRED TO RUN: None
+//REQUIRED TO FUNCTION: Controllers
+
 public class ControllerInput extends EventInput
 {
     //REFERENCES

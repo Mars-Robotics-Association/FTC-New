@@ -254,6 +254,12 @@ public class ControllerInput extends EventInput
             CIL.LT2Released();
     }
 
+    //Test event system
+    public void TestEventSysB1(){
+        for (ControllerInputListener CIL : listeners)
+            CIL.B1Pressed();
+    }
+
     public ControllerInput(OpMode setOpMode){
         opMode = setOpMode;
     }

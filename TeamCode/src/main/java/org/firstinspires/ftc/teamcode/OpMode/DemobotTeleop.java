@@ -53,7 +53,7 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
             ////Manage Robot Movement////
             //MOVE if left joystick magnitude > 0.1
             if (CInput.CalculateLJSMag1() > 0.1) {
-                Control.RawDrive(CInput.CalculateLJSAngle1(), CInput.CalculateLJSMag1() * DriveSpeed, CInput.GetRJSX1() * TurnWhileDrivingSpeed);//(angle, speed, turnOffset)
+                Control.RawDrive(CInput.CalculateLJSAngle1(), CInput.CalculateLJSMag1() * DriveSpeed, CInput.GetRJSX1() * TurnWhileDrivingSpeed);//drives at (angle, speed, turnOffset)
             }
             //TURN if right joystick magnitude > 0.1 and not moving
             else if (Math.abs(CInput.GetRJSX1()) > 0.1) {

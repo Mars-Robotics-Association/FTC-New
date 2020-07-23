@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Mechanical.DemoArcShooter;
 import org.firstinspires.ftc.teamcode.AutonomousFunctions.DemobotAutoFuncs;
@@ -15,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Vuforia.DemobotTargetFinder;
 
 public class DemobotControl
 {
-    //Dependencies
+    ////Dependencies////
     private DemoBotOdometry Odometry;
     private IMU Imu;
     private DemobotChassis Chassis;
@@ -24,8 +25,16 @@ public class DemobotControl
     private DemobotTargetFinder VuforiaTargetFinder;
     private PID Pid; //Look here: https://github.com/tekdemo/MiniPID-Java for how to use it
     private OpMode CurrentOpMode;
+    //Drive Motors
+    private DcMotor FR;
+    private DcMotor FL;
+    private DcMotor RR;
+    private DcMotor RL;
+    //Shooter/Intake Motors
+    private DcMotor IntakeMotor;
+    private DcMotor ShooterMotor;
 
-    //Variables
+    ////Variables////
     private double GyroOffset;
 
 
@@ -37,13 +46,24 @@ public class DemobotControl
 
     //SETUP METHODS//
     public void Init(){
-        Odometry = new DemoBotOdometry();
+        //Init motors- change string to name of motors in config
+        FR = CurrentOpMode.hardwareMap.dcMotor.get("FR");
+        FL = CurrentOpMode.hardwareMap.dcMotor.get("FL");
+        RR = CurrentOpMode.hardwareMap.dcMotor.get("RR");
+        RL = CurrentOpMode.hardwareMap.dcMotor.get("RL");
+        IntakeMotor = CurrentOpMode.hardwareMap.dcMotor.get("IM");
+        ShooterMotor = CurrentOpMode.hardwareMap.dcMotor.get("SM");
+
+        Odometry = new DemoBotOdometry(IntakeMotor, ShooterMotor);
         Imu = new IMU(CurrentOpMode);
-        Chassis = new DemobotChassis(CurrentOpMode, Imu);
+        Pid = new PID(0,0,0);//Create the pid controller. Specify (p,i,d) constants
+
+        Chassis = new DemobotChassis(Imu, FR, FL, RR, RL);//Create chassis instance w/ motors
+
         Shooter = new DemoArcShooter();
+
         AutoFuncs = new DemobotAutoFuncs(this);
         VuforiaTargetFinder = new DemobotTargetFinder();
-        Pid = new PID(0,0,0);//Create the pid controller. Specify (p,i,d) constants
     }
 
     public void Start(){

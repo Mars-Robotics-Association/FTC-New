@@ -20,7 +20,7 @@ class DemoBotOdometryTest {
         DemoBotOdometry odometry = new DemoBotOdometry();
         odometry.Reset();
         odometry.SetTargetDist(5);
-        odometry.SetEncoderVals(3,4);
+        odometry.SetEncoderValsDirect(3,4);
         assertEquals(true, odometry.IsAtTargetDist(1));
     }
 }

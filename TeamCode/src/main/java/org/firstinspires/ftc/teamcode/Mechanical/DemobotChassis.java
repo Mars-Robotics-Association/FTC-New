@@ -10,7 +10,8 @@ import org.firstinspires.ftc.teamcode.Core.PID;
 //Class for controlling the chassis of the demobot. Includes basic turning and driving. NOTE: the
 //turn and move stuff here has to be called continuously (every loop), or it won't function properly.
 
-//REQUIRED TO RUN: DemobotChassis (configured properly) | Phones | REV Hub
+//REQUIRED TO COMPILE: Phones | REV Hub
+//REQUIRED TO RUN: Chassis
 
 public class DemobotChassis
 {
@@ -31,19 +32,16 @@ public class DemobotChassis
     private int RLBrakePos = 0;
 
     //Initializer
-    public DemobotChassis(OpMode setOpMode, IMU setImu){
-        CurrentOpMode = setOpMode;
+    public DemobotChassis(IMU setImu, DcMotor fr, DcMotor fl, DcMotor rr, DcMotor rl){
         Imu = setImu;
+        FR = fr;
+        FL = fl;
+        RR = rr;
+        RL = rl;
     }
 
     ////STARTUP////
     public void Init(){
-        //Initialize all the motors
-        FR = CurrentOpMode.hardwareMap.dcMotor.get("FR");
-        FL = CurrentOpMode.hardwareMap.dcMotor.get("FL");
-        RR = CurrentOpMode.hardwareMap.dcMotor.get("RR");
-        RL = CurrentOpMode.hardwareMap.dcMotor.get("RL");
-
         SetMotorSpeeds(0,0,0,0);
         StopAndResetEncoders();
         SetModeRunUsingEncoders();

@@ -4,25 +4,39 @@ package org.firstinspires.ftc.teamcode.Odometry;
 
 //REQUIRED TO RUN: Phones | REV Hub | Odometry Unit
 
+
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 public class DemoBotOdometry
 {
-    //Dependencies
+    ////Dependencies////
+    //Old last year method
+    private DcMotor EncoderX;
+    private DcMotor EncoderY;
 
-    //Variables
+    ////Variables////
     private double X;
     private double Y;
     private double TargetDist;
 
     //Initializer
-    public DemoBotOdometry(){}
+    public DemoBotOdometry(DcMotor encoderX, DcMotor encoderY){
+        EncoderX = encoderX;
+        EncoderY = encoderY;
+    }
 
     ////STARTUP////
 
     ////CALLABLE METHODS////
     public void Reset(){
-        //Sets x and y to 0
+        //Set x and y to 0
         X = 0;
         Y = 0;
+        //reset encoders
+        EncoderX.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        EncoderY.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        EncoderX.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        EncoderY.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void SetTargetDist(double dist) {
         //Sets the target X and Y for odometry
@@ -33,15 +47,26 @@ public class DemoBotOdometry
         if(Math.abs(TargetDist - CalculateDistance()) < threshold){return true;}
         else {return false;}
     }
-    public void SetEncoderVals(double x, double y){
+    public void SetEncoderValsDirect(double x, double y){
+        //sets x and y to input
         X = x;
         Y = y;
+    }
+    public void SetEncoderVals(){
+        X = GetEncoderVals()[0];
+        Y = GetEncoderVals()[1];
+    }
+    public double[] GetEncoderVals(){
+        //returns the current positions of the encoders on the robot
+        double[] vals = {EncoderX.getCurrentPosition(), EncoderY.getCurrentPosition()};
+        return vals;
     }
 
     ////PRIVATE METHODS////
     private double CalculateDistance(){
+        //Gets input
+        SetEncoderVals();
         //Calculates distance robot has gone using pythagorean theorem
         return Math.sqrt((X*X) + (Y*Y));
     }
-
 }

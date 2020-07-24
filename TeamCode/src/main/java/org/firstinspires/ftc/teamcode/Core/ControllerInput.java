@@ -430,9 +430,14 @@ public class ControllerInput extends EventInput
 
     public double CalculateLJSAngle1(){
         //Calculate angle of left joystick on gamepad 1
-        double Y = GetRJSY1(); //X input
-        double X = GetRJSX1(); //Y input
-        double leftStickBaring = Math.atan2(Y,-X); //get measurement of joystick angle
+        double Y = Gamepad1.left_stick_y; //X input
+        double X = Gamepad1.left_stick_x; //Y input
+
+        //return telemetry for debug
+        /*opMode.telemetry.addData("Joystick X ", X);
+        opMode.telemetry.addData("Joystick Y ", Y);*/
+
+        double leftStickBaring = Math.atan2(Y,X); //get measurement of joystick angle
         leftStickBaring = Math.toDegrees(leftStickBaring);
         leftStickBaring -= 90;
         if(leftStickBaring < 0)//convert degrees to positive if needed

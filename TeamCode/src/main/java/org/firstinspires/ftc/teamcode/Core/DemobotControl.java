@@ -51,14 +51,17 @@ public class DemobotControl
         FL = CurrentOpMode.hardwareMap.dcMotor.get("FL");
         RR = CurrentOpMode.hardwareMap.dcMotor.get("RR");
         RL = CurrentOpMode.hardwareMap.dcMotor.get("RL");
-        IntakeMotor = CurrentOpMode.hardwareMap.dcMotor.get("IM");
-        ShooterMotor = CurrentOpMode.hardwareMap.dcMotor.get("SM");
+        //IntakeMotor = CurrentOpMode.hardwareMap.dcMotor.get("IM");
+        //ShooterMotor = CurrentOpMode.hardwareMap.dcMotor.get("SM");
 
-        Odometry = new DemoBotOdometry(IntakeMotor, ShooterMotor);
+        Odometry = new DemoBotOdometry(RL, RR);
+        Odometry.Reset();
+
         Imu = new IMU(CurrentOpMode);
         Pid = new PID(0,0,0);//Create the pid controller. Specify (p,i,d) constants
 
-        Chassis = new DemobotChassis(Imu, FR, FL, RR, RL);//Create chassis instance w/ motors
+        Chassis = new DemobotChassis(Imu, FR, FL, RR, RL, CurrentOpMode.telemetry);//Create chassis instance w/ motors
+        Chassis.Init();
 
         Shooter = new DemoArcShooter();
 
@@ -68,12 +71,14 @@ public class DemobotControl
 
     public void Start(){
         Imu.Start();
+        Imu.ResetGyro();
     }
 
     //CALLABLE METHODS//
     public void RawDrive(double angle, double speed, double turnOffset) {
         //Used in continuously in teleop to move robot at any angle using imu and pid controller
         //Enter angle to move, speed, and a turn offset for turning while moving
+        Chassis.MoveAtAngle(angle, speed, turnOffset);
     }
     public void RawTurn(double speed){
         //Used continuously in teleop to turn the robot
@@ -87,6 +92,7 @@ public class DemobotControl
     public void OdometryDrive(double angle, double speed, double distance) {
         //Used to autonomously drive a certain distance at a certain angle.
         //Enter angle, speed, and distance
+        AutoFuncs.MoveAtAngle(angle, distance, speed);
     }
     public void SpotTurn(double angle, double speed) {
         //Turns the robot on center of the wheel axis using a ramp turn
@@ -121,6 +127,7 @@ public class DemobotControl
     public DemobotAutoFuncs GetAutoFuncs(){return AutoFuncs;}
     public DemobotTargetFinder GetVuforiaTargetFinder(){return VuforiaTargetFinder;}
     public PID GetPID(){return Pid;}
+    public OpMode GetOpMode(){return CurrentOpMode;}
 
     //PRIVATE METHODS//
     private void OffsetGyro(){

@@ -53,13 +53,22 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
             ////Manage Robot Movement////
             //MOVE if left joystick magnitude > 0.1
             if (CInput.CalculateLJSMag1() > 0.1) {
-                Control.RawDrive(CInput.CalculateLJSAngle1(), CInput.CalculateLJSMag1() * DriveSpeed, CInput.GetRJSX1() * TurnWhileDrivingSpeed);//drives at (angle, speed, turnOffset)
+                Control.RawDrive(CInput.CalculateLJSAngle1(), CInput.CalculateLJSMag1() * DriveSpeed, -CInput.GetRJSX1() * TurnWhileDrivingSpeed);//drives at (angle, speed, turnOffset)
+                telemetry.addData("Moving at ", CInput.CalculateLJSAngle1());
             }
             //TURN if right joystick magnitude > 0.1 and not moving
             else if (Math.abs(CInput.GetRJSX1()) > 0.1) {
-                Control.RawTurn(CInput.GetRJSX1() * TurnSpeed);//turns at speed according to rjs1
+                Control.RawTurn(-CInput.GetRJSX1() * TurnSpeed);//turns at speed according to rjs1
+                telemetry.addData("Turning", true);
+            }
+            else {
+                Control.GetChassis().SetMotorSpeeds(0,0,0,0);
             }
         }
+        //Return encoder value
+        telemetry.addData("Encoder X ", Control.GetOdometry().GetEncoderVals()[0]);
+        telemetry.addData("Encoder Y ", Control.GetOdometry().GetEncoderVals()[1]);
+        telemetry.addData("Distance Gone ", Control.GetOdometry().CalculateDistance());
     }
 
     @Override
@@ -74,7 +83,7 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void A1Pressed() {
-
+        Control.GetOdometry().Reset();
     }
 
     @Override

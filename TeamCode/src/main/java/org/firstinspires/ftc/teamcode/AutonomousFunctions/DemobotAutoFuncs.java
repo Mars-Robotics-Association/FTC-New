@@ -39,9 +39,12 @@ public class DemobotAutoFuncs
         //Set the target distance to go
         Odometry.SetTargetDist(distance);
         //Loop while not close enough within the threshold
-        while (!Odometry.IsAtTargetDist(40)) {//TODO: determine good threshold and scale with speed OR just wait till current > target
+        while (!Odometry.IsAtTargetDist(1)) {//TODO: determine good threshold and scale with speed OR just wait till current > target
             //Move
             Chassis.MoveAtAngle(angle, speed, 0);
+            //Return telemetry
+            Control.GetOpMode().telemetry.addData("Target Dist: ", distance);
+            Control.GetOpMode().telemetry.addData("Current Dist: ", Odometry.CalculateDistance());
         }
         Chassis.Brake();
     }

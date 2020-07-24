@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.Mechanical;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Core.IMU;
 import org.firstinspires.ftc.teamcode.Core.PID;
 
@@ -31,22 +32,25 @@ public class DemobotChassis
     private int RRBrakePos = 0;
     private int RLBrakePos = 0;
 
+    private Telemetry RobotTelemetry;
+
     //Initializer
-    public DemobotChassis(IMU setImu, DcMotor fr, DcMotor fl, DcMotor rr, DcMotor rl){
+    public DemobotChassis(IMU setImu, DcMotor fr, DcMotor fl, DcMotor rr, DcMotor rl, Telemetry telemetry){
         Imu = setImu;
         FR = fr;
         FL = fl;
         RR = rr;
         RL = rl;
+        RobotTelemetry = telemetry;
     }
 
     ////STARTUP////
     public void Init(){
         SetMotorSpeeds(0,0,0,0);
         StopAndResetEncoders();
-        SetModeRunUsingEncoders();
+        SetModeRunWithoutEncoders();
 
-        PidController = new PID(0,0,0);//Create the pid controller. TODO: specify (p,i,d) constants
+        PidController = new PID(0.0001,0.0001,0.0001);//Create the pid controller. TODO: figure out good (p,i,d) constants
     }
 
     ////CALLABLE METHODS////
@@ -56,16 +60,25 @@ public class DemobotChassis
         //This is called continuously while the robot is driving.
 
         //Sets the mode so that robot can drive and record encoder values
-        SetModeRunUsingEncoders();
+        SetModeRunWithoutEncoders();
 
         //Gets speeds for the motors
         double[] speeds = CalculateWheelSpeedsTurning(angle, speed, turnSpeed);
 
-        //Uses pid controller to correct for error using (currentAngle, targetAngle)
-        double pidOffset = PidController.getOutput(Imu.GetRobotAngle(), angle);
+        //Uses pid controller to correct for error using (currentAngle, targetAngle) TODO: get pid working
+        /*double pidOffset = PidController.getOutput(Imu.GetRobotAngle(), angle);
+        RobotTelemetry.addData("Robot Angle ", Imu.GetRobotAngle());
+        RobotTelemetry.addData("PID Offset ", pidOffset);*/
+        double pidOffset = 0;
 
         //set the powers of the motors with pid offset applied
         SetMotorSpeeds(speeds[0]+pidOffset, speeds[1]+pidOffset, speeds[2]+pidOffset, speeds[3]+pidOffset);
+        //Returns speed telemetry
+        RobotTelemetry.addData("Speed FR ", speeds[0]+pidOffset);
+        RobotTelemetry.addData("Speed FL ", speeds[1]+pidOffset);
+        RobotTelemetry.addData("Speed RR ", speeds[2]+pidOffset);
+        RobotTelemetry.addData("Speed RL ", speeds[3]+pidOffset);
+        RobotTelemetry.update();
 
         //Updates brake pos, as this is called continuously as robot is driving
         UpdateBrakePos();
@@ -76,7 +89,7 @@ public class DemobotChassis
         // Positive speed turns left, negative right.
 
         //Use motors and record encoder values
-        SetModeRunUsingEncoders();
+        SetModeRunWithoutEncoders();
 
         //Set motor speeds all equal, as this causes it to do a spot turn
         SetMotorSpeeds(speed, speed, speed, speed);
@@ -94,11 +107,18 @@ public class DemobotChassis
         RL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     public void SetModeRunUsingEncoders(){
-        //Sets motors to run like dc motors but record the encoder values
+        //Sets motors to try and hold a velocity
         FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+    public void SetModeRunWithoutEncoders(){
+        //Sets motors to run like dc motors but record the encoder values
+        FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        RR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        RL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public void SetModeGoToEncoderPos(){
         //Tells motors to move to the target encoder values set in SetTargetEncoderPos()

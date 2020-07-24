@@ -18,6 +18,8 @@ public class DemoBotOdometry
     private double X;
     private double Y;
     private double TargetDist;
+    private double TicksPerInchX = 88; //how many encoder ticks per one inch
+    private double TicksPerInchY = 88; //how many encoder ticks per one inch
 
     //Initializer
     public DemoBotOdometry(DcMotor encoderX, DcMotor encoderY){
@@ -35,8 +37,8 @@ public class DemoBotOdometry
         //reset encoders
         EncoderX.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         EncoderY.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        EncoderX.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        EncoderY.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        EncoderX.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        EncoderY.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public void SetTargetDist(double dist) {
         //Sets the target X and Y for odometry
@@ -61,12 +63,16 @@ public class DemoBotOdometry
         double[] vals = {EncoderX.getCurrentPosition(), EncoderY.getCurrentPosition()};
         return vals;
     }
-
-    ////PRIVATE METHODS////
-    private double CalculateDistance(){
+    public double CalculateDistance(){
         //Gets input
         SetEncoderVals();
-        //Calculates distance robot has gone using pythagorean theorem
-        return Math.sqrt((X*X) + (Y*Y));
+        //Get distance in each direction in inches
+        double distX = X/TicksPerInchX;
+        double distY = Y/TicksPerInchY;
+        //Calculates distance robot has gone using pythagorean theorem. Returns the distance in inches
+        return Math.sqrt((distX*distX) + (distY*distY));
     }
+
+    ////PRIVATE METHODS////
+
 }

@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Mechanical.DemoArcShooter;
+import org.firstinspires.ftc.teamcode.Mechanical.Intake;
+import org.firstinspires.ftc.teamcode.Mechanical.Shooter;
 import org.firstinspires.ftc.teamcode.AutonomousFunctions.DemobotAutoFuncs;
 import org.firstinspires.ftc.teamcode.Mechanical.DemobotChassis;
 import org.firstinspires.ftc.teamcode.Odometry.DemoBotOdometry;
@@ -20,11 +22,12 @@ public class DemobotControl
     private DemoBotOdometry Odometry;
     private IMU Imu;
     private DemobotChassis Chassis;
-    private DemoArcShooter Shooter;
+    private org.firstinspires.ftc.teamcode.Mechanical.Shooter RobotShooter;
     private DemobotAutoFuncs AutoFuncs;
     private DemobotTargetFinder VuforiaTargetFinder;
     private PID Pid; //Look here: https://github.com/tekdemo/MiniPID-Java for how to use it
     private OpMode CurrentOpMode;
+    private Intake RobotIntake;
     //Drive Motors
     private DcMotor FR;
     private DcMotor FL;
@@ -32,9 +35,14 @@ public class DemobotControl
     private DcMotor RL;
     //Shooter/Intake Motors
     private DcMotor IntakeMotor;
-    private DcMotor ShooterMotor;
+    private DcMotor SpinnerMotor;
+    private DcMotor LoaderMotor;
+    private Servo ShooterAimer;
 
     ////Variables////
+    //Calibration
+    private double ShooterHeight = 0.5; //in meters
+    //Util
     private double GyroOffset;
 
 
@@ -52,7 +60,9 @@ public class DemobotControl
         RR = CurrentOpMode.hardwareMap.dcMotor.get("RR");
         RL = CurrentOpMode.hardwareMap.dcMotor.get("RL");
         //IntakeMotor = CurrentOpMode.hardwareMap.dcMotor.get("IM");
-        //ShooterMotor = CurrentOpMode.hardwareMap.dcMotor.get("SM");
+        //SpinnerMotor = CurrentOpMode.hardwareMap.dcMotor.get("SM");
+        //LoaderMotor = CurrentOpMode.hardwareMap.dcMotor.get("LM");
+        //ShooterAimer = CurrentOpMode.hardwareMap.servo.get("SA");
 
         Odometry = new DemoBotOdometry(RL, RR);
         Odometry.Reset();
@@ -63,7 +73,11 @@ public class DemobotControl
         Chassis = new DemobotChassis(Imu, FR, FL, RR, RL, CurrentOpMode.telemetry);//Create chassis instance w/ motors
         Chassis.Init();
 
-        Shooter = new DemoArcShooter();
+        RobotShooter = new Shooter();
+        RobotShooter.Init(SpinnerMotor, LoaderMotor, ShooterAimer);
+
+        RobotIntake = new Intake();
+        RobotIntake.Init(IntakeMotor);
 
         AutoFuncs = new DemobotAutoFuncs(this);
         VuforiaTargetFinder = new DemobotTargetFinder();
@@ -109,9 +123,21 @@ public class DemobotControl
     public void AimShooter() {
         //Aims the shooter at the specified target
         //Enter vumark to look for
+        //TODO: get working with vuforia
+        RobotShooter.SetTrajectory(10, 5, 0);
+        RobotShooter.Aim();
+    }
+    public void SpinUpShooter(){
+        //Spins the shooter up
+        RobotShooter.SpinUp();
+    }
+    public void FireShooter(){
+        //Fires shooter
+        RobotShooter.Fire();
     }
     public void Intake() {
         //Runs the intake of the robot
+        RobotIntake.IntakeOn();
     }
 
     //GETTER METHODS//
@@ -123,7 +149,7 @@ public class DemobotControl
     public DemoBotOdometry GetOdometry(){return Odometry;}
     public IMU GetImu(){return Imu;}
     public DemobotChassis GetChassis(){return Chassis;}
-    public DemoArcShooter GetShooter(){return Shooter;}
+    public org.firstinspires.ftc.teamcode.Mechanical.Shooter GetShooter(){return RobotShooter;}
     public DemobotAutoFuncs GetAutoFuncs(){return AutoFuncs;}
     public DemobotTargetFinder GetVuforiaTargetFinder(){return VuforiaTargetFinder;}
     public PID GetPID(){return Pid;}

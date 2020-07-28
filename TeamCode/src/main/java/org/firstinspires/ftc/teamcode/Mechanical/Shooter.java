@@ -68,10 +68,10 @@ public class Shooter
     //Trajectory calculations//
     public double FindAngleToFireAt(double speed, double shooterY, double targetY, double targetDist){
         //calculates angle to aim at for given data which should all be in meters
-        double yDif = targetY - shooterY;
-        double bot = 9.8 * targetDist;
-        double top1 = (9.8*Math.pow(targetDist,2) + 2*Math.pow(speed,2)*yDif);
-        double top2 = Math.sqrt(Math.pow(speed, 4)-(9.8*top1));
+        double yDif = targetY - shooterY;//uses formula from here: https://www.forrestthewoods.com/blog/solving_ballistic_trajectories/ from the "Firing Angle to Hit Stationary Target" section
+        double bot = 9.8 * targetDist;//Gx
+        double top1 = (9.8*Math.pow(targetDist,2) + 2*Math.pow(speed,2)*yDif);//(Gx^2 + 2*S^2*y)
+        double top2 = Math.sqrt(Math.pow(speed, 4)-(9.8*top1));//SQRT(S^4-top1)
 
         double topHigh = Math.pow(speed, 2)+top2;//shoot high
         double topLow = Math.pow(speed, 2)-top2;//shoot low

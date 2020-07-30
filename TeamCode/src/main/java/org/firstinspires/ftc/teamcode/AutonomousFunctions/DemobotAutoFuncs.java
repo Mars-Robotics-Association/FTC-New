@@ -49,13 +49,30 @@ public class DemobotAutoFuncs
         Chassis.Brake();
     }
 
-    public void SpotTurn(double angle, double speed, double rampVal){//TODO: Review
+    public void SpotTurn(double angle, double baseSpeed, double rampVal){//TODO: Review
+        //Reset chassis
+        Chassis.StopAndResetEncoders();
+        Chassis.SetModeRunUsingEncoders();
+        //Loop while not within ten degrees of target
+        while(Math.abs(Imu.GetRobotAngle()-angle)<10) {//TODO: add ramp calculation
+            //Turn
+            Chassis.SpotTurn(baseSpeed);
+            //Return telemetry
+            Control.GetOpMode().telemetry.addData("Target Angle: ", angle);
+            Control.GetOpMode().telemetry.addData("Current Angle: ", Imu.GetRobotAngle());
+        }
+        //Stop and brake
+        Chassis.StopAndResetEncoders();
+        Chassis.Brake();
+    }
+
+    /*public void SpotTurn(double angle, double speed, double rampVal){//TODO: Review
         while(Math.abs(Imu.GetRobotAngle()-angle)<10) {
             Chassis.SpotTurn(speed);
             Chassis.StopAndResetEncoders();
             Chassis.SetModeRunUsingEncoders();
         }
-    }
+    }*/
 
 
     public void SweepTurn(double angle, double speed, double sweepVal){}

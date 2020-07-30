@@ -73,11 +73,11 @@ public class DemobotControl
         Chassis = new DemobotChassis(Imu, FR, FL, RR, RL, CurrentOpMode.telemetry);//Create chassis instance w/ motors
         Chassis.Init();
 
-        RobotShooter = new Shooter();
+        /*RobotShooter = new Shooter();
         RobotShooter.Init(SpinnerMotor, LoaderMotor, ShooterAimer);
 
         RobotIntake = new Intake();
-        RobotIntake.Init(IntakeMotor);
+        RobotIntake.Init(IntakeMotor);*/
 
         AutoFuncs = new DemobotAutoFuncs(this);
         VuforiaTargetFinder = new DemobotTargetFinder();

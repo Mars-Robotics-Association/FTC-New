@@ -111,6 +111,7 @@ public class DemobotControl
     public void SpotTurn(double angle, double speed) {
         //Turns the robot on center of the wheel axis using a ramp turn
         //Enter target angle and turn speed
+        AutoFuncs.SpotTurn(speed, angle, 0);
     }
     public void SweepTurn(double angle, double speed, double turnOffset) {
         //Turns the robot gradually

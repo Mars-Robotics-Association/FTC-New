@@ -26,11 +26,12 @@ public class Shooter
 
     ////METHODS////
     //Public//
-    public void Init(DcMotor setSpinner, DcMotor setLoader, Servo setAimer){
+    public void Init(DcMotor setSpinner, DcMotor setLoader, Servo setAimer, double shooterVelocity){
         spinner = setSpinner;
         loader = setLoader;
         aimer = setAimer;
         spinner.setMode(DcMotor.RunMode.RUN_USING_ENCODER);//for reliable velocity
+        kS = shooterVelocity;//calculated by shooter calibration opmode
     }
 
     public void SetTrajectory(double targetDist, double targetHeight, double targetAngle){
@@ -61,6 +62,10 @@ public class Shooter
         SpinUp();
         //TODO: add spinup time usage
         Fire();
+    }
+    public void RawAim(double fireAngle){
+        //Moves guide to target rotation
+        aimer.setPosition(fireAngle * kA);
     }
 
     //Private//

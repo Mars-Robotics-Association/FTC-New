@@ -16,22 +16,25 @@ import org.firstinspires.ftc.teamcode.Core.PID;
 
 public class DemobotChassis
 {
-    //Dependencies
+    ////Dependencies////
     private OpMode CurrentOpMode;
     private PID PidController;
     private IMU Imu;
 
-    //Variables
+    ////Variables////
+    //Motors
     private DcMotor FR;
     private DcMotor FL;
     private DcMotor RR;
     private DcMotor RL;
-
+    //Brake pos
     private int FRBrakePos = 0;
     private int FLBrakePos = 0;
     private int RRBrakePos = 0;
     private int RLBrakePos = 0;
+    //pid movement
 
+    //telemetry
     private Telemetry RobotTelemetry;
 
     //Initializer
@@ -66,10 +69,9 @@ public class DemobotChassis
         double[] speeds = CalculateWheelSpeedsTurning(angle, speed, turnSpeed);
 
         //Uses pid controller to correct for error using (currentAngle, targetAngle) TODO: get pid working
-        /*double pidOffset = PidController.getOutput(Imu.GetRobotAngle(), angle);
-        RobotTelemetry.addData("Robot Angle ", Imu.GetRobotAngle());
-        RobotTelemetry.addData("PID Offset ", pidOffset);*/
-        double pidOffset = 0;
+        double pidOffset = PidController.getOutput(turnSpeed, Imu.GetAngularVelocity());
+        RobotTelemetry.addData("Angular Velocity ", Imu.GetAngularVelocity());
+        RobotTelemetry.addData("PID Offset ", pidOffset);
 
         //set the powers of the motors with pid offset applied
         SetMotorSpeeds(speeds[0]+pidOffset, speeds[1]+pidOffset, speeds[2]+pidOffset, speeds[3]+pidOffset);

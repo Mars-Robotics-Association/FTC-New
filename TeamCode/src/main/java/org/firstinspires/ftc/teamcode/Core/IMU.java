@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -64,6 +65,9 @@ public class IMU
     public double GetRobotAngle(){
         //return the firstangle from the imu with an offset applied from ResetGyro()
         return GetRawAngles().firstAngle - Offset;
+    }
+    public double GetAngularVelocity(){
+        return imu.getAngularVelocity().zRotationRate;//TODO: figure out if this is the right angle
     }
     public Acceleration GetGravity()
     {

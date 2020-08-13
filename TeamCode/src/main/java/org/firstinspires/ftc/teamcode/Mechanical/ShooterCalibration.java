@@ -1,5 +1,11 @@
 package org.firstinspires.ftc.teamcode.Mechanical;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+
 //A script for calibrating the shooter. Basic process is:
 //  - Enter horizontal distance of shooter from wall
 //  - Run script and note the three distances the ball lands at in meters
@@ -7,12 +13,7 @@ package org.firstinspires.ftc.teamcode.Mechanical;
 //  - Run script again and note the "vAverage" variable in telemetry. This will be entered in when you create a shooter object
 //Basically this works by calculating the velocity at which the shooter shoots at. You may want to run it a few times to determine consistency and get an average
 //
-
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
+//REQUIRED TO RUN: Phones | REV Hub | Shooter
 
 @Autonomous(name = "ShooterCalibration")
 public class ShooterCalibration extends LinearOpMode
@@ -62,6 +63,7 @@ public class ShooterCalibration extends LinearOpMode
         telemetry.update();
 
         sleep(10000);//wait ten seconds
+        stop();
     }
 
     public void shoot(double angle){ //TODO: use a button on robot instead of timers

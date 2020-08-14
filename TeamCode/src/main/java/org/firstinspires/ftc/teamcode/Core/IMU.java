@@ -67,7 +67,7 @@ public class IMU
         return GetRawAngles().firstAngle - Offset;
     }
     public double GetAngularVelocity(){
-        return imu.getAngularVelocity().zRotationRate;//TODO: figure out if this is the right angle
+        return imu.getAngularVelocity().xRotationRate;//TODO: figure out if this is the right angle
     }
     public Acceleration GetGravity()
     {

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpMode;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -10,9 +11,15 @@ import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 
 //REQUIRED TO RUN: Phones | REV Hub | Demobot Chassis | Shooter | Odometry Unit
 
+@Config
 @Autonomous(name = "Demobot Autonomous")
 public class DemobotAutonomous extends LinearOpMode {
     DemobotControl Control;
+
+    //Pid coefficients
+    public static double p;
+    public static double i;
+    public static double d;
 
 
     @Override
@@ -22,13 +29,13 @@ public class DemobotAutonomous extends LinearOpMode {
         Control.Init();
         Control.Start();
 
-        //Forward test
-        //Control.OdometryDrive(0, 0.4, 50);
+        waitForStart();
 
-        //Strafe test
-        Control.OdometryDrive(90, 0.4, 50);
+        if (isStopRequested()) return;
 
-        //Angle test
-        //Control.OdometryDrive(45, 0.4, 50);
+        while (true){
+            Control.SetDrivePID(p,i,d);
+            Control.RawDrive(0,0,0);
+        }
     }
 }

@@ -156,6 +156,11 @@ public class DemobotControl
     public PID GetPID(){return Pid;}
     public OpMode GetOpMode(){return CurrentOpMode;}
 
+    //SETTER METHODS//
+    public void SetDrivePID(double p, double i, double d){
+        Chassis.SetPIDCoefficients(p,i,d);
+    }
+
     //PRIVATE METHODS//
     private void OffsetGyro(){
         //Offsets the gryo so the current heading can be zero with GetRobotAngle()

@@ -157,6 +157,9 @@ public class DemobotChassis
         SetModeGoToEncoderPos();
         SetMotorSpeeds(0.5,0.5,0.5,0.5);
     }
+    public void SetPIDCoefficients(double p, double i, double d){
+        PidController.setPID(p,i,d);
+    }
 
     public double[] CalculateWheelSpeedsTurning(double degrees, double speed, double turnSpeed)
     {

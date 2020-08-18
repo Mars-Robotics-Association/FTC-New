@@ -25,82 +25,82 @@ class ControllerInputTest implements ControllerInputListener {
     }
 
     @Override
-    public void A1Pressed() {
+    public void APressed() {
 
     }
 
     @Override
-    public void B1Pressed() {
+    public void BPressed() {
         System.out.println("Good");
     }
 
     @Override
-    public void X1Pressed() {
+    public void XPressed() {
 
     }
 
     @Override
-    public void Y1Pressed() {
+    public void YPressed() {
 
     }
 
     @Override
-    public void A1Released() {
+    public void AReleased() {
 
     }
 
     @Override
-    public void B1Released() {
+    public void BReleased() {
 
     }
 
     @Override
-    public void X1Released() {
+    public void XReleased() {
 
     }
 
     @Override
-    public void Y1Released() {
+    public void YReleased() {
 
     }
 
     @Override
-    public void LB1Pressed() {
+    public void LBPressed() {
 
     }
 
     @Override
-    public void RB1Pressed() {
+    public void RBPressed() {
 
     }
 
     @Override
-    public void LT1Pressed() {
+    public void LTPressed() {
 
     }
 
     @Override
-    public void RT1Pressed() {
+    public void RTPressed() {
 
     }
 
     @Override
-    public void LB1Released() {
+    public void LBReleased() {
 
     }
 
     @Override
-    public void RB1Released() {
+    public void RBReleased() {
 
     }
 
     @Override
-    public void LT1Released() {
+    public void LTReleased() {
 
     }
 
     @Override
-    public void RT1Released() {
+    public void RTReleased() {
 
     }
 

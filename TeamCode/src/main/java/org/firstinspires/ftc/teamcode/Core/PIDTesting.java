@@ -23,7 +23,7 @@ public class PIDTesting extends OpMode {
         pid = new PID(p,i,d);
         imu = new IMU(this);
         imu.Start();
-        dashboard = FtcDashboard.getInstance(); 
+        dashboard = FtcDashboard.getInstance();
         dashboard.setTelemetryTransmissionInterval(25);
     }
 

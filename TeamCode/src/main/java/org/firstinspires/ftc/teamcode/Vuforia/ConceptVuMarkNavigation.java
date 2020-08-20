@@ -179,6 +179,9 @@ public class ConceptVuMarkNavigation extends LinearOpMode {
                     double rX = rot.firstAngle;
                     double rY = rot.secondAngle;
                     double rZ = rot.thirdAngle;
+
+                    shooter.SetTrajectory(tY,tZ,rX);
+                    shooter.Aim();
                 }
             }
             else {

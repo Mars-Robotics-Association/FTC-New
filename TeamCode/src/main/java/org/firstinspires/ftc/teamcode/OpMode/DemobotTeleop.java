@@ -36,7 +36,7 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
         Control.Init();
 
         //Sets up controller input
-        CInput = new ControllerInput(this);
+        CInput = new ControllerInput(gamepad1);
         CInput.Init();
         CInput.addListener(this);
     }
@@ -62,13 +62,13 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
     //Loop Methods
     private void MangeDriveMovement(){
         //MOVE if left joystick magnitude > 0.1
-        if (CInput.CalculateLJSMag1() > 0.1) {
-            Control.RawDrive(CInput.CalculateLJSAngle1(), CInput.CalculateLJSMag1() * DriveSpeed, -CInput.GetRJSX1() * TurnWhileDrivingSpeed);//drives at (angle, speed, turnOffset)
-            telemetry.addData("Moving at ", CInput.CalculateLJSAngle1());
+        if (CInput.CalculateLJSMag() > 0.1) {
+            Control.RawDrive(CInput.CalculateLJSAngle(), CInput.CalculateLJSMag() * DriveSpeed, -CInput.GetRJSX() * TurnWhileDrivingSpeed);//drives at (angle, speed, turnOffset)
+            telemetry.addData("Moving at ", CInput.CalculateLJSAngle());
         }
         //TURN if right joystick magnitude > 0.1 and not moving
-        else if (Math.abs(CInput.GetRJSX1()) > 0.1) {
-            Control.RawTurn(-CInput.GetRJSX1() * TurnSpeed);//turns at speed according to rjs1
+        else if (Math.abs(CInput.GetRJSX()) > 0.1) {
+            Control.RawTurn(-CInput.GetRJSX() * TurnSpeed);//turns at speed according to rjs1
             telemetry.addData("Turning", true);
         }
         else {
@@ -77,15 +77,15 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
     }
     private void ManageShooterIntake(){
         //INTAKE if right trigger pressed
-        if(CInput.Gamepad1.right_trigger > 0.1){
+        if(CInput.gamepad.right_trigger > 0.1){
             Control.Intake();
         }
         //SPIN UP if Y pressed
-        if(CInput.Gamepad1.y){
+        if(CInput.gamepad.y){
             Control.SpinUpShooter();
         }
         //FIRE if B pressed
-        if(CInput.Gamepad1.b){
+        if(CInput.gamepad.b){
             Control.FireShooter();
         }
     }
@@ -101,165 +101,125 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
     }
 
     @Override
-    public void A1Pressed() {
+    public void APressed() {
         //AIM SHOOTER if A pressed
         Control.AimShooter();
     }
 
     @Override
-    public void B1Pressed() {
+    public void BPressed() {
 
     }
 
     @Override
-    public void X1Pressed() {
+    public void XPressed() {
         Control.GetOdometry().Reset();
     }
 
     @Override
-    public void Y1Pressed() {
+    public void YPressed() {
 
     }
 
     @Override
-    public void A1Released() {
+    public void AHeld() {
 
     }
 
     @Override
-    public void B1Released() {
+    public void BHeld() {
 
     }
 
     @Override
-    public void X1Released() {
+    public void XHeld() {
 
     }
 
     @Override
-    public void Y1Released() {
+    public void YHeld() {
 
     }
 
     @Override
-    public void LB1Pressed() {
+    public void AReleased() {
 
     }
 
     @Override
-    public void RB1Pressed() {
+    public void BReleased() {
 
     }
 
     @Override
-    public void LT1Pressed() {
+    public void XReleased() {
+
+    }
+
+    @Override
+    public void YReleased() {
+
+    }
+
+    @Override
+    public void LBPressed() {
+
+    }
+
+    @Override
+    public void RBPressed() {
+
+    }
+
+    @Override
+    public void LTPressed() {
         Busy = true;
         Control.Brake();
     }
 
     @Override
-    public void RT1Pressed() {
+    public void RTPressed() {
 
     }
 
     @Override
-    public void LB1Released() {
+    public void LBHeld() {
 
     }
 
     @Override
-    public void RB1Released() {
+    public void RBHeld() {
 
     }
 
     @Override
-    public void LT1Released() {
+    public void LTHeld() {
+
+    }
+
+    @Override
+    public void RTHeld() {
+
+    }
+
+    @Override
+    public void LBReleased() {
+
+    }
+
+    @Override
+    public void RBReleased() {
+
+    }
+
+    @Override
+    public void LTReleased() {
         Busy = false;
         Control.GetChassis().SetModeRunUsingEncoders();
     }
 
     @Override
-    public void RT1Released() {
-
-    }
-
-    @Override
-    public void A2Pressed() {
-
-    }
-
-    @Override
-    public void B2Pressed() {
-
-    }
-
-    @Override
-    public void X2Pressed() {
-
-    }
-
-    @Override
-    public void Y2Pressed() {
-
-    }
-
-    @Override
-    public void A2Released() {
-
-    }
-
-    @Override
-    public void B2Released() {
-
-    }
-
-    @Override
-    public void X2Released() {
-
-    }
-
-    @Override
-    public void Y2Released() {
-
-    }
-
-    @Override
-    public void LB2Pressed() {
-
-    }
-
-    @Override
-    public void RB2Pressed() {
-
-    }
-
-    @Override
-    public void LT2Pressed() {
-
-    }
-
-    @Override
-    public void RT2Pressed() {
-
-    }
-
-    @Override
-    public void LB2Released() {
-
-    }
-
-    @Override
-    public void RB2Released() {
-
-    }
-
-    @Override
-    public void LT2Released() {
-
-    }
-
-    @Override
-    public void RT2Released() {
+    public void RTReleased() {
 
     }
 }

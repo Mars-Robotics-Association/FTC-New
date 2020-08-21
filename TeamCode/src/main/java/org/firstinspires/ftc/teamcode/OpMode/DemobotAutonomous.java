@@ -34,8 +34,9 @@ public class DemobotAutonomous extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (true){
-            Control.SetDrivePID(p,i,d);
-            Control.RawDrive(0,0,0);
+            /*Control.SetDrivePID(p,i,d);
+            Control.RawDrive(0,0,0);*/
+            Control.FireShooter();
         }
     }
 }

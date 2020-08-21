@@ -60,9 +60,9 @@ public class DemobotControl
         RR = CurrentOpMode.hardwareMap.dcMotor.get("RR");
         RL = CurrentOpMode.hardwareMap.dcMotor.get("RL");
         //IntakeMotor = CurrentOpMode.hardwareMap.dcMotor.get("IM");
-        //SpinnerMotor = CurrentOpMode.hardwareMap.dcMotor.get("SM");
-        //LoaderMotor = CurrentOpMode.hardwareMap.dcMotor.get("LM");
-        //ShooterAimer = CurrentOpMode.hardwareMap.servo.get("SA");
+        SpinnerMotor = CurrentOpMode.hardwareMap.dcMotor.get("SM");
+        LoaderMotor = CurrentOpMode.hardwareMap.dcMotor.get("LM");
+        ShooterAimer = CurrentOpMode.hardwareMap.servo.get("SA");
 
         Odometry = new DemoBotOdometry(RL, RR);
         Odometry.Reset();
@@ -73,10 +73,10 @@ public class DemobotControl
         Chassis = new DemobotChassis(Imu, FR, FL, RR, RL, CurrentOpMode.telemetry);//Create chassis instance w/ motors
         Chassis.Init();
 
-        /*RobotShooter = new Shooter();
-        RobotShooter.Init(SpinnerMotor, LoaderMotor, ShooterAimer);
+        RobotShooter = new Shooter();
+        RobotShooter.Init(SpinnerMotor, LoaderMotor, ShooterAimer, 20);
 
-        RobotIntake = new Intake();
+        /*RobotIntake = new Intake();
         RobotIntake.Init(IntakeMotor);*/
 
         AutoFuncs = new DemobotAutoFuncs(this);
@@ -124,8 +124,10 @@ public class DemobotControl
     public void AimShooter() {
         //Aims the shooter at the specified target
         //Enter vumark to look for
-        //TODO: get working with vuforia
+        //TODO: get distance, x, y, and heading from vuforia
         RobotShooter.SetTrajectory(10, 5, 0);
+        //TODO: apply correct offset to angle
+        SpotTurn(RobotShooter.GetTargetHeading(), 0.5);
         RobotShooter.Aim();
     }
     public void SpinUpShooter(){

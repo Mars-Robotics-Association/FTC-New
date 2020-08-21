@@ -9,20 +9,20 @@ public class Shooter
 {
     ////DEPENDENCIES////
     //Motors/servos
-    DcMotor spinner;//motor controlling spinners that fire ball
-    DcMotor loader;//motor that loads ball into assembly
-    Servo aimer;//servo for aiming the shooter
+    private DcMotor spinner;//motor controlling spinners that fire ball
+    private DcMotor loader;//motor that loads ball into assembly
+    private Servo aimer;//servo for aiming the shooter
 
     ////VARIABLES////
     //Calibration
-    double kS = 20; //the velocity in m/s max motor speed applies
-    double kA = 1; //ration from servo ticks to degrees
-    double shooterHeight = 0.5; //in meters
+    private double kS = 20; //the velocity in m/s max motor speed applies
+    private double kA = 1; //ration from servo ticks to degrees
+    private double shooterHeight = 0.5; //in meters
 
     //Utility
-    double tDist;//target x for trajectory
-    double tY;//target y for trajectory
-    double tAngle;//target angle for trajectory
+    private double tDist;//target x for trajectory
+    private double tY;//target y for trajectory
+    private double tHeading;//target angle for trajectory
 
     ////METHODS////
     //Public//
@@ -38,7 +38,7 @@ public class Shooter
         //sets the target trajectory variables to an x and y and angle relative to the robot
         tDist = targetDist;
         tY = targetHeight;
-        tAngle = targetAngle;
+        tHeading = targetAngle;
     }
     public void Aim(){
         //Rotates shooter and aims it at target.
@@ -66,6 +66,9 @@ public class Shooter
     public void RawAim(double fireAngle){
         //Moves guide to target rotation
         aimer.setPosition(fireAngle * kA);
+    }
+    public double GetTargetHeading(){
+        return tHeading;
     }
 
     //Private//

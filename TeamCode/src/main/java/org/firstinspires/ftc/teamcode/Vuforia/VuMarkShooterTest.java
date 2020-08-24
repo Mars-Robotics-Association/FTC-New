@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Vuforia;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -44,7 +45,7 @@ public class VuMarkShooterTest
         //Rotates shooter and aims it at target.
         //Rotate to target using tAngle
         //Aim with servo
-        aimer.setPosition(FindAngleToFireAt(kS, shooterHeight, tY, tDist) * kA);
+        aimer.setPosition(FindAngleToFireAt(kS, shooterHeight, tY, tDist)*kA);
     }
     public void SpinUp(){
         //Spins up shooter to speed depending on target. You should aim it before this.

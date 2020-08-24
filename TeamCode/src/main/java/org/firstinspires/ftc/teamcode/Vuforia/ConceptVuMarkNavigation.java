@@ -109,7 +109,7 @@ public class ConceptVuMarkNavigation extends LinearOpMode {
          * Once you've obtained a license key, copy the string from the Vuforia web site
          * and paste it in to your code on the next line, between the double quotes.
          */
-        parameters.vuforiaLicenseKey = " -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
+        parameters.vuforiaLicenseKey = "AeZ+Eyv/////AAABmfcFKgZ5NkXfgqEeyUnIJMIHuzBJhNTY+sbZO+ChF7mbo1evegC5fObZ830PRBTGTM6jbp+1XXCzx3XhY1kaZevEQXNpAKhXU9We0AMlp1mhnAUjGI2sprJZqJIfFGxkK598u8Bj3qQy4+PlCrk+Od/tAGs8dqAAsZPp4KpczFQttxMBC5JZNeIbIFP57InXOeJgyeH1sXK+R2i6nPfOFRvHJjdQaLWdAasv7i3b0RH5ctG7Ky7J9g9BPYI03kkChCJkbPg03XnoqCcC7rEpAk3n8a9CqtwTUu57Sy0jCDUd2O6X9kHjZ5ZmS0I3O0YSzX3Jp2ppTE2kDS2I9zBYEmuEqkMjItxd52oES0Ij0rZm";
 
 
         /*
@@ -123,6 +123,9 @@ public class ConceptVuMarkNavigation extends LinearOpMode {
          * Instantiate the Vuforia engine
          */
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
+        loader = hardwareMap.dcMotor.get("FL");
+        spinner = hardwareMap.dcMotor.get("FR");
+        aimer = hardwareMap.servo.get("SA");
         shooter = new VuMarkShooterTest();
         shooter.Init(spinner, loader, aimer, 20);
 
@@ -135,6 +138,7 @@ public class ConceptVuMarkNavigation extends LinearOpMode {
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
+
 
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
@@ -180,10 +184,16 @@ public class ConceptVuMarkNavigation extends LinearOpMode {
                     double rY = rot.secondAngle;
                     double rZ = rot.thirdAngle;
 
-                    telemetry.addData("Vumark",tY+"meters away");
+                    double dist = Math.sqrt(Math.pow(Math.abs(tZ),2)+Math.pow(Math.abs(tY),2));
+                    telemetry.addData("Vumark",dist + " milimeters away");
+                    telemetry.addData("Vumark",-1*tX+" milimeters high");
+                    //telemetry.addData("AimerPosition",aimer.getPosition());
 
-                    shooter.SetTrajectory(tY,tZ,rX);
-                    shooter.Aim();
+                    shooter.SetTrajectory(Math.round(tZ*1000),Math.round(tX*1000),Math.round(rY));
+                    //shooter.Aim();
+
+
+
                 }
             }
             else {

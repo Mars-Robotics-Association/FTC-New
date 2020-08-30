@@ -2,38 +2,30 @@ package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 
-import org.firstinspires.ftc.teamcode.Mechanical.Intake;
-import org.firstinspires.ftc.teamcode.Mechanical.Shooter;
 import org.firstinspires.ftc.teamcode.AutonomousFunctions.DemobotAutoFuncs;
 import org.firstinspires.ftc.teamcode.Mechanical.DemobotChassis;
+import org.firstinspires.ftc.teamcode.Mechanical.Intake;
+import org.firstinspires.ftc.teamcode.Mechanical.Shooter;
 import org.firstinspires.ftc.teamcode.Odometry.DemoBotOdometry;
 import org.firstinspires.ftc.teamcode.Vuforia.DemobotTargetFinder;
 
 //The class used to control the demobot. Autonomous functions, opmodes, and other scripts can call
 //methods in here to control the demobot.
 
-//REQUIRED TO RUN: Phones | REV Hub | Demobot Chassis | Shooter | Odometry Unit
+//REQUIRED TO RUN: Phones | REV Hub | Shooter
 
-public class DemobotControl
+public class ShooterOnlyControl
 {
     ////Dependencies////
-    private DemoBotOdometry Odometry;
     private IMU Imu;
-    private DemobotChassis Chassis;
-    private org.firstinspires.ftc.teamcode.Mechanical.Shooter RobotShooter;
+    private Shooter RobotShooter;
     private DemobotAutoFuncs AutoFuncs;
     private DemobotTargetFinder VuforiaTargetFinder;
     private PID Pid; //Look here: https://github.com/tekdemo/MiniPID-Java for how to use it
     private OpMode CurrentOpMode;
     private Intake RobotIntake;
-    //Drive Motors
-    private DcMotor FR;
-    private DcMotor FL;
-    private DcMotor RR;
-    private DcMotor RL;
     //Shooter/Intake Motors
     private DcMotor IntakeMotor;
     private DcMotor SpinnerMotor;
@@ -48,7 +40,7 @@ public class DemobotControl
 
 
     //Initializer
-    public DemobotControl(OpMode setOpMode)
+    public ShooterOnlyControl(OpMode setOpMode)
     {
         CurrentOpMode = setOpMode;
     }
@@ -56,23 +48,13 @@ public class DemobotControl
     //SETUP METHODS//
     public void Init(){
         //Init motors- change string to name of motors in config
-        FR = CurrentOpMode.hardwareMap.dcMotor.get("FR");
-        FL = CurrentOpMode.hardwareMap.dcMotor.get("FL");
-        RR = CurrentOpMode.hardwareMap.dcMotor.get("RR");
-        RL = CurrentOpMode.hardwareMap.dcMotor.get("RL");
         //IntakeMotor = CurrentOpMode.hardwareMap.dcMotor.get("IM");
         SpinnerMotor = CurrentOpMode.hardwareMap.dcMotor.get("SM");
         LoaderMotor = CurrentOpMode.hardwareMap.dcMotor.get("LM");
         ShooterAimer = CurrentOpMode.hardwareMap.crservo.get("SA").getController();
 
-        Odometry = new DemoBotOdometry(RL, RR);
-        Odometry.Reset();
-
         Imu = new IMU(CurrentOpMode);
         Pid = new PID(0,0,0);//Create the pid controller. Specify (p,i,d) constants
-
-        Chassis = new DemobotChassis(Imu, FR, FL, RR, RL, CurrentOpMode.telemetry);//Create chassis instance w/ motors
-        Chassis.Init();
 
         RobotShooter = new Shooter();
         RobotShooter.Init(SpinnerMotor, LoaderMotor, ShooterAimer, 20);
@@ -80,7 +62,6 @@ public class DemobotControl
         /*RobotIntake = new Intake();
         RobotIntake.Init(IntakeMotor);*/
 
-        AutoFuncs = new DemobotAutoFuncs(this);
         VuforiaTargetFinder = new DemobotTargetFinder();
     }
 
@@ -89,35 +70,6 @@ public class DemobotControl
         Imu.ResetGyro();
     }
 
-    //CALLABLE METHODS//
-    public void RawDrive(double angle, double speed, double turnOffset) {
-        //Used in continuously in teleop to move robot at any angle using imu and pid controller
-        //Enter angle to move, speed, and a turn offset for turning while moving
-        Chassis.MoveAtAngle(angle, speed, turnOffset);
-    }
-    public void RawTurn(double speed){
-        //Used continuously in teleop to turn the robot
-        //Enter speed for turn- positive speed turns left, negative right
-        Chassis.SpotTurn(speed);
-    }
-    public void Brake(){
-        //Called once to brake the robot
-        Chassis.Brake();
-    }
-    public void OdometryDrive(double angle, double speed, double distance) {
-        //Used to autonomously drive a certain distance at a certain angle.
-        //Enter angle, speed, and distance
-        AutoFuncs.MoveAtAngle(angle, distance, speed);
-    }
-    public void SpotTurn(double angle, double speed) {
-        //Turns the robot on center of the wheel axis using a ramp turn
-        //Enter target angle and turn speed
-        AutoFuncs.SpotTurn(speed, angle, 0);
-    }
-    public void SweepTurn(double angle, double speed, double turnOffset) {
-        //Turns the robot gradually
-        //Enter target angle, speed, and turn offset
-    }
     public void ShooterGoBoom(double distanceFromTarget, double heightFromTarget) {
         //Shoots the ball at target with either linear or arc shooter
         //Enter distance and height from target
@@ -127,8 +79,6 @@ public class DemobotControl
         //Enter vumark to look for
         //TODO: get distance, x, y, and heading from vuforia
         RobotShooter.SetTrajectory(10, 5, 0);
-        //TODO: apply correct offset to angle
-        SpotTurn(RobotShooter.GetTargetHeading(), 0.5);
         RobotShooter.Aim();
     }
     public void SpinUpShooter(){
@@ -150,19 +100,14 @@ public class DemobotControl
         return Imu.GetRawAngles().firstAngle - GyroOffset;
     }
     //Dependency Getters
-    public DemoBotOdometry GetOdometry(){return Odometry;}
     public IMU GetImu(){return Imu;}
-    public DemobotChassis GetChassis(){return Chassis;}
-    public org.firstinspires.ftc.teamcode.Mechanical.Shooter GetShooter(){return RobotShooter;}
+    public Shooter GetShooter(){return RobotShooter;}
     public DemobotAutoFuncs GetAutoFuncs(){return AutoFuncs;}
     public DemobotTargetFinder GetVuforiaTargetFinder(){return VuforiaTargetFinder;}
     public PID GetPID(){return Pid;}
     public OpMode GetOpMode(){return CurrentOpMode;}
 
     //SETTER METHODS//
-    public void SetDrivePID(double p, double i, double d){
-        Chassis.SetPIDCoefficients(p,i,d);
-    }
 
     //PRIVATE METHODS//
     private void OffsetGyro(){

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Mechanical;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoController;
 
 //REQUIRED TO COMPILE: REV Hub | Phones | Shooter
 
@@ -11,7 +12,7 @@ public class Shooter
     //Motors/servos
     private DcMotor spinner;//motor controlling spinners that fire ball
     private DcMotor loader;//motor that loads ball into assembly
-    private Servo aimer;//servo for aiming the shooter
+    private ServoController aimer;//servo for aiming the shooter
 
     ////VARIABLES////
     //Calibration
@@ -26,7 +27,7 @@ public class Shooter
 
     ////METHODS////
     //Public//
-    public void Init(DcMotor setSpinner, DcMotor setLoader, Servo setAimer, double shooterVelocity){
+    public void Init(DcMotor setSpinner, DcMotor setLoader, ServoController setAimer, double shooterVelocity){
         spinner = setSpinner;
         loader = setLoader;
         aimer = setAimer;
@@ -44,7 +45,8 @@ public class Shooter
         //Rotates shooter and aims it at target.
         //Rotate to target using tAngle
         //Aim with servo
-        aimer.setPosition(FindAngleToFireAt(kS, shooterHeight, tY, tDist) * kA);
+        //aimer.setPosition(FindAngleToFireAt(kS, shooterHeight, tY, tDist) * kA); //TODO: verify if new works and remove
+        aimer.setServoPosition(0,FindAngleToFireAt(kS, shooterHeight, tY, tDist) * kA);
     }
     public void SpinUp(){
         //Spins up shooter to speed depending on target. You should aim it before this.
@@ -65,7 +67,8 @@ public class Shooter
     }
     public void RawAim(double fireAngle){
         //Moves guide to target rotation
-        aimer.setPosition(fireAngle * kA);
+        //aimer.setPosition(fireAngle * kA); //TODO: verify if new works and remove
+        aimer.setServoPosition(0,fireAngle * kA);
     }
     public double GetTargetHeading(){
         return tHeading;

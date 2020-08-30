@@ -45,6 +45,26 @@ class ControllerInputTest implements ControllerInputListener {
     }
 
     @Override
+    public void AHeld() {
+
+    }
+
+    @Override
+    public void BHeld() {
+
+    }
+
+    @Override
+    public void XHeld() {
+
+    }
+
+    @Override
+    public void YHeld() {
+
+    }
+
+    @Override
     public void AReleased() {
 
     }
@@ -85,6 +105,26 @@ class ControllerInputTest implements ControllerInputListener {
     }
 
     @Override
+    public void LBHeld() {
+
+    }
+
+    @Override
+    public void RBHeld() {
+
+    }
+
+    @Override
+    public void LTHeld() {
+
+    }
+
+    @Override
+    public void RTHeld() {
+
+    }
+
+    @Override
     public void LBReleased() {
 
     }
@@ -101,86 +141,6 @@ class ControllerInputTest implements ControllerInputListener {
 
     @Override
     public void RTReleased() {
-
-    }
-
-    @Override
-    public void A2Pressed() {
-
-    }
-
-    @Override
-    public void B2Pressed() {
-
-    }
-
-    @Override
-    public void X2Pressed() {
-
-    }
-
-    @Override
-    public void Y2Pressed() {
-
-    }
-
-    @Override
-    public void A2Released() {
-
-    }
-
-    @Override
-    public void B2Released() {
-
-    }
-
-    @Override
-    public void X2Released() {
-
-    }
-
-    @Override
-    public void Y2Released() {
-
-    }
-
-    @Override
-    public void LB2Pressed() {
-
-    }
-
-    @Override
-    public void RB2Pressed() {
-
-    }
-
-    @Override
-    public void LT2Pressed() {
-
-    }
-
-    @Override
-    public void RT2Pressed() {
-
-    }
-
-    @Override
-    public void LB2Released() {
-
-    }
-
-    @Override
-    public void RB2Released() {
-
-    }
-
-    @Override
-    public void LT2Released() {
-
-    }
-
-    @Override
-    public void RT2Released() {
 
     }
 }

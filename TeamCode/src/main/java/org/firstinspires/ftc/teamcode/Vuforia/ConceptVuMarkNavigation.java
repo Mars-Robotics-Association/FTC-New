@@ -180,6 +180,8 @@ public class ConceptVuMarkNavigation extends LinearOpMode {
                     double rY = rot.secondAngle;
                     double rZ = rot.thirdAngle;
 
+                    telemetry.addData("Vumark",tY+"meters away");
+
                     shooter.SetTrajectory(tY,tZ,rX);
                     shooter.Aim();
                 }

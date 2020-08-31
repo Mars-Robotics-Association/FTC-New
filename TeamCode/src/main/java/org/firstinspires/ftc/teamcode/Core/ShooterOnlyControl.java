@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Mechanical.Intake;
 import org.firstinspires.ftc.teamcode.Mechanical.Shooter;
 import org.firstinspires.ftc.teamcode.Odometry.DemoBotOdometry;
 import org.firstinspires.ftc.teamcode.Vuforia.DemobotTargetFinder;
+import org.firstinspires.ftc.teamcode.Vuforia.VuMarkNavigation;
 
 //The class used to control the demobot. Autonomous functions, opmodes, and other scripts can call
 //methods in here to control the demobot.
@@ -26,6 +27,7 @@ public class ShooterOnlyControl
     private PID Pid; //Look here: https://github.com/tekdemo/MiniPID-Java for how to use it
     private OpMode CurrentOpMode;
     private Intake RobotIntake;
+    private VuMarkNavigation vuforia;
     //Shooter/Intake Motors
     private DcMotor IntakeMotor;
     private DcMotor SpinnerMotor;
@@ -63,6 +65,7 @@ public class ShooterOnlyControl
         RobotIntake.Init(IntakeMotor);*/
 
         VuforiaTargetFinder = new DemobotTargetFinder();
+        vuforia = new VuMarkNavigation();
     }
 
     public void Start(){
@@ -77,8 +80,19 @@ public class ShooterOnlyControl
     public void AimShooter() {
         //Aims the shooter at the specified target
         //Enter vumark to look for
+
         //TODO: get distance, x, y, and heading from vuforia
-        RobotShooter.SetTrajectory(10, 5, 0);
+        double[] data = vuforia.GetData();
+        double tX = data[0];
+        double tY = data[1];
+        double tZ = data[2];
+        double dist = data[3];
+        double rZ = data[4];
+        if(data[3] == 0.0 && data[2] == 0.0 && data[1] == 0.0 && data[0] == 0.0 && data[4] == 0.0) {
+            RobotShooter.SetTrajectory(10, 5, 0);
+        }else{
+            RobotShooter.SetTrajectory(dist,tX,rZ);
+        }
         RobotShooter.Aim();
     }
     public void SpinUpShooter(){

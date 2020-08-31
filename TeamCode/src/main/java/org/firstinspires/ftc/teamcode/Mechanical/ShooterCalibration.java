@@ -3,8 +3,10 @@ package org.firstinspires.ftc.teamcode.Mechanical;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoController;
 
 //A script for calibrating the shooter. Basic process is:
 //  - Enter horizontal distance of shooter from wall
@@ -22,7 +24,7 @@ public class ShooterCalibration extends LinearOpMode
     Shooter shooter;
     DcMotor spinner;
     DcMotor loader;
-    Servo aimer;
+    ServoController aimer;
 
     ////VARIABLES////
     double heightOffset = 0; //set this to the negative of the distance between shooter and ground
@@ -36,7 +38,7 @@ public class ShooterCalibration extends LinearOpMode
         //init motors/servos
         spinner = hardwareMap.dcMotor.get("spinner");
         loader = hardwareMap.dcMotor.get("loader");
-        aimer = hardwareMap.servo.get("aimer");
+        aimer = hardwareMap.crservo.get("aimer").getController();
 
         //init shooter
         shooter = new Shooter();

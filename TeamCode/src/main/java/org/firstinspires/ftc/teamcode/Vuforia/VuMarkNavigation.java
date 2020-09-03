@@ -52,7 +52,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Mechanical.Shooter;
 
 
-@TeleOp(name="ConceptVuMarkNavigation", group ="Concept")
 public class VuMarkNavigation {
 
     public static final String TAG = "Vuforia VuMark Sample";
@@ -134,13 +133,14 @@ public class VuMarkNavigation {
                 double rZ = rot.thirdAngle;
 
                 double dist = Math.sqrt(Math.pow(Math.abs(tZ),2)+Math.pow(Math.abs(tY),2));
+                double rZreal = Math.atan(Math.abs(tY)/Math.abs(tZ));
                 opMode.telemetry.addData("Vumark",dist + " milimeters away");
                 opMode.telemetry.addData("Vumark",-1*tX+" milimeters high");
                 data[0] = tX;
                 data[1]= tY;
                 data[2] = tZ;
                 data[3] = dist;
-                data[4] = rZ;
+                data[4] = rZreal;
                 //{tX,tY,tZ,dist};
 
 

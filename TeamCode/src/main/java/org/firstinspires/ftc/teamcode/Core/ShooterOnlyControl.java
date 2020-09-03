@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Core;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.ServoController;
+import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.teamcode.AutonomousFunctions.DemobotAutoFuncs;
 import org.firstinspires.ftc.teamcode.Mechanical.DemobotChassis;

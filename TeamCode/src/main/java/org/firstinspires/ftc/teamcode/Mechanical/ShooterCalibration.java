@@ -40,7 +40,7 @@ public class ShooterCalibration extends LinearOpMode
 
         //init shooter
         shooter = new Shooter();
-        shooter.Init(spinner, loader, aimer, 20);
+        shooter.Init(spinner, loader, aimer.getController(), 20);
 
         waitForStart();
 

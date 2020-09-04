@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.Mechanical;
 
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.canvas.Canvas;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -34,8 +37,14 @@ public class DemobotChassis
     private int RLBrakePos = 0;
     //pid movement
 
+    FtcDashboard dashboard;
+
     //telemetry
     private Telemetry RobotTelemetry;
+
+    public PID GetPidController() {
+        return PidController;
+    }
 
     //Initializer
     public DemobotChassis(IMU setImu, DcMotor fr, DcMotor fl, DcMotor rr, DcMotor rl, Telemetry telemetry){
@@ -52,8 +61,10 @@ public class DemobotChassis
         SetMotorSpeeds(0,0,0,0);
         StopAndResetEncoders();
         SetModeRunWithoutEncoders();
+        dashboard = FtcDashboard.getInstance();
+        dashboard.setTelemetryTransmissionInterval(25);
 
-        PidController = new PID(0.0001,0.0001,0.0001);//Create the pid controller. TODO: figure out good (p,i,d) constants
+        PidController = new PID(0,0,0);//Create the pid controller. TODO: figure out good (p,i,d) constants
     }
 
     ////CALLABLE METHODS////
@@ -81,6 +92,11 @@ public class DemobotChassis
         RobotTelemetry.addData("Speed RR ", speeds[2]+pidOffset);
         RobotTelemetry.addData("Speed RL ", speeds[3]+pidOffset);
         RobotTelemetry.update();
+
+        TelemetryPacket packet = new TelemetryPacket();
+        Canvas fieldOverlay = packet.fieldOverlay();
+        packet.put("pid offset", pidOffset);
+        dashboard.sendTelemetryPacket(packet);
 
         //Updates brake pos, as this is called continuously as robot is driving
         UpdateBrakePos();

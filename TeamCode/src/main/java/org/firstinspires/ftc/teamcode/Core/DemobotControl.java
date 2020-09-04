@@ -61,12 +61,12 @@ public class DemobotControl
         RR = CurrentOpMode.hardwareMap.dcMotor.get("RR");
         RL = CurrentOpMode.hardwareMap.dcMotor.get("RL");
         //IntakeMotor = CurrentOpMode.hardwareMap.dcMotor.get("IM");
-        SpinnerMotor = CurrentOpMode.hardwareMap.dcMotor.get("SM");
+        /*SpinnerMotor = CurrentOpMode.hardwareMap.dcMotor.get("SM");
         LoaderMotor = CurrentOpMode.hardwareMap.dcMotor.get("LM");
-        ShooterAimer = CurrentOpMode.hardwareMap.crservo.get("SA").getController();
+        ShooterAimer = CurrentOpMode.hardwareMap.crservo.get("SA").getController();*/
 
-        Odometry = new DemoBotOdometry(RL, RR);
-        Odometry.Reset();
+        /*Odometry = new DemoBotOdometry(RL, RR);
+        Odometry.Reset();*/
 
         Imu = new IMU(CurrentOpMode);
         Pid = new PID(0,0,0);//Create the pid controller. Specify (p,i,d) constants
@@ -74,14 +74,14 @@ public class DemobotControl
         Chassis = new DemobotChassis(Imu, FR, FL, RR, RL, CurrentOpMode.telemetry);//Create chassis instance w/ motors
         Chassis.Init();
 
-        RobotShooter = new Shooter();
-        RobotShooter.Init(SpinnerMotor, LoaderMotor, ShooterAimer, 20);
+        /*RobotShooter = new Shooter();
+        RobotShooter.Init(SpinnerMotor, LoaderMotor, ShooterAimer, 20);*/
 
         /*RobotIntake = new Intake();
         RobotIntake.Init(IntakeMotor);*/
 
-        AutoFuncs = new DemobotAutoFuncs(this);
-        VuforiaTargetFinder = new DemobotTargetFinder();
+        //AutoFuncs = new DemobotAutoFuncs(this);
+        //VuforiaTargetFinder = new DemobotTargetFinder();
     }
 
     public void Start(){
@@ -156,7 +156,7 @@ public class DemobotControl
     public org.firstinspires.ftc.teamcode.Mechanical.Shooter GetShooter(){return RobotShooter;}
     public DemobotAutoFuncs GetAutoFuncs(){return AutoFuncs;}
     public DemobotTargetFinder GetVuforiaTargetFinder(){return VuforiaTargetFinder;}
-    public PID GetPID(){return Pid;}
+    public PID GetPID(){return Chassis.GetPidController();}
     public OpMode GetOpMode(){return CurrentOpMode;}
 
     //SETTER METHODS//

@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.OpMode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.canvas.Canvas;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -13,18 +17,23 @@ import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 //REQUIRED TO RUN: Phones | REV Hub | Demobot Chassis | Shooter | Odometry Unit
 //REQUIRED TO FUNCTION: Controllers
 
+@Config
 @TeleOp(name = "Demobot TeleOp")
 public class DemobotTeleop extends OpMode implements ControllerInputListener
 {
     ////Dependencies////
     private DemobotControl Control;
     private ControllerInput CInput;
+    FtcDashboard dashboard;
 
     ////Variables////
     //Tweaking Vars
-    private double TurnWhileDrivingSpeed = 1;//used to change how fast robot turns when driving
-    private double DriveSpeed = 1;//used to change how fast robot drives
-    private double TurnSpeed = 1;//used to change how fast robot turns
+    public static double TurnWhileDrivingSpeed = 1;//used to change how fast robot turns when driving
+    public static double DriveSpeed = 1;//used to change how fast robot drives
+    public static double TurnSpeed = 1;//used to change how fast robot turns
+    public static double p = 0;
+    public static double i = 0;
+    public static double d = 0;
     //Utility Vars
     private boolean Busy = false;
 
@@ -39,6 +48,9 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
         CInput = new ControllerInput(gamepad1);
         CInput.Init();
         CInput.addListener(this);
+
+        dashboard = FtcDashboard.getInstance();
+        dashboard.setTelemetryTransmissionInterval(25);
     }
 
     @Override
@@ -51,31 +63,46 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
         //Only run if robot isn't busy
         if(!Busy) {
             MangeDriveMovement();
-            ManageShooterIntake();
+            //ManageShooterIntake();
+
         }
+
+        Control.SetDrivePID(p,i,d);
+        telemetry.addData("angular vel ", Control.GetImu().GetAngularVelocity());
+        telemetry.addData("p ", p);
+        telemetry.addData("i ", i);
+        telemetry.addData("d ", d);
+        telemetry.update();
+
+        TelemetryPacket packet = new TelemetryPacket();
+        Canvas fieldOverlay = packet.fieldOverlay();
+        packet.put("angular vel", Control.GetImu().GetAngularVelocity());
+        packet.put("controller ", CInput.GetRJSX() * TurnWhileDrivingSpeed);
+        packet.put("pid offset", Control.GetPID().getOutput(CInput.GetRJSX() * TurnWhileDrivingSpeed, Control.GetImu().GetAngularVelocity()));
+        dashboard.sendTelemetryPacket(packet);
         //Return encoder value
-        telemetry.addData("Encoder X ", Control.GetOdometry().GetEncoderVals()[0]);
+        /*telemetry.addData("Encoder X ", Control.GetOdometry().GetEncoderVals()[0]);
         telemetry.addData("Encoder Y ", Control.GetOdometry().GetEncoderVals()[1]);
-        telemetry.addData("Distance Gone ", Control.GetOdometry().CalculateDistance());
+        telemetry.addData("Distance Gone ", Control.GetOdometry().CalculateDistance());*/
     }
 
     //Loop Methods
     private void MangeDriveMovement(){
         //MOVE if left joystick magnitude > 0.1
         if (CInput.CalculateLJSMag() > 0.1) {
-            Control.RawDrive(CInput.CalculateLJSAngle(), CInput.CalculateLJSMag() * DriveSpeed, -CInput.GetRJSX() * TurnWhileDrivingSpeed);//drives at (angle, speed, turnOffset)
+            Control.RawDrive(CInput.CalculateLJSAngle(), CInput.CalculateLJSMag() * DriveSpeed, CInput.GetRJSX() * TurnWhileDrivingSpeed);//drives at (angle, speed, turnOffset)
             telemetry.addData("Moving at ", CInput.CalculateLJSAngle());
         }
         //TURN if right joystick magnitude > 0.1 and not moving
         else if (Math.abs(CInput.GetRJSX()) > 0.1) {
-            Control.RawTurn(-CInput.GetRJSX() * TurnSpeed);//turns at speed according to rjs1
+            Control.RawTurn(CInput.GetRJSX() * TurnSpeed);//turns at speed according to rjs1
             telemetry.addData("Turning", true);
         }
         else {
             Control.GetChassis().SetMotorSpeeds(0,0,0,0);
         }
     }
-    private void ManageShooterIntake(){
+    /*private void ManageShooterIntake(){
         //INTAKE if right trigger pressed
         if(CInput.gamepad.right_trigger > 0.1){
             Control.Intake();
@@ -88,7 +115,7 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
         if(CInput.gamepad.b){
             Control.FireShooter();
         }
-    }
+    }*/
 
     @Override
     public void Started() {

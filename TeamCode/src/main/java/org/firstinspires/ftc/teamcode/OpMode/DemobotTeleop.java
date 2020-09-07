@@ -31,9 +31,9 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
     public static double TurnWhileDrivingSpeed = 1;//used to change how fast robot turns when driving
     public static double DriveSpeed = 1;//used to change how fast robot drives
     public static double TurnSpeed = 1;//used to change how fast robot turns
-    public static double p = 0;
-    public static double i = 0;
-    public static double d = 0;
+    public static double headingP = 0.002;
+    public static double headingI = 0;
+    public static double headingD = 0.001;
     //Utility Vars
     private boolean Busy = false;
 
@@ -67,18 +67,18 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
         }
 
-        Control.SetDrivePID(p,i,d);
+        Control.SetDrivePID(headingP, headingI, headingD);
         telemetry.addData("angular vel ", Control.GetImu().GetAngularVelocity());
-        telemetry.addData("p ", p);
-        telemetry.addData("i ", i);
-        telemetry.addData("d ", d);
         telemetry.update();
 
         TelemetryPacket packet = new TelemetryPacket();
         Canvas fieldOverlay = packet.fieldOverlay();
         packet.put("angular vel", Control.GetImu().GetAngularVelocity());
-        packet.put("controller ", CInput.GetRJSX() * TurnWhileDrivingSpeed);
-        packet.put("pid offset", Control.GetPID().getOutput(CInput.GetRJSX() * TurnWhileDrivingSpeed, Control.GetImu().GetAngularVelocity()));
+        packet.put("heading pid offset", Control.GetPID().getOutput(CInput.GetRJSX() * TurnWhileDrivingSpeed, Control.GetImu().GetAngularVelocity()));
+        packet.put("Robot velocity x ", Control.GetImu().GetAcceleratioin().xAccel);
+        packet.put("Robot velocity y ", Control.GetImu().GetAcceleratioin().yAccel);
+        packet.put("Robot drift angle ", Control.GetImu().CalculateDriftAngle());
+        packet.put("Robot actual angle ", CInput.CalculateLJSAngle());
         dashboard.sendTelemetryPacket(packet);
         //Return encoder value
         /*telemetry.addData("Encoder X ", Control.GetOdometry().GetEncoderVals()[0]);

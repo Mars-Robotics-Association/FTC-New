@@ -2,11 +2,9 @@ package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 
 import org.firstinspires.ftc.teamcode.Mechanical.Intake;
-import org.firstinspires.ftc.teamcode.Mechanical.Shooter;
 import org.firstinspires.ftc.teamcode.AutonomousFunctions.DemobotAutoFuncs;
 import org.firstinspires.ftc.teamcode.Mechanical.DemobotChassis;
 import org.firstinspires.ftc.teamcode.Odometry.DemoBotOdometry;
@@ -156,7 +154,7 @@ public class DemobotControl
     public org.firstinspires.ftc.teamcode.Mechanical.Shooter GetShooter(){return RobotShooter;}
     public DemobotAutoFuncs GetAutoFuncs(){return AutoFuncs;}
     public DemobotTargetFinder GetVuforiaTargetFinder(){return VuforiaTargetFinder;}
-    public PID GetPID(){return Chassis.GetPidController();}
+    public PID GetPID(){return Chassis.GetHeadingPID();}
     public OpMode GetOpMode(){return CurrentOpMode;}
 
     //SETTER METHODS//

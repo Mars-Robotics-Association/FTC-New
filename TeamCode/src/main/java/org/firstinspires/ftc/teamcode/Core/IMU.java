@@ -67,7 +67,23 @@ public class IMU
         return GetRawAngles().firstAngle - Offset;
     }
     public double GetAngularVelocity(){
-        return imu.getAngularVelocity().xRotationRate;//TODO: figure out if this is the right angle
+        return imu.getAngularVelocity().xRotationRate;
+    }
+    public Acceleration GetAcceleratioin(){
+        return imu.getAcceleration();
+    }
+    public double CalculateDriftAngle(){
+        double Y = GetAcceleratioin().yAccel;
+        double X = GetAcceleratioin().xAccel;
+
+        double heading = Math.atan2(Y,X); //get measurement of joystick angle
+        heading = Math.toDegrees(heading);
+        heading -= 270;
+        if(heading < 0)//convert degrees to positive if needed
+        {
+            heading = 360 + heading;
+        }
+        return heading;
     }
     public Acceleration GetGravity()
     {

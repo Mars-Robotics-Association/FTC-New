@@ -24,7 +24,7 @@ public class DemobotAutoFuncs
     {
         Control = setControl;
         Chassis = Control.GetChassis();
-        Odometry = Control.GetOdometry();
+        //Odometry = Control.GetOdometry();
         Imu = Control.GetImu();
     }
 

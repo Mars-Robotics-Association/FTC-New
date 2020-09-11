@@ -129,7 +129,7 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void XPressed() {
-        Control.GetOdometry().Reset();
+        //Control.GetOdometry().Reset();
     }
 
     @Override

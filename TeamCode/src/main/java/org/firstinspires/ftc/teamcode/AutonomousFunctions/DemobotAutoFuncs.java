@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.AutonomousFunctions;
 
 import org.firstinspires.ftc.teamcode.Core.DemobotControl;
-import org.firstinspires.ftc.teamcode.Mechanical.DemobotChassis;
-import org.firstinspires.ftc.teamcode.Odometry.DemoBotOdometry;
+import org.firstinspires.ftc.teamcode.MechanicalControl.DemobotChassis;
+import org.firstinspires.ftc.teamcode.Navigation.Navigation.Odometry.DemoBotOdometry;
 import org.firstinspires.ftc.teamcode.Core.IMU;
 
 //The collection of autonomous routines used by the demobot.

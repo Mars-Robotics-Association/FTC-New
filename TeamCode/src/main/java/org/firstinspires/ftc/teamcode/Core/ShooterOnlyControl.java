@@ -3,15 +3,12 @@ package org.firstinspires.ftc.teamcode.Core;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.ServoController;
-import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.teamcode.AutonomousFunctions.DemobotAutoFuncs;
-import org.firstinspires.ftc.teamcode.Mechanical.DemobotChassis;
-import org.firstinspires.ftc.teamcode.Mechanical.Intake;
-import org.firstinspires.ftc.teamcode.Mechanical.Shooter;
-import org.firstinspires.ftc.teamcode.Odometry.DemoBotOdometry;
-import org.firstinspires.ftc.teamcode.Vuforia.DemobotTargetFinder;
-import org.firstinspires.ftc.teamcode.Vuforia.VuMarkNavigation;
+import org.firstinspires.ftc.teamcode.MechanicalControl.Intake;
+import org.firstinspires.ftc.teamcode.MechanicalControl.Shooter;
+import org.firstinspires.ftc.teamcode.Navigation.Navigation.Vuforia.DemobotTargetFinder;
+import org.firstinspires.ftc.teamcode.Navigation.Navigation.Vuforia.VuMarkNavigation;
 
 //The class used to control the demobot. Autonomous functions, opmodes, and other scripts can call
 //methods in here to control the demobot.

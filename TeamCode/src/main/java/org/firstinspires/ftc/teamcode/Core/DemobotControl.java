@@ -4,11 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.ServoController;
 
-import org.firstinspires.ftc.teamcode.Mechanical.Intake;
+import org.firstinspires.ftc.teamcode.MechanicalControl.Intake;
 import org.firstinspires.ftc.teamcode.AutonomousFunctions.DemobotAutoFuncs;
-import org.firstinspires.ftc.teamcode.Mechanical.DemobotChassis;
-import org.firstinspires.ftc.teamcode.Odometry.DemoBotOdometry;
-import org.firstinspires.ftc.teamcode.Vuforia.DemobotTargetFinder;
+import org.firstinspires.ftc.teamcode.MechanicalControl.DemobotChassis;
+import org.firstinspires.ftc.teamcode.Navigation.Navigation.Odometry.DemoBotOdometry;
+import org.firstinspires.ftc.teamcode.Navigation.Navigation.Vuforia.DemobotTargetFinder;
 
 //The class used to control the demobot. Autonomous functions, opmodes, and other scripts can call
 //methods in here to control the demobot.
@@ -21,7 +21,7 @@ public class DemobotControl
     private DemoBotOdometry Odometry;
     private IMU Imu;
     private DemobotChassis Chassis;
-    private org.firstinspires.ftc.teamcode.Mechanical.Shooter RobotShooter;
+    private org.firstinspires.ftc.teamcode.MechanicalControl.Shooter RobotShooter;
     private DemobotAutoFuncs AutoFuncs;
     private DemobotTargetFinder VuforiaTargetFinder;
     private PID Pid; //Look here: https://github.com/tekdemo/MiniPID-Java for how to use it
@@ -151,7 +151,7 @@ public class DemobotControl
     public DemoBotOdometry GetOdometry(){return Odometry;}
     public IMU GetImu(){return Imu;}
     public DemobotChassis GetChassis(){return Chassis;}
-    public org.firstinspires.ftc.teamcode.Mechanical.Shooter GetShooter(){return RobotShooter;}
+    public org.firstinspires.ftc.teamcode.MechanicalControl.Shooter GetShooter(){return RobotShooter;}
     public DemobotAutoFuncs GetAutoFuncs(){return AutoFuncs;}
     public DemobotTargetFinder GetVuforiaTargetFinder(){return VuforiaTargetFinder;}
     public PID GetPID(){return Chassis.GetHeadingPID();}

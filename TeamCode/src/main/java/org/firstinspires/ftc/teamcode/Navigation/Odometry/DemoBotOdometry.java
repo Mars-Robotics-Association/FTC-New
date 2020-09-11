@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Navigation.Navigation.Odometry;
+package org.firstinspires.ftc.teamcode.Navigation.Odometry;
 
 //For getting input back from the odometry unit and running calculations based on it.
 

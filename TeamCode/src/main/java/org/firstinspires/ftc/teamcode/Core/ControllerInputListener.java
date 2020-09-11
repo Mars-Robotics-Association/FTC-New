@@ -1,12 +1,7 @@
 package org.firstinspires.ftc.teamcode.Core;
 
-import org.firstinspires.ftc.teamcode._Archive.Input.EventInputListener;
 
-public interface ControllerInputListener extends EventInputListener {
-    @Override
-    public void Started();
-    @Override
-    public void Stopped();
+public interface ControllerInputListener {
 
     void APressed();
     void BPressed();

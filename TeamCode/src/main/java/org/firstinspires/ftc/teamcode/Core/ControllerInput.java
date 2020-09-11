@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode._Archive.Input.EventInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
 //REQUIRED TO RUN: None
 //REQUIRED TO FUNCTION: Controllers
 
-public class ControllerInput extends EventInput
+public class ControllerInput
 {
     //REFERENCES
     public Gamepad gamepad;

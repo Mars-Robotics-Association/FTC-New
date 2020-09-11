@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Navigation.Navigation.Roadrunner.drive;
+package org.firstinspires.ftc.teamcode.Navigation.Roadrunner.drive;
 
 import android.support.annotation.NonNull;
 
@@ -31,23 +31,23 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
-import org.firstinspires.ftc.teamcode.Navigation.Navigation.Roadrunner.util.DashboardUtil;
-import org.firstinspires.ftc.teamcode.Navigation.Navigation.Roadrunner.util.LynxModuleUtil;
+import org.firstinspires.ftc.teamcode.Navigation.Roadrunner.util.DashboardUtil;
+import org.firstinspires.ftc.teamcode.Navigation.Roadrunner.util.LynxModuleUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.firstinspires.ftc.teamcode.Navigation.Navigation.Roadrunner.drive.DriveConstants.BASE_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.Navigation.Navigation.Roadrunner.drive.DriveConstants.MOTOR_VELO_PID;
-import static org.firstinspires.ftc.teamcode.Navigation.Navigation.Roadrunner.drive.DriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.Navigation.Navigation.Roadrunner.drive.DriveConstants.TRACK_WIDTH;
-import static org.firstinspires.ftc.teamcode.Navigation.Navigation.Roadrunner.drive.DriveConstants.encoderTicksToInches;
-import static org.firstinspires.ftc.teamcode.Navigation.Navigation.Roadrunner.drive.DriveConstants.getMotorVelocityF;
-import static org.firstinspires.ftc.teamcode.Navigation.Navigation.Roadrunner.drive.DriveConstants.kA;
-import static org.firstinspires.ftc.teamcode.Navigation.Navigation.Roadrunner.drive.DriveConstants.kStatic;
-import static org.firstinspires.ftc.teamcode.Navigation.Navigation.Roadrunner.drive.DriveConstants.kV;
+import static org.firstinspires.ftc.teamcode.Navigation.Roadrunner.drive.DriveConstants.BASE_CONSTRAINTS;
+import static org.firstinspires.ftc.teamcode.Navigation.Roadrunner.drive.DriveConstants.MOTOR_VELO_PID;
+import static org.firstinspires.ftc.teamcode.Navigation.Roadrunner.drive.DriveConstants.RUN_USING_ENCODER;
+import static org.firstinspires.ftc.teamcode.Navigation.Roadrunner.drive.DriveConstants.TRACK_WIDTH;
+import static org.firstinspires.ftc.teamcode.Navigation.Roadrunner.drive.DriveConstants.encoderTicksToInches;
+import static org.firstinspires.ftc.teamcode.Navigation.Roadrunner.drive.DriveConstants.getMotorVelocityF;
+import static org.firstinspires.ftc.teamcode.Navigation.Roadrunner.drive.DriveConstants.kA;
+import static org.firstinspires.ftc.teamcode.Navigation.Roadrunner.drive.DriveConstants.kStatic;
+import static org.firstinspires.ftc.teamcode.Navigation.Roadrunner.drive.DriveConstants.kV;
 
 /*
  * Simple mecanum drive hardware implementation for REV hardware.

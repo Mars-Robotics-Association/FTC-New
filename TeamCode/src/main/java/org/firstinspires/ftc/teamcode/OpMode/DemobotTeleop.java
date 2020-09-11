@@ -46,7 +46,6 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
         //Sets up controller input
         CInput = new ControllerInput(gamepad1);
-        CInput.Init();
         CInput.addListener(this);
 
         dashboard = FtcDashboard.getInstance();
@@ -116,16 +115,6 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
             Control.FireShooter();
         }
     }*/
-
-    @Override
-    public void Started() {
-
-    }
-
-    @Override
-    public void Stopped() {
-
-    }
 
     @Override
     public void APressed() {

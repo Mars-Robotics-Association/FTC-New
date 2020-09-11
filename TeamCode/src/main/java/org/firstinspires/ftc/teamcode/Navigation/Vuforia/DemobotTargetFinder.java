@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Navigation.Navigation.Vuforia;
+package org.firstinspires.ftc.teamcode.Navigation.Vuforia;
 
 public class DemobotTargetFinder {
 }

@@ -1,4 +1,16 @@
-package org.firstinspires.ftc.teamcode.Navigation.Navigation;
+package org.firstinspires.ftc.teamcode.Navigation;
 
-class OrionNavigator {
+////SENSING////
+//Vuforia.java
+//Tensorflow Package
+//DistanceSensorArray.java
+//ColorSensorArray.java
+
+////DRIVING////
+//Roadrunner Package
+//Orion Package
+
+class OrionNavigator
+{
+
 }

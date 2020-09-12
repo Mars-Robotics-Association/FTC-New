@@ -3,33 +3,33 @@ package org.firstinspires.ftc.teamcode.Core;
 
 public interface ControllerInputListener {
 
-    void APressed();
-    void BPressed();
-    void XPressed();
-    void YPressed();
+    void APressed(double controllerNumber);
+    void BPressed(double controllerNumber);
+    void XPressed(double controllerNumber);
+    void YPressed(double controllerNumber);
 
-    void AHeld();
-    void BHeld();
-    void XHeld();
-    void YHeld();
+    void AHeld(double controllerNumber);
+    void BHeld(double controllerNumber);
+    void XHeld(double controllerNumber);
+    void YHeld(double controllerNumber);
 
-    void AReleased();
-    void BReleased();
-    void XReleased();
-    void YReleased();
+    void AReleased(double controllerNumber);
+    void BReleased(double controllerNumber);
+    void XReleased(double controllerNumber);
+    void YReleased(double controllerNumber);
 
-    void LBPressed();
-    void RBPressed();
-    void LTPressed();
-    void RTPressed();
+    void LBPressed(double controllerNumber);
+    void RBPressed(double controllerNumber);
+    void LTPressed(double controllerNumber);
+    void RTPressed(double controllerNumber);
 
-    void LBHeld();
-    void RBHeld();
-    void LTHeld();
-    void RTHeld();
+    void LBHeld(double controllerNumber);
+    void RBHeld(double controllerNumber);
+    void LTHeld(double controllerNumber);
+    void RTHeld(double controllerNumber);
 
-    void LBReleased();
-    void RBReleased();
-    void LTReleased();
-    void RTReleased();
+    void LBReleased(double controllerNumber);
+    void RBReleased(double controllerNumber);
+    void LTReleased(double controllerNumber);
+    void RTReleased(double controllerNumber);
 }

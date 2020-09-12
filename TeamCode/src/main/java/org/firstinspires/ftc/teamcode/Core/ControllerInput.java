@@ -6,12 +6,12 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import java.util.ArrayList;
 import java.util.List;
 
-//Calls event based commands from the controllers as well as providing direct access. To use, make a
+//Calls event based commands from a controller as well as providing direct access. To use, make a
 //class interface to ControllerInputListener.java, create an instance of this class, call input.AddListener(this),
 //then input.Init(), then there will be errors so click on red light bulb and hit "implement methods".
 
 //REQUIRED TO RUN: None
-//REQUIRED TO FUNCTION: Controllers
+//REQUIRED TO FUNCTION: Controller
 
 public class ControllerInput
 {
@@ -67,103 +67,103 @@ public class ControllerInput
     //Pressed
     public void APressed() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.APressed();
+            controllerInput.APressed(gamepad.id);
     }
     public void BPressed() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.BPressed();
+            controllerInput.BPressed(gamepad.id);
     }
     public void XPressed() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.XPressed();
+            controllerInput.XPressed(gamepad.id);
     }
     public void YPressed() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.YPressed();
+            controllerInput.YPressed(gamepad.id);
     }
     public void RBPressed() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.RBPressed();
+            controllerInput.RBPressed(gamepad.id);
     }
     public void LBPressed() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.LBPressed();
+            controllerInput.LBPressed(gamepad.id);
     }
     public void RTPressed() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.RTPressed();
+            controllerInput.RTPressed(gamepad.id);
     }
     public void LTPressed() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.LTPressed();
+            controllerInput.LTPressed(gamepad.id);
     }
 
     //Held
     public void AHeld() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.AHeld();
+            controllerInput.AHeld(gamepad.id);
     }
     public void BHeld() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.BHeld();
+            controllerInput.BHeld(gamepad.id);
     }
     public void XHeld() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.XHeld();
+            controllerInput.XHeld(gamepad.id);
     }
     public void YHeld() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.YHeld();
+            controllerInput.YHeld(gamepad.id);
     }
     public void RBHeld() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.RBHeld();
+            controllerInput.RBHeld(gamepad.id);
     }
     public void LBHeld() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.LBHeld();
+            controllerInput.LBHeld(gamepad.id);
     }
     public void RTHeld() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.RTHeld();
+            controllerInput.RTHeld(gamepad.id);
     }
     public void LTHeld() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.LTHeld();
+            controllerInput.LTHeld(gamepad.id);
     }
 
     //Released
     public void AReleased() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.AReleased();
+            controllerInput.AReleased(gamepad.id);
     }
     public void BReleased() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.BReleased();
+            controllerInput.BReleased(gamepad.id);
     }
     public void XReleased() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.XReleased();
+            controllerInput.XReleased(gamepad.id);
     }
     public void YReleased() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.YReleased();
+            controllerInput.YReleased(gamepad.id);
     }
     public void RBReleased() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.RBReleased();
+            controllerInput.RBReleased(gamepad.id);
     }
     public void LBReleased() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.LBReleased();
+            controllerInput.LBReleased(gamepad.id);
     }
     public void RTReleased() {
         for (ControllerInputListener controllerInput : listeners)
-            controllerInput.RTReleased();
+            controllerInput.RTReleased(gamepad.id);
     }
     public void LTReleased() {
         for (ControllerInputListener inputListener : listeners)
-            inputListener.LTReleased();
+            inputListener.LTReleased(gamepad.id);
     }
 
     public void Loop(){

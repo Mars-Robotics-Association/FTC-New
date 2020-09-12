@@ -22,31 +22,34 @@ import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 public class DemobotTeleop extends OpMode implements ControllerInputListener
 {
     ////Dependencies////
-    private DemobotControl Control;
-    private ControllerInput CInput;
+    private DemobotControl control;
+    private ControllerInput controllerInput1;
+    private ControllerInput controllerInput2;
     FtcDashboard dashboard;
 
     ////Variables////
     //Tweaking Vars
-    public static double TurnWhileDrivingSpeed = 1;//used to change how fast robot turns when driving
-    public static double DriveSpeed = 1;//used to change how fast robot drives
-    public static double TurnSpeed = 1;//used to change how fast robot turns
+    public static double turnWhileDrivingSpeed = 1;//used to change how fast robot turns when driving
+    public static double driveSpeed = 1;//used to change how fast robot drives
+    public static double turnSpeed = 1;//used to change how fast robot turns
     public static double headingP = 0.002;
     public static double headingI = 0;
     public static double headingD = 0.001;
     //Utility Vars
-    private boolean Busy = false;
+    private boolean busy = false;
 
 
     @Override
     public void init() {
         //Sets up demobot control class
-        Control = new DemobotControl(this);
-        Control.Init();
+        control = new DemobotControl(this);
+        control.Init();
 
-        //Sets up controller input
-        CInput = new ControllerInput(gamepad1);
-        CInput.addListener(this);
+        //Sets up controller inputs
+        controllerInput1 = new ControllerInput(gamepad1);
+        controllerInput1.addListener(this);
+        controllerInput2 = new ControllerInput(gamepad2);
+        controllerInput2.addListener(this);
 
         dashboard = FtcDashboard.getInstance();
         dashboard.setTelemetryTransmissionInterval(25);
@@ -54,188 +57,174 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void start(){
-        Control.Start();
+        control.Start();
     }
 
     @Override
     public void loop() {
         //Only run if robot isn't busy
-        if(!Busy) {
+        if(!busy) {
             MangeDriveMovement();
-            //ManageShooterIntake();
-
         }
 
-        Control.SetDrivePID(headingP, headingI, headingD);
-        telemetry.addData("angular vel ", Control.GetImu().GetAngularVelocity());
+        control.SetDrivePID(headingP, headingI, headingD);
+        telemetry.addData("angular vel ", control.GetImu().GetAngularVelocity());
         telemetry.update();
 
         TelemetryPacket packet = new TelemetryPacket();
         Canvas fieldOverlay = packet.fieldOverlay();
-        packet.put("angular vel", Control.GetImu().GetAngularVelocity());
-        packet.put("heading pid offset", Control.GetPID().getOutput(CInput.GetRJSX() * TurnWhileDrivingSpeed, Control.GetImu().GetAngularVelocity()));
-        packet.put("Robot velocity x ", Control.GetImu().GetAcceleratioin().xAccel);
-        packet.put("Robot velocity y ", Control.GetImu().GetAcceleratioin().yAccel);
-        packet.put("Robot drift angle ", Control.GetImu().CalculateDriftAngle());
-        packet.put("Robot actual angle ", CInput.CalculateLJSAngle());
+        packet.put("angular vel", control.GetImu().GetAngularVelocity());
+        packet.put("heading pid offset", control.GetPID().getOutput(controllerInput1.GetRJSX() * turnWhileDrivingSpeed, control.GetImu().GetAngularVelocity()));
+        packet.put("Robot velocity x ", control.GetImu().GetAcceleratioin().xAccel);
+        packet.put("Robot velocity y ", control.GetImu().GetAcceleratioin().yAccel);
+        packet.put("Robot drift angle ", control.GetImu().CalculateDriftAngle());
+        packet.put("Robot actual angle ", controllerInput1.CalculateLJSAngle());
         dashboard.sendTelemetryPacket(packet);
-        //Return encoder value
-        /*telemetry.addData("Encoder X ", Control.GetOdometry().GetEncoderVals()[0]);
-        telemetry.addData("Encoder Y ", Control.GetOdometry().GetEncoderVals()[1]);
-        telemetry.addData("Distance Gone ", Control.GetOdometry().CalculateDistance());*/
     }
 
-    //Loop Methods
+    //Mange driving of the robot via the joysticks
     private void MangeDriveMovement(){
         //MOVE if left joystick magnitude > 0.1
-        if (CInput.CalculateLJSMag() > 0.1) {
-            Control.RawDrive(CInput.CalculateLJSAngle(), CInput.CalculateLJSMag() * DriveSpeed, CInput.GetRJSX() * TurnWhileDrivingSpeed);//drives at (angle, speed, turnOffset)
-            telemetry.addData("Moving at ", CInput.CalculateLJSAngle());
+        if (controllerInput1.CalculateLJSMag() > 0.1) {
+            control.RawDrive(controllerInput1.CalculateLJSAngle(), controllerInput1.CalculateLJSMag() * driveSpeed, controllerInput1.GetRJSX() * turnWhileDrivingSpeed);//drives at (angle, speed, turnOffset)
+            telemetry.addData("Moving at ", controllerInput1.CalculateLJSAngle());
         }
         //TURN if right joystick magnitude > 0.1 and not moving
-        else if (Math.abs(CInput.GetRJSX()) > 0.1) {
-            Control.RawTurn(CInput.GetRJSX() * TurnSpeed);//turns at speed according to rjs1
+        else if (Math.abs(controllerInput1.GetRJSX()) > 0.1) {
+            control.RawTurn(controllerInput1.GetRJSX() * turnSpeed);//turns at speed according to rjs1
             telemetry.addData("Turning", true);
         }
         else {
-            Control.GetChassis().SetMotorSpeeds(0,0,0,0);
+            control.GetChassis().SetMotorSpeeds(0,0,0,0);
         }
     }
-    /*private void ManageShooterIntake(){
-        //INTAKE if right trigger pressed
-        if(CInput.gamepad.right_trigger > 0.1){
-            Control.Intake();
+
+    @Override
+    public void APressed(double controllerNumber) {
+        if(controllerNumber == 1){
+            //AIM SHOOTER if A pressed
+            control.AimShooter();
         }
-        //SPIN UP if Y pressed
-        if(CInput.gamepad.y){
-            Control.SpinUpShooter();
+    }
+
+    @Override
+    public void BPressed(double controllerNumber) {
+        if(controllerNumber == 1){
+            //AIM SHOOTER if A pressed
+            control.FireShooter();
         }
-        //FIRE if B pressed
-        if(CInput.gamepad.b){
-            Control.FireShooter();
+    }
+
+    @Override
+    public void XPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void YPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void AHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void BHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void XHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void YHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void AReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void BReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void XReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void YReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void LBPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void RBPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void LTPressed(double controllerNumber) {
+        if(controllerNumber == 1){
+            busy = true;
+            control.Brake();
         }
-    }*/
-
-    @Override
-    public void APressed() {
-        //AIM SHOOTER if A pressed
-        Control.AimShooter();
     }
 
     @Override
-    public void BPressed() {
+    public void RTPressed(double controllerNumber) {
 
     }
 
     @Override
-    public void XPressed() {
-        //Control.GetOdometry().Reset();
-    }
-
-    @Override
-    public void YPressed() {
+    public void LBHeld(double controllerNumber) {
 
     }
 
     @Override
-    public void AHeld() {
+    public void RBHeld(double controllerNumber) {
 
     }
 
     @Override
-    public void BHeld() {
+    public void LTHeld(double controllerNumber) {
 
     }
 
     @Override
-    public void XHeld() {
+    public void RTHeld(double controllerNumber) {
 
     }
 
     @Override
-    public void YHeld() {
+    public void LBReleased(double controllerNumber) {
 
     }
 
     @Override
-    public void AReleased() {
+    public void RBReleased(double controllerNumber) {
 
     }
 
     @Override
-    public void BReleased() {
+    public void LTReleased(double controllerNumber) {
 
     }
 
     @Override
-    public void XReleased() {
-
-    }
-
-    @Override
-    public void YReleased() {
-
-    }
-
-    @Override
-    public void LBPressed() {
-
-    }
-
-    @Override
-    public void RBPressed() {
-
-    }
-
-    @Override
-    public void LTPressed() {
-        Busy = true;
-        Control.Brake();
-    }
-
-    @Override
-    public void RTPressed() {
-
-    }
-
-    @Override
-    public void LBHeld() {
-
-    }
-
-    @Override
-    public void RBHeld() {
-
-    }
-
-    @Override
-    public void LTHeld() {
-
-    }
-
-    @Override
-    public void RTHeld() {
-
-    }
-
-    @Override
-    public void LBReleased() {
-
-    }
-
-    @Override
-    public void RBReleased() {
-
-    }
-
-    @Override
-    public void LTReleased() {
-        Busy = false;
-        Control.GetChassis().SetModeRunUsingEncoders();
-    }
-
-    @Override
-    public void RTReleased() {
+    public void RTReleased(double controllerNumber) {
 
     }
 }

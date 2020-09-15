@@ -183,8 +183,10 @@ public class ConceptVuMarkNavigation extends LinearOpMode {
                     double rZ = rot.thirdAngle;
 
                     double dist = Math.sqrt(Math.pow(Math.abs(tZ),2)+Math.pow(Math.abs(tY),2));
+                    double rZreal = Math.atan(Math.abs(tY)/Math.abs(tZ));
                     telemetry.addData("Vumark",dist + " milimeters away");
                     telemetry.addData("Vumark",-1*tX+" milimeters high");
+                    telemetry.addData("Vumark",rZreal +"degrees away");
                     //telemetry.addData("AimerPosition",aimer.getPosition());
 
                     shooter.SetTrajectory(Math.round(tZ*1000),Math.round(tX*1000),Math.round(rY));

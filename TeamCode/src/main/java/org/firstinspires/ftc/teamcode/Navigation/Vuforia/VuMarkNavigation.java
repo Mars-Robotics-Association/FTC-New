@@ -49,55 +49,36 @@ import org.firstinspires.ftc.teamcode.MechanicalControl.Shooter;
 
 public class VuMarkNavigation {
 
-    public static final String TAG = "Vuforia VuMark Sample";
+    public static final String TAG = "Vuforia VuMark Finder";
     private OpMode opMode;
 
     OpenGLMatrix lastLocation = null;
 
-    VuforiaLocalizer vuforia;
-    Shooter shooter;
-    DcMotor spinner;
-    DcMotor loader;
-    ServoController aimer;
+    private VuforiaLocalizer vuforia;
+    private VuforiaTrackables trackables;
 
-    public void VuforiaControl(OpMode opmode) {opMode = opmode;}
+    public VuMarkNavigation(OpMode opmode) {
+        opMode = opmode;
 
-    public double[] GetData() {
-
-        double[] data = {0.0,0.0,0.0,0.0,0.0};
         int cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
-
         parameters.vuforiaLicenseKey = "AeZ+Eyv/////AAABmfcFKgZ5NkXfgqEeyUnIJMIHuzBJhNTY+sbZO+ChF7mbo1evegC5fObZ830PRBTGTM6jbp+1XXCzx3XhY1kaZevEQXNpAKhXU9We0AMlp1mhnAUjGI2sprJZqJIfFGxkK598u8Bj3qQy4+PlCrk+Od/tAGs8dqAAsZPp4KpczFQttxMBC5JZNeIbIFP57InXOeJgyeH1sXK+R2i6nPfOFRvHJjdQaLWdAasv7i3b0RH5ctG7Ky7J9g9BPYI03kkChCJkbPg03XnoqCcC7rEpAk3n8a9CqtwTUu57Sy0jCDUd2O6X9kHjZ5ZmS0I3O0YSzX3Jp2ppTE2kDS2I9zBYEmuEqkMjItxd52oES0Ij0rZm";
-
-
-
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
 
-        /**
-         * Instantiate the Vuforia engine
-         */
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
-        loader = opMode.hardwareMap.dcMotor.get("FL");
-        spinner = opMode.hardwareMap.dcMotor.get("FR");
-        aimer = opMode.hardwareMap.crservo.get("SA").getController();
-        shooter = new Shooter();
-        shooter.Init(spinner, loader, aimer, 20);
+        trackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
 
-
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        VuforiaTrackable relicTemplate = relicTrackables.get(0);
-        relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
-
-
-        opMode.telemetry.addData(">", "Press Play to start");
         opMode.telemetry.update();
 
-        relicTrackables.activate();
+        trackables.activate();
+    }
 
+    public double[] GetData(int vumarkIndex) {
 
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        double[] data = {0.0,0.0,0.0,0.0,0.0};
+        VuforiaTrackable vumark = trackables.get(vumarkIndex);
+
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(vumark);
         if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
             /* Found an instance of the template. In the actual game, you will probably
@@ -108,7 +89,7 @@ public class VuMarkNavigation {
             /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
              * it is perhaps unlikely that you will actually need to act on this pose information, but
              * we illustrate it nevertheless, for completeness. */
-            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
+            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)vumark.getListener()).getPose();
             opMode.telemetry.addData("Pose", format(pose));
 
             /* We further illustrate how to decompose the pose into useful rotational and

@@ -31,4 +31,7 @@ public class RoadrunnerControl
     }
 
     public void Turn(double angle){drive.turn(Math.toRadians(angle));}
+
+    public void ResetPostion(double x, double y, double angle){}//TODO: figure out how to reset robot pos
+
 }

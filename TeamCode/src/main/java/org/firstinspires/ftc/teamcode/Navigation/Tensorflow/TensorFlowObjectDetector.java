@@ -115,7 +115,7 @@ public class TensorFlowObjectDetector
 
     ////PUBLIC METHODS////
     //Returns coords of the closest disc
-    public double[] GetClosestDisc(){ //TODO: this currently assumes world space, so we may need to change it to screen
+    public double[] GetClosestDisc(){ //Find object by its y distance from the robot
         List<Recognition> objs = GetRecognitions(); //find all objects
         double x = 1000;
         double y = 1000;
@@ -125,10 +125,8 @@ public class TensorFlowObjectDetector
                     //Find x and y of disc
                     double discX = (obj.getRight() + obj.getLeft()) / 2;
                     double discY = (obj.getTop() + obj.getBottom()) / 2;
-                    //Find current distance
-                    double lastDist = Math.sqrt(x*x + y*y);
                     //if current dist is less than highest dist
-                    if(Math.sqrt(discX*discX + discY*discY) < lastDist){
+                    if(discY < y){
                         //set lowest values as these
                         x = discX;
                         y = discY;

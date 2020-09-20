@@ -14,12 +14,14 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Navigation.Roadrunner.RoadrunnerControl;
+import org.firstinspires.ftc.teamcode.Navigation.Tensorflow.TensorFlowObjectDetector;
 import org.firstinspires.ftc.teamcode.Navigation.Vuforia.VuMarkNavigation;
 
 public class OrionNavigator
 {
     private RoadrunnerControl rr;
     private VuMarkNavigation v;
+    private TensorFlowObjectDetector tf;
     private OpMode opMode;
 
     public OrionNavigator(OpMode setOpMode){
@@ -29,6 +31,7 @@ public class OrionNavigator
     public void Init(){
         rr = new RoadrunnerControl(opMode);
         v = new VuMarkNavigation(opMode);
+        tf = new TensorFlowObjectDetector(opMode, v.GetVuforia());
     }
 
     public void Turn(double angle){rr.Turn(angle);}

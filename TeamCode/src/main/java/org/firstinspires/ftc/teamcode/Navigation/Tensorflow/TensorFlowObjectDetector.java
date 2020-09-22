@@ -49,6 +49,9 @@ public class TensorFlowObjectDetector
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
 
+    //TODO: calibrate!
+    private float cameraDistanceVar = 1;
+
     private static final String VUFORIA_KEY =
             "AeZ+Eyv/////AAABmfcFKgZ5NkXfgqEeyUnIJMIHuzBJhNTY+sbZO+ChF7mbo1evegC5fObZ830PRBTGTM6jbp+" +
                     "1XXCzx3XhY1kaZevEQXNpAKhXU9We0AMlp1mhnAUjGI2sprJZqJIfFGxkK598u8Bj3qQy4+PlCrk+Od" +
@@ -135,5 +138,11 @@ public class TensorFlowObjectDetector
             }
         }
         return new double[] {x,y};
+    }
+
+    //Returns distance and angle of closest disc
+    public double[] GetClosestDiscDistAngle(){ //TODO: get working
+        double[] offset = GetClosestDisc();
+        return offset;
     }
 }

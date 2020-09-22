@@ -55,4 +55,11 @@ public class OrionNavigator
         //Turn to face target
         Turn(offsetH);
     }
+
+    public void GoToDisc(){
+        //Get disc's offset
+        double[] offset = tf.GetClosestDisc();
+        //Calculate angular offset
+
+    }
 }

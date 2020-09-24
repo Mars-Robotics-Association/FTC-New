@@ -49,14 +49,18 @@ public class DemobotControl
     private double gyroOffset;
 
     //TODO: ===TOGGLE THESE TO CONTROL WHAT YOU ARE RUNNING===
-    private static boolean USE_CHASSIS = true;
-    private static boolean USE_PAYLOAD = false;
+    private boolean USE_CHASSIS = true;
+    private boolean USE_PAYLOAD = false;
+    private boolean USE_NAVIGATOR = false;
 
 
     //Initializer
-    public DemobotControl(OpMode setOpMode)
+    public DemobotControl(OpMode setOpMode, boolean useChassis, boolean usePayload, boolean useNavigator)
     {
         currentOpMode = setOpMode;
+        USE_CHASSIS = useChassis;
+        USE_PAYLOAD = usePayload;
+        USE_NAVIGATOR = useNavigator;
     }
 
     //SETUP METHODS//
@@ -92,12 +96,14 @@ public class DemobotControl
             robotIntake.Init(intakeMotor);
         }
 
-        //TODO: ===INIT AUTO FUNCS===
-        //autoFuncs = new DemobotAutoFuncs(this);
+        if(USE_NAVIGATOR) {
+            //TODO: ===INIT ORION===
+            orion = new OrionNavigator(currentOpMode);
+            orion.Init();
 
-        //TODO: ===INIT ORION===
-        /*orion = new OrionNavigator(currentOpMode);
-        orion.Init();*/
+            //TODO: ===INIT AUTO FUNCS===
+            autoFuncs = new DemobotAutoFuncs(this);
+        }
     }
 
     public void Start(){

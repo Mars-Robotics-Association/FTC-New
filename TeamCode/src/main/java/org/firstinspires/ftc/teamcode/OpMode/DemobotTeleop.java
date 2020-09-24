@@ -42,7 +42,7 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
     @Override
     public void init() {
         //Sets up demobot control class
-        control = new DemobotControl(this);
+        control = new DemobotControl(this, true, false, false);
         control.Init();
 
         //Sets up controller inputs

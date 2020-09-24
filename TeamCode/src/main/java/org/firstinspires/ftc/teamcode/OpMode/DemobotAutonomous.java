@@ -25,7 +25,7 @@ public class DemobotAutonomous extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //Init Control
-        Control = new DemobotControl(this);
+        Control = new DemobotControl(this, true, false, true);
         Control.Init();
         Control.Start();
 

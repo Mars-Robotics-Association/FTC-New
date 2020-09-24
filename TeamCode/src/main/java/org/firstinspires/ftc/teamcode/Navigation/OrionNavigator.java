@@ -37,6 +37,21 @@ public class OrionNavigator
     public void Turn(double angle){rr.Turn(angle);}
     public void MoveSpline(double x, double y, double tangent){rr.MoveSpline(x,y,tangent);}
 
+    public void GetVuforia(int vuforiaCode){
+        double[] data = v.GetData(vuforiaCode);
+        double high = data[0];
+        double right = data[1];
+        double ahead = data[2];
+        double dist = data[3];
+        double angle = data[4];
+        opMode.telemetry.addData("vumark is ",dist + "milimeters away, "+angle+" degrees right, and "+high+" milimeters high.");
+//        data[0] = tX;
+//        data[1]= tY;
+//        data[2] = tZ;
+//        data[3] = dist;
+//        data[4] = rZreal;
+    }
+
     public void MoveToVumark(int vumarkIndex, double xOffset, double yOffset, double headingOffset, double xThreshold, double yThreshold){
         //Move to an offset relative to a vumark and face it- useful for shooting
 

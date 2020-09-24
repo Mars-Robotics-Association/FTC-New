@@ -123,7 +123,6 @@ public class VuMarkNavigation {
                 data[2] = tZ;
                 data[3] = dist;
                 data[4] = rZreal;
-                //{tX,tY,tZ,dist};
 
 
 

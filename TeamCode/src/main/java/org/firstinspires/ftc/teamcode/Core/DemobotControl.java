@@ -49,7 +49,7 @@ public class DemobotControl
     private double gyroOffset;
 
     //TODO: ===TOGGLE THESE TO CONTROL WHAT YOU ARE RUNNING===
-    private static boolean USE_CHASSIS = false;
+    private static boolean USE_CHASSIS = true;
     private static boolean USE_PAYLOAD = false;
 
 
@@ -61,6 +61,10 @@ public class DemobotControl
 
     //SETUP METHODS//
     public void Init(){
+        //TODO: ===INIT CORE MODULES===
+        imu = new IMU(currentOpMode);
+        pid = new PID(0,0,0);//Create the pid controller. Specify (p,i,d) constants
+
         //TODO: ===INIT MOTORS- Change strings to what you want===
         if(USE_CHASSIS) {
             FR = currentOpMode.hardwareMap.dcMotor.get("FR");
@@ -88,16 +92,12 @@ public class DemobotControl
             robotIntake.Init(intakeMotor);
         }
 
-        //TODO: ===INIT CORE MODULES===
-        imu = new IMU(currentOpMode);
-        pid = new PID(0,0,0);//Create the pid controller. Specify (p,i,d) constants
-
         //TODO: ===INIT AUTO FUNCS===
-        autoFuncs = new DemobotAutoFuncs(this);
+        //autoFuncs = new DemobotAutoFuncs(this);
 
         //TODO: ===INIT ORION===
-        orion = new OrionNavigator(currentOpMode);
-        orion.Init();
+        /*orion = new OrionNavigator(currentOpMode);
+        orion.Init();*/
     }
 
     public void Start(){
@@ -123,7 +123,7 @@ public class DemobotControl
     public void OdometryDrive(double angle, double speed, double distance) {
         //Used to autonomously drive a certain distance at a certain angle.
         //Enter angle, speed, and distance
-        autoFuncs.MoveAtAngle(angle, distance, speed);
+        //autoFuncs.MoveSpline(angle, distance, speed);
     }
     public void SpotTurn(double angle, double speed) {
         //Turns the robot on center of the wheel axis using a ramp turn

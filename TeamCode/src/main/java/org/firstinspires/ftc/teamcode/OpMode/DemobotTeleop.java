@@ -77,7 +77,6 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
         packet.put("heading pid offset", control.GetPID().getOutput(controllerInput1.GetRJSX() * turnWhileDrivingSpeed, control.GetImu().GetAngularVelocity()));
         packet.put("Robot velocity x ", control.GetImu().GetAcceleratioin().xAccel);
         packet.put("Robot velocity y ", control.GetImu().GetAcceleratioin().yAccel);
-        packet.put("Robot drift angle ", control.GetImu().CalculateDriftAngle());
         packet.put("Robot actual angle ", controllerInput1.CalculateLJSAngle());
         dashboard.sendTelemetryPacket(packet);
     }

@@ -73,7 +73,7 @@ public class IMU
         return imu.getAcceleration();
     }
     public double CalculateDriftAngle(){
-        double Y = GetAcceleratioin().yAccel;
+        /*double Y = GetAcceleratioin().yAccel;
         double X = GetAcceleratioin().xAccel;
 
         double heading = Math.atan2(Y,X); //get measurement of joystick angle
@@ -83,7 +83,8 @@ public class IMU
         {
             heading = 360 + heading;
         }
-        return heading;
+        return heading;*/
+        return 0;
     }
     public Acceleration GetGravity()
     {

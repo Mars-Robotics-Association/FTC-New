@@ -14,7 +14,6 @@ public class NavigationTesting extends LinearOpMode {
     private DemobotControl control;
     private OrionNavigator orion;
 
-
     public void Init(){
         control = new DemobotControl(this,false,false,true);
         control.Init();
@@ -24,7 +23,7 @@ public class NavigationTesting extends LinearOpMode {
     }
 
     public void runOpMode(){
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        orion.GetVuforia(cameraMonitorViewId);
+
+        orion.GetVuforia(0);
     }
 }

@@ -65,9 +65,14 @@ public class DemobotControl
 
     //SETUP METHODS//
     public void Init(){
-        //TODO: ===INIT CORE MODULES===
-        imu = new IMU(currentOpMode);
-        pid = new PID(0,0,0);//Create the pid controller. Specify (p,i,d) constants
+        if(USE_NAVIGATOR) {
+            //TODO: ===INIT ORION===
+            orion = new OrionNavigator(currentOpMode, this);
+            orion.Init();
+
+            //TODO: ===INIT AUTO FUNCS===
+            autoFuncs = new DemobotAutoFuncs(this);
+        }
 
         //TODO: ===INIT MOTORS- Change strings to what you want===
         if(USE_CHASSIS) {
@@ -94,15 +99,6 @@ public class DemobotControl
 
             robotIntake = new Intake();
             robotIntake.Init(intakeMotor);
-        }
-
-        if(USE_NAVIGATOR) {
-            //TODO: ===INIT ORION===
-            orion = new OrionNavigator(currentOpMode);
-            orion.Init();
-
-            //TODO: ===INIT AUTO FUNCS===
-            autoFuncs = new DemobotAutoFuncs(this);
         }
     }
 

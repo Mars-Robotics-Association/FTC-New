@@ -13,6 +13,7 @@ package org.firstinspires.ftc.teamcode.Navigation;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 import org.firstinspires.ftc.teamcode.Navigation.Roadrunner.RoadrunnerControl;
 import org.firstinspires.ftc.teamcode.Navigation.Tensorflow.TensorFlowObjectDetector;
 import org.firstinspires.ftc.teamcode.Navigation.Vuforia.VuMarkNavigation;
@@ -22,16 +23,20 @@ public class OrionNavigator
     private RoadrunnerControl rr;
     private VuMarkNavigation v;
     private TensorFlowObjectDetector tf;
+    private RobotCoordinateSystem cs;
+    private DemobotControl control;
     private OpMode opMode;
 
-    public OrionNavigator(OpMode setOpMode){
+    public OrionNavigator(OpMode setOpMode, DemobotControl setControl){
         opMode = setOpMode;
+        control = setControl;
     }
 
     public void Init(){
         rr = new RoadrunnerControl(opMode);
         v = new VuMarkNavigation(opMode);
         tf = new TensorFlowObjectDetector(opMode, v.GetVuforia());
+        cs = new RobotCoordinateSystem(0,0,0);
     }
 
     public void Turn(double angle){rr.Turn(angle);}
@@ -60,15 +65,18 @@ public class OrionNavigator
         //Find current robot pose
         Pose2d robotPose = rr.GetCurrentPose();
 
-        //Find offset from vumark in world space //TODO: make dynamic with start pos of robot
-        double offsetX = xOffset - vumarkDist[0] + robotPose.getX();
-        double offsetY = yOffset - vumarkDist[1] + robotPose.getY();
-        double offsetH = headingOffset - vumarkDist[2] + robotPose.getHeading();
+        //Find offset from vumark in local space
+        double offsetX = xOffset - vumarkDist[0];
+        double offsetY = yOffset - vumarkDist[1];
+        double offsetH = headingOffset - vumarkDist[2];
+
+        cs.SetRobotGlobalPose(robotPose.getX(), robotPose.getY(), robotPose.getHeading());
+        double[] globalOffset = cs.ConvertToGlobal(offsetX, offsetY, offsetH);
 
         //Move spline
-        MoveSpline(offsetX, offsetY, 0);
+        MoveSpline(globalOffset[0], globalOffset[1], 0);
         //Turn to face target
-        Turn(offsetH);
+        Turn(globalOffset[2]);
     }
 
     public void GoToDisc(){

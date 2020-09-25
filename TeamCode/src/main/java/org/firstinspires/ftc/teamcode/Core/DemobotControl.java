@@ -48,10 +48,13 @@ public class DemobotControl
     //Util
     private double gyroOffset;
 
-    //TODO: ===TOGGLE THESE TO CONTROL WHAT YOU ARE RUNNING===
+    //TODO: ===CHANGE THESE TO CONTROL WHAT YOU ARE RUNNING===
     private boolean USE_CHASSIS = true;
     private boolean USE_PAYLOAD = false;
     private boolean USE_NAVIGATOR = false;
+    public boolean isUSE_CHASSIS(){return USE_CHASSIS;}
+    public boolean isUSE_PAYLOAD(){return USE_PAYLOAD;}
+    public boolean isUSE_NAVIGATOR(){return USE_NAVIGATOR;}
 
 
     //Initializer
@@ -65,6 +68,10 @@ public class DemobotControl
 
     //SETUP METHODS//
     public void Init(){
+        //TODO: ==INIT CORE MODULES==
+        imu = new IMU(currentOpMode);
+        pid = new PID(0,0,0);
+
         if(USE_NAVIGATOR) {
             //TODO: ===INIT ORION===
             orion = new OrionNavigator(currentOpMode, this);
@@ -125,7 +132,7 @@ public class DemobotControl
     public void OdometryDrive(double angle, double speed, double distance) {
         //Used to autonomously drive a certain distance at a certain angle.
         //Enter angle, speed, and distance
-        //autoFuncs.MoveSpline(angle, distance, speed);
+        autoFuncs.MoveSpline(angle, distance, speed);
     }
     public void SpotTurn(double angle, double speed) {
         //Turns the robot on center of the wheel axis using a ramp turn
@@ -143,7 +150,7 @@ public class DemobotControl
     public void AimShooter() {
         //Aims the shooter at the specified target
         //Enter vumark to look for
-        //TODO: get distance, x, y, and heading from vuforia
+        //double[] vumarkOffset = GetOrion().GetVuforia(0);
         robotShooter.SetTrajectory(10, 5, 0);
         //TODO: apply correct offset to angle
         SpotTurn(robotShooter.GetTargetHeading(), 0.5);

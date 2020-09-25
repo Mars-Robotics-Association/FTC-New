@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Navigation;
 
-class RobotCoordinateSystem
+class RobotTransformSystem
 {
     ////Current Robot Coords////
     private double robotX;
@@ -10,7 +10,7 @@ class RobotCoordinateSystem
     private double robotHeading;
     public double getRobotHeading() { return robotHeading; }
 
-    public RobotCoordinateSystem(double startX, double startY, double startHeading){
+    public RobotTransformSystem(double startX, double startY, double startHeading){
         SetRobotGlobalPose(startX, startY, startHeading);
     }
 
@@ -18,6 +18,14 @@ class RobotCoordinateSystem
         robotX = x;
         robotY = y;
         robotHeading = heading;
+    }
+
+    public double GetDeltaAngleToObject(double rX, double rY, double rH, double oX, double oY){
+        //Calculate the distance robot needs to turn to face object
+        double deltaX = oX-rX;
+        double deltaY = oY-rY;
+        double headingFromRobotCenter = Math.toDegrees(Math.atan2(deltaX, deltaY)) + 90;//TODO: make sure 90 degrees is the right offset!
+        return headingFromRobotCenter - getRobotHeading();
     }
 
     public double[] ConvertToGlobal(double x, double y, double heading){

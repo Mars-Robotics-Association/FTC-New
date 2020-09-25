@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.OpMode;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 
@@ -14,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 @Config
 @Autonomous(name = "Demobot Autonomous")
 public class DemobotAutonomous extends LinearOpMode {
-    DemobotControl Control;
+    DemobotControl control;
 
     //Pid coefficients
     public static double p;
@@ -25,18 +24,21 @@ public class DemobotAutonomous extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //Init Control
-        Control = new DemobotControl(this, true, false, true);
-        Control.Init();
-        Control.Start();
+        control = new DemobotControl(this, true, false, true);
+        control.Init();
+        control.Start();
 
         waitForStart();
+
+        //TODO: Set this to the start position of the robot
+        control.GetOrion().SetPose(0,0,0);
 
         if (isStopRequested()) return;
 
         while (true){
             /*Control.SetDrivePID(p,i,d);
             Control.RawDrive(0,0,0);*/
-            Control.FireShooter();
+            control.FireShooter();
         }
     }
 }

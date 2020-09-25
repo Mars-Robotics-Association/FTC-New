@@ -23,7 +23,7 @@ public class OrionNavigator
     private RoadrunnerControl rr;
     private VuMarkNavigation v;
     private TensorFlowObjectDetector tf;
-    private RobotCoordinateSystem cs;
+    private RobotTransformSystem cs;
     private DemobotControl control;
     private OpMode opMode;
 
@@ -33,14 +33,15 @@ public class OrionNavigator
     }
 
     public void Init(){
-        rr = new RoadrunnerControl(opMode);
+        if(control.isUSE_CHASSIS()) rr = new RoadrunnerControl(opMode);
         v = new VuMarkNavigation(opMode);
         tf = new TensorFlowObjectDetector(opMode, v.GetVuforia());
-        cs = new RobotCoordinateSystem(0,0,0);
+        cs = new RobotTransformSystem(0,0,0);
     }
 
     public void Turn(double angle){rr.Turn(angle);}
     public void MoveSpline(double x, double y, double tangent){rr.MoveSpline(x,y,tangent);}
+    public void SetPose(double x, double y, double heading){rr.SetPose(x,y,heading);}
 
     public void GetVuforia(int vuforiaCode){
         double[] data = v.GetData(vuforiaCode);

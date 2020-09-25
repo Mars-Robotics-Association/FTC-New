@@ -26,7 +26,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.firstinspires.ftc.teamcode.Navigation.Vuforia;
+package org.firstinspires.ftc.teamcode.OpMode.TestingOpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -47,6 +47,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.Navigation.Vuforia.VuMarkShooterTest;
 
 /**
  * This OpMode illustrates the basics of using the Vuforia engine to determine
@@ -79,10 +80,6 @@ public class ConceptVuMarkNavigation extends LinearOpMode {
      * localization engine.
      */
     VuforiaLocalizer vuforia;
-    VuMarkShooterTest shooter;
-    DcMotor spinner;
-    DcMotor loader;
-    Servo aimer;
 
     @Override public void runOpMode() {
 
@@ -121,11 +118,6 @@ public class ConceptVuMarkNavigation extends LinearOpMode {
          * Instantiate the Vuforia engine
          */
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
-        loader = hardwareMap.dcMotor.get("FL");
-        spinner = hardwareMap.dcMotor.get("FR");
-        aimer = hardwareMap.servo.get("SA");
-        shooter = new VuMarkShooterTest();
-        shooter.Init(spinner, loader, aimer, 20);
 
         /**
          * Load the data set containing the VuMarks for Relic Recovery. There's only one trackable
@@ -133,7 +125,7 @@ public class ConceptVuMarkNavigation extends LinearOpMode {
          * but differ in their instance id information.
          * @see VuMarkInstanceId
          */
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("UltimateGoal");
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
@@ -187,13 +179,6 @@ public class ConceptVuMarkNavigation extends LinearOpMode {
                     telemetry.addData("Vumark",dist + " milimeters away");
                     telemetry.addData("Vumark",-1*tX+" milimeters high");
                     telemetry.addData("Vumark",rZreal +"degrees away");
-                    //telemetry.addData("AimerPosition",aimer.getPosition());
-
-                    shooter.SetTrajectory(Math.round(tZ*1000),Math.round(tX*1000),Math.round(rY));
-                    //shooter.Aim();
-
-
-
                 }
             }
             else {

@@ -32,7 +32,7 @@ public class RoadrunnerControl
 
     public void Turn(double angle){drive.turn(Math.toRadians(angle));}
 
-    public void ResetPose(double x, double y, double heading){drive.setPoseEstimate(new Pose2d(x,y, heading));}//TODO: figure out if this resets robot pos
+    public void SetPose(double x, double y, double heading){drive.setPoseEstimate(new Pose2d(x,y, heading));}//TODO: figure out if this resets robot pos
     public Pose2d GetCurrentPose(){return drive.getPoseEstimate();}
 
 }

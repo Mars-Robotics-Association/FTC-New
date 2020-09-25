@@ -70,9 +70,10 @@ public class VuMarkNavigation {
 
         parameters.vuforiaLicenseKey = "AeZ+Eyv/////AAABmfcFKgZ5NkXfgqEeyUnIJMIHuzBJhNTY+sbZO+ChF7mbo1evegC5fObZ830PRBTGTM6jbp+1XXCzx3XhY1kaZevEQXNpAKhXU9We0AMlp1mhnAUjGI2sprJZqJIfFGxkK598u8Bj3qQy4+PlCrk+Od/tAGs8dqAAsZPp4KpczFQttxMBC5JZNeIbIFP57InXOeJgyeH1sXK+R2i6nPfOFRvHJjdQaLWdAasv7i3b0RH5ctG7Ky7J9g9BPYI03kkChCJkbPg03XnoqCcC7rEpAk3n8a9CqtwTUu57Sy0jCDUd2O6X9kHjZ5ZmS0I3O0YSzX3Jp2ppTE2kDS2I9zBYEmuEqkMjItxd52oES0Ij0rZm";
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-        parameters.cameraName = webcamName;
+        //parameters.cameraName = webcamName;
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-        trackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        trackables = GetVuforia().loadTrackablesFromAsset("UltimateGoal");
 
         opMode.telemetry.update();
 
@@ -132,8 +133,6 @@ public class VuMarkNavigation {
         else {
             opMode.telemetry.addData("VuMark", "not visible");
         }
-
-        opMode.telemetry.update();
         return data;
 
     }

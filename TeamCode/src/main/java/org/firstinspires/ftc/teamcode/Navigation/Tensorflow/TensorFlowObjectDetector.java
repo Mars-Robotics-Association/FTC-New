@@ -44,10 +44,9 @@ import java.util.List;
 
 public class TensorFlowObjectDetector
 {
-    //TODO: get new objects for Ultimate Goal when the come out
-    private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "Stone";
-    private static final String LABEL_SECOND_ELEMENT = "Skystone";
+    private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
+    private static final String LABEL_FIRST_ELEMENT = "Quad";
+    private static final String LABEL_SECOND_ELEMENT = "Single";
 
     //TODO: calibrate!
     private float cameraDistanceVar = 1;

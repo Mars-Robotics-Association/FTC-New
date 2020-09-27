@@ -10,16 +10,21 @@ package org.firstinspires.ftc.teamcode.Navigation;
 //Roadrunner Package
 //Orion Package
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 import org.firstinspires.ftc.teamcode.Navigation.Roadrunner.RoadrunnerControl;
 import org.firstinspires.ftc.teamcode.Navigation.Tensorflow.TensorFlowObjectDetector;
 import org.firstinspires.ftc.teamcode.Navigation.Vuforia.VuMarkNavigation;
 
+import java.util.List;
+
 public class OrionNavigator
 {
+    //TODO ====REFERENCES====
     private RoadrunnerControl rr;
     private VuMarkNavigation v;
     private TensorFlowObjectDetector tf;
@@ -27,37 +32,36 @@ public class OrionNavigator
     private DemobotControl control;
     private OpMode opMode;
 
+    //TODO ====VARIABLES====
+    private double tfDistCoefficient = 1;
+    private double tfXCoefficient = 1;
+    public void SetTFCoefficients(double distCoefficient, double xCoefficient){
+        tfDistCoefficient = distCoefficient;
+        tfXCoefficient = xCoefficient;
+    }
+
+
     public OrionNavigator(OpMode setOpMode, DemobotControl setControl){
         opMode = setOpMode;
         control = setControl;
     }
 
     public void Init(){
-        if(control.isUSE_CHASSIS()) rr = new RoadrunnerControl(opMode);
+        if(control.isUSE_CHASSIS()) {
+            rr = new RoadrunnerControl(opMode);
+            rr.Init();
+        }
         v = new VuMarkNavigation(opMode);
-        tf = new TensorFlowObjectDetector(opMode, v.GetVuforia());
+        tf = new TensorFlowObjectDetector(opMode, v.GetVuforia(), new double[]{0,0,0});
         cs = new RobotTransformSystem(0,0,0);
     }
 
+    //TODO ====SIMPLE METHODS====
     public void Turn(double angle){rr.Turn(angle);}
     public void MoveSpline(double x, double y, double tangent){rr.MoveSpline(x,y,tangent);}
-    public void SetPose(double x, double y, double heading){rr.SetPose(x,y,heading);}
+    public void SetPose(double x, double y, double heading){if(control.isUSE_CHASSIS())rr.SetPose(x,y,heading);}
 
-    public void GetVuforia(int vuforiaCode){
-        double[] data = v.GetData(vuforiaCode);
-        double high = data[0];
-        double right = data[1];
-        double ahead = data[2];
-        double dist = data[3];
-        double angle = data[4];
-        opMode.telemetry.addData("vumark is ",dist + "milimeters away, "+angle+" degrees right, and "+high+" milimeters high.");
-//        data[0] = tX;
-//        data[1]= tY;
-//        data[2] = tZ;
-//        data[3] = dist;
-//        data[4] = rZreal;
-    }
-
+    //TODO ====COMPLEX METHODS====
     public void MoveToVumark(int vumarkIndex, double xOffset, double yOffset, double headingOffset, double xThreshold, double yThreshold){
         //Move to an offset relative to a vumark and face it- useful for shooting
 
@@ -85,5 +89,17 @@ public class OrionNavigator
         double[] offset = tf.GetClosestDisc();
         //Calculate angular offset
 
+    }
+
+    //TODO: ====TELEMETRY METHODS FOR DEBUG====
+    public void PrintVuforiaTelemetry(int vuforiaCode){
+        double[] data = v.GetData(vuforiaCode);
+        opMode.telemetry.addData("vumark is ",data[3] + " inches away, "+data[4]+" degrees right, and "+data[0]+" inches high.");
+    }
+    public void PrintTensorflowTelemetry(){
+        opMode.telemetry.addLine("===ALL TF OBJECTS===");
+        List<Recognition> tfObjs = tf.GetRecognitions();
+        opMode.telemetry.addLine("===TF GetClosestDiscXYAngle() DATA===");
+        opMode.telemetry.addLine(tf.GetClosestDiscXYAngle(tfDistCoefficient,tfXCoefficient).toString());
     }
 }

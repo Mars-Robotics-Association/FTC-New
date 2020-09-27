@@ -62,10 +62,13 @@ public class TensorFlowObjectDetector
     private TFObjectDetector tfod;
     private OpMode opMode;
 
-    public TensorFlowObjectDetector(OpMode setOpMode, VuforiaLocalizer setVuforia){
+    private double[] cameraOffsetFromRobot;//in format X,Y,Angle
+
+    public TensorFlowObjectDetector(OpMode setOpMode, VuforiaLocalizer setVuforia, double[] cameraOffset){
         //Set opmode and vuforia instance
         opMode = setOpMode;
         vuforia = setVuforia;
+        cameraOffsetFromRobot = cameraOffset;
 
         //Init
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
@@ -74,30 +77,6 @@ public class TensorFlowObjectDetector
             opMode.telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
         if (tfod != null)tfod.activate();
-    }
-
-    //Creates a list of detected objects
-    public List<Recognition> GetRecognitions() {
-        if (tfod != null) {
-            List<Recognition> recognitions = tfod.getRecognitions();
-
-            //TODO: is this telemetry necassary?
-            if (recognitions != null) {
-                opMode.telemetry.addData("# Object Detected", recognitions.size());
-                // step through the list of recognitions and display boundary info.
-                int i = 0;
-                for (Recognition recognition : recognitions) {
-                    opMode.telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                    opMode.telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                            recognition.getLeft(), recognition.getTop());
-                    opMode.telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                            recognition.getRight(), recognition.getBottom());
-                }
-                opMode.telemetry.update();
-            }
-            return recognitions; //TODO: figure out what units this is and whether its screen or world space
-        }
-        else return null;
     }
 
     //Starts up tensorflow
@@ -116,32 +95,69 @@ public class TensorFlowObjectDetector
     }
 
     ////PUBLIC METHODS////
+    //Creates a list of detected objects
+    public List<Recognition> GetRecognitions() {
+        if (tfod != null) {
+            List<Recognition> recognitions = tfod.getRecognitions();
+
+            //TODO: is this telemetry necassary?
+            if (recognitions != null) {
+                opMode.telemetry.addData("# Object Detected", recognitions.size());
+                // step through the list of recognitions and display boundary info.
+                int i = 0;
+                for (Recognition recognition : recognitions) {
+                    opMode.telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                    opMode.telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                            recognition.getLeft(), recognition.getTop());
+                    opMode.telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                            recognition.getRight(), recognition.getBottom());
+                }
+            }
+            return recognitions; //TODO: figure out what units this is and whether its screen or world space
+        }
+        else return null;
+    }
+
     //Returns coords of the closest disc
     public double[] GetClosestDisc(){ //Find object by its y distance from the robot
         List<Recognition> objs = GetRecognitions(); //find all objects
-        double x = 1000;
-        double y = 1000;
+        double x = 0;
+        double y = 0;
+        double width = 0;
         if(objs != null) {
             for (Recognition obj : objs) {
                 if (obj.getLabel() == LABEL_FIRST_ELEMENT) { //get all discs
                     //Find x and y of disc
                     double discX = (obj.getRight() + obj.getLeft()) / 2;
                     double discY = (obj.getTop() + obj.getBottom()) / 2;
-                    //if current dist is less than highest dist
-                    if(discY < y){
+                    double discWidth = obj.getWidth();
+                    //if current dist is less than highest dist or if its the first loop
+                    if(discY < y || y==0){
                         //set lowest values as these
                         x = discX;
                         y = discY;
+                        width = discWidth;
                     }
                 }
             }
         }
-        return new double[] {x,y};
+        return new double[] {x,y,width};
     }
 
     //Returns distance and angle of closest disc
-    public double[] GetClosestDiscDistAngle(){ //TODO: get working
+    public double[] GetClosestDiscXYAngle(double widthCoefficient, double horizontalOffsetCoefficient){ //Returns X,Y,Angle offset of dist
         double[] offset = GetClosestDisc();
-        return offset;
+        //find distance from camera
+        double distFromCamera = widthCoefficient/offset[2];
+        //find horizontal distance
+        double xDistFromRobot = offset[0]*horizontalOffsetCoefficient*distFromCamera - cameraOffsetFromRobot[0];
+        //find offset from robot
+        double cameraDistFromRobot = Math.sqrt(Math.pow(cameraOffsetFromRobot[0], 2) + Math.pow(cameraOffsetFromRobot[1], 2));
+        double distFromRobot = distFromCamera + cameraDistFromRobot;
+        //find angle to object
+        double angleFromRobot = Math.atan2(xDistFromRobot, distFromRobot);
+
+        double[] out = {xDistFromRobot, distFromRobot, angleFromRobot};
+        return out;
     }
 }

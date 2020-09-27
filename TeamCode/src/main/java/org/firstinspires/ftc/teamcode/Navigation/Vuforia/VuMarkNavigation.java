@@ -45,13 +45,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.teamcode.MechanicalControl.Shooter;
-
 
 public class VuMarkNavigation {
 
     public static final String TAG = "Vuforia VuMark Finder";
     private OpMode opMode;
+    private static final float mmPerInch = 25.4f;
 
     OpenGLMatrix lastLocation = null;
 
@@ -85,19 +84,20 @@ public class VuMarkNavigation {
         double[] data = {0.0,0.0,0.0,0.0,0.0};
         VuforiaTrackable vumark = trackables.get(vumarkIndex);
 
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(vumark);
-        if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+        //RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(vumark);
+        VuforiaTrackable vuMark = vumark;
+        if (vuMark != null) {
 
             /* Found an instance of the template. In the actual game, you will probably
              * loop until this condition occurs, then move on to act accordingly depending
              * on which VuMark was visible. */
-            opMode.telemetry.addData("VuMark", "%s visible", vuMark);
+            opMode.telemetry.addData("VuMark", "%s visible", vuMark.getName());
 
             /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
              * it is perhaps unlikely that you will actually need to act on this pose information, but
              * we illustrate it nevertheless, for completeness. */
             OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)vumark.getListener()).getPose();
-            opMode.telemetry.addData("Pose", format(pose));
+            //opMode.telemetry.addData("Pose", format(pose));
 
             /* We further illustrate how to decompose the pose into useful rotational and
              * translational components */
@@ -116,13 +116,13 @@ public class VuMarkNavigation {
                 double rZ = rot.thirdAngle;
 
                 double dist = Math.sqrt(Math.pow(Math.abs(tZ),2)+Math.pow(Math.abs(tY),2));
-                double rZreal = Math.atan(Math.abs(tY)/Math.abs(tZ));
-                opMode.telemetry.addData("Vumark",dist + " milimeters away");
-                opMode.telemetry.addData("Vumark",-1*tX+" milimeters high");
-                data[0] = tX;
-                data[1]= tY;
-                data[2] = tZ;
-                data[3] = dist;
+                double rZreal = Math.toDegrees(Math.atan(Math.abs(tY)/Math.abs(tZ)));
+                //opMode.telemetry.addData("Vumark",dist + " milimeters away");
+                //opMode.telemetry.addData("Vumark",-1*tX+" milimeters high");
+                data[0] = tX / mmPerInch;
+                data[1]= tY / mmPerInch;
+                data[2] = tZ / mmPerInch;
+                data[3] = dist / mmPerInch;
                 data[4] = rZreal;
 
 

@@ -20,20 +20,26 @@ class RobotTransformSystem
         robotHeading = heading;
     }
 
-    public double GetDeltaAngleToObject(double rX, double rY, double rH, double oX, double oY){
+    public double GetDeltaAngleToObject(double oX, double oY){
         //Calculate the distance robot needs to turn to face object
-        double deltaX = oX-rX;
-        double deltaY = oY-rY;
+        double deltaX = oX-robotX;
+        double deltaY = oY-robotY;
         double headingFromRobotCenter = Math.toDegrees(Math.atan2(deltaX, deltaY)) + 90;//TODO: make sure 90 degrees is the right offset!
         return headingFromRobotCenter - getRobotHeading();
     }
 
-    public double[] ConvertToGlobal(double x, double y, double heading){
-        //Converts local (relative to robot) coords to global coords
+    public double[] ConvertToGlobalSimple(double x, double y, double heading){
+        //Converts local (relative to robot) coords to global coords WITHOUT taking robot heading into account
         double offsetX = x + getRobotX();
         double offsetY = y + getRobotY();
         double offsetH = heading + getRobotHeading();
         double[] data = {offsetX, offsetY, offsetH};
+        return data;
+    }
+
+    public double[] ConvertToGlobalComplex(double x, double y, double heading){//TODO: get the math figured out and fill this in!
+        ////Converts local (relative to robot) coords to global coords taking robot heading into account
+        double[] data = {x,y,heading};
         return data;
     }
 

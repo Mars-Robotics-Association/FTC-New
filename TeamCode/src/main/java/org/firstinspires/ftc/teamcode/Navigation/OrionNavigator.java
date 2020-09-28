@@ -109,6 +109,7 @@ public class OrionNavigator
         opMode.telemetry.addLine("===ALL TF OBJECTS===");
         List<Recognition> tfObjs = tf.GetRecognitions();
         opMode.telemetry.addLine("===TF GetClosestDiscXYAngle() DATA===");
-        opMode.telemetry.addLine(tf.GetClosestDiscXYAngle(tfDistCoefficient,tfXCoefficient).toString());
+        double[] data = tf.GetClosestDiscXYAngle(tfDistCoefficient,tfXCoefficient);
+        opMode.telemetry.addLine("x: " + data[0] + " y: " + data[1] + " angle: " + data[2]);
     }
 }

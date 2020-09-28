@@ -126,9 +126,10 @@ public class TensorFlowObjectDetector
         double width = 0;
         if(objs != null) {
             for (Recognition obj : objs) {
-                if (obj.getLabel() == LABEL_FIRST_ELEMENT) { //get all discs
+                if (obj.getLabel() == LABEL_SECOND_ELEMENT || obj.getLabel() == LABEL_FIRST_ELEMENT) { //get all discs
                     //Find x and y of disc
                     double discX = (obj.getRight() + obj.getLeft()) / 2;
+                    discX += 1000;
                     double discY = (obj.getTop() + obj.getBottom()) / 2;
                     double discWidth = obj.getWidth();
                     //if current dist is less than highest dist or if its the first loop

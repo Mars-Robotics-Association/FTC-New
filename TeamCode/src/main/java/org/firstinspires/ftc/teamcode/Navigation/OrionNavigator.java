@@ -58,10 +58,15 @@ public class OrionNavigator
     //TODO ====SIMPLE METHODS====
     public void Turn(double angle){rr.Turn(angle);}
     public void MoveSpline(double x, double y, double tangent){rr.MoveSpline(x,y,tangent);}
-    public void SetPose(double x, double y, double heading){if(control.isUSE_CHASSIS())rr.SetPose(x,y,heading);}
+    public void SetPose(double x, double y, double heading){
+        if(control.isUSE_CHASSIS())rr.SetPose(x,y,heading);
+        cs.SetRobotGlobalPose(x,y,heading);
+    }
     public void UpdatePose(){
-        Pose2d robotPose = rr.GetCurrentPose();
-        cs.SetRobotGlobalPose(robotPose.getX(), robotPose.getY(), robotPose.getHeading());
+        if(control.isUSE_CHASSIS()){
+            Pose2d robotPose = rr.GetCurrentPose();
+            cs.SetRobotGlobalPose(robotPose.getX(), robotPose.getY(), robotPose.getHeading());
+        }
     }
 
     //TODO ====COMPLEX METHODS====
@@ -72,19 +77,20 @@ public class OrionNavigator
 
         //Find offset from vumark in local space
         double offsetX = xOffset - vumarkDist[0];
-        double offsetY = yOffset - vumarkDist[1];
-        double offsetH = headingOffset - vumarkDist[2];
+        double offsetY = yOffset - vumarkDist[2];
+        double offsetH = headingOffset + vumarkDist[5];
 
         //Update pose and covert offset to global space
         UpdatePose();
-        double[] globalOffset = cs.ConvertToGlobalSimple(offsetX, offsetY, offsetH);
+        double[] globalOffset = cs.ConvertToGlobalComplex(offsetX, offsetY, offsetH);
 
         //Return telemetry
+        opMode.telemetry.addData("## Vumark Global Pos ##   ", "(" + globalOffset[0] + ", " + globalOffset[1] + ", " + globalOffset[2] + ")");
 
-        //Move spline
-        MoveSpline(globalOffset[0], globalOffset[1], 0);
-        //Turn to face target
-        Turn(globalOffset[2]);
+        //Move spline if using chassis
+        if(control.isUSE_CHASSIS()) MoveSpline(globalOffset[0], globalOffset[1], 0);
+        //Turn to face target if using chassis
+        if(control.isUSE_CHASSIS()) Turn(globalOffset[2]);
     }
 
     public void GoToDisc(){

@@ -39,7 +39,13 @@ class RobotTransformSystem
 
     public double[] ConvertToGlobalComplex(double x, double y, double heading){//TODO: get the math figured out and fill this in!
         ////Converts local (relative to robot) coords to global coords taking robot heading into account
-        double[] data = {x,y,heading};
+        //Math
+        double robotHeadingRadians = Math.toRadians(robotHeading);
+        double globalX = x * Math.cos(robotHeadingRadians) - y * Math.sin(robotHeadingRadians) + robotX;
+        double globalY = x * Math.sin(robotHeadingRadians) + y * Math.cos(robotHeadingRadians) + robotY;
+        double globalH = robotHeading + heading;
+        //Return values
+        double[] data = {globalX, globalY, globalH};
         return data;
     }
 

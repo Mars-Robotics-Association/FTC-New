@@ -81,7 +81,7 @@ public class VuMarkNavigation {
 
     public double[] GetData(int vumarkIndex) {
 
-        double[] data = {0.0,0.0,0.0,0.0,0.0};
+        double[] data = {0.0,0.0,0.0,0.0,0.0,0.0};
         VuforiaTrackable vumark = trackables.get(vumarkIndex);
 
         //RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(vumark);
@@ -115,7 +115,7 @@ public class VuMarkNavigation {
                 double rY = rot.secondAngle;
                 double rZ = rot.thirdAngle;
 
-                double dist = Math.sqrt(Math.pow(Math.abs(tZ),2)+Math.pow(Math.abs(tY),2));
+                double dist = Math.sqrt(Math.pow(Math.abs(tZ),2)+Math.pow(Math.abs(tX),2));//tX use to by tY, this was switched because the camera uses portrait mode
                 double rZreal = Math.toDegrees(Math.atan(Math.abs(tY)/Math.abs(tZ)));
                 //opMode.telemetry.addData("Vumark",dist + " milimeters away");
                 //opMode.telemetry.addData("Vumark",-1*tX+" milimeters high");
@@ -124,9 +124,7 @@ public class VuMarkNavigation {
                 data[2] = tZ / mmPerInch;
                 data[3] = dist / mmPerInch;
                 data[4] = rZreal;
-
-
-
+                data[5] = rY;
             }
 
         }

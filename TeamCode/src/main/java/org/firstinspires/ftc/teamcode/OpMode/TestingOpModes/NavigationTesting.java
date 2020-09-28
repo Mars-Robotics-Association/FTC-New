@@ -20,6 +20,10 @@ public class NavigationTesting extends OpMode {
     public static double tfDistCoef = 6666;
     public static double tfXCoef = 1;
 
+    public static double robotX = 0;
+    public static double robotY = 0;
+    public static double robotH = 0;
+
     @Override
     public void init(){
         control = new DemobotControl(this,false,false,true);
@@ -38,7 +42,11 @@ public class NavigationTesting extends OpMode {
     public void loop(){
         orion.SetTFCoefficients(tfDistCoef, tfXCoef);
         orion.PrintVuforiaTelemetry(2);
-        orion.PrintTensorflowTelemetry();
+        //orion.PrintTensorflowTelemetry();
+
+        orion.SetPose(robotX, robotY, robotH);
+        orion.MoveToVumark(2, 0, 0, 0,5, 5);
+
         telemetry.update();
 
         TelemetryPacket packet = new TelemetryPacket();

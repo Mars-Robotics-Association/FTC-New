@@ -18,7 +18,7 @@ public class NavigationTesting extends OpMode {
     private FtcDashboard dashboard;
 
     public static double tfDistCoef = 6666;
-    public static double tfXCoef = 1;
+    public static double tfXCoef = 0.001;
 
     public static double robotX = 0;
     public static double robotY = 0;
@@ -41,11 +41,12 @@ public class NavigationTesting extends OpMode {
     @Override
     public void loop(){
         orion.SetTFCoefficients(tfDistCoef, tfXCoef);
-        orion.PrintVuforiaTelemetry(2);
-        //orion.PrintTensorflowTelemetry();
-
         orion.SetPose(robotX, robotY, robotH);
-        orion.MoveToVumark(2, 0, 0, 0,5, 5);
+        //orion.PrintVuforiaTelemetry(2);
+        orion.GoToDisc();
+        orion.PrintTensorflowTelemetry();
+
+        //orion.MoveToVumark(2, 0, 0, 0,5, 5);
 
         telemetry.update();
 

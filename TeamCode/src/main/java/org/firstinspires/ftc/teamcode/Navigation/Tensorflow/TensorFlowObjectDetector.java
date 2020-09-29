@@ -129,7 +129,7 @@ public class TensorFlowObjectDetector
                 if (obj.getLabel() == LABEL_SECOND_ELEMENT || obj.getLabel() == LABEL_FIRST_ELEMENT) { //get all discs
                     //Find x and y of disc
                     double discX = (obj.getRight() + obj.getLeft()) / 2;
-                    discX += 1000;
+                    discX -= 500;
                     double discY = (obj.getTop() + obj.getBottom()) / 2;
                     double discWidth = obj.getWidth();
                     //if current dist is less than highest dist or if its the first loop
@@ -146,7 +146,7 @@ public class TensorFlowObjectDetector
     }
 
     //Returns distance and angle of closest disc
-    public double[] GetClosestDiscXYAngle(double widthCoefficient, double horizontalOffsetCoefficient){ //Returns X,Y,Angle offset of dist
+    public double[] GetClosestDiscXYAngleLocal(double widthCoefficient, double horizontalOffsetCoefficient){ //Returns X,Y,Angle offset of dist
         double[] offset = GetClosestDisc();
         //find distance from camera
         double distFromCamera = widthCoefficient/offset[2];
@@ -156,7 +156,7 @@ public class TensorFlowObjectDetector
         double cameraDistFromRobot = Math.sqrt(Math.pow(cameraOffsetFromRobot[0], 2) + Math.pow(cameraOffsetFromRobot[1], 2));
         double distFromRobot = distFromCamera + cameraDistFromRobot;
         //find angle to object
-        double angleFromRobot = Math.atan2(xDistFromRobot, distFromRobot);
+        double angleFromRobot = Math.toDegrees(Math.atan2(xDistFromRobot, distFromRobot));
 
         double[] out = {xDistFromRobot, distFromRobot, angleFromRobot};
         return out;

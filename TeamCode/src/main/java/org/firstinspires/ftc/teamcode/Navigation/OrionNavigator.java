@@ -97,13 +97,14 @@ public class OrionNavigator
         //Update robot pose
         UpdatePose();
         //Get disc's offset
-        double[] offset = tf.GetClosestDisc();
-        double[] globalOffset = cs.ConvertToGlobalComplex(offset[0], offset[1], offset[2]);//TODO: get conversion working!
+        double[] offset = tf.GetClosestDiscXYAngleLocal(tfDistCoefficient, tfXCoefficient);
+        double[] globalOffset = cs.ConvertToGlobalComplex(offset[0], offset[1], offset[2]);
+        opMode.telemetry.addLine("===TF GoToDisc() DATA===");
+        opMode.telemetry.addLine("x: " + globalOffset[0] + " y: " + globalOffset[1] + " angle: " + globalOffset[2]);
         //Turn to face disc
-        Turn(globalOffset[2]);
+        if(control.isUSE_CHASSIS()) Turn(globalOffset[2]);
         //Move to intake disc
-        rr.MoveSpline(globalOffset[0], globalOffset[1], 0);
-
+        if(control.isUSE_CHASSIS()) rr.MoveSpline(globalOffset[0], globalOffset[1], 0);
     }
 
     //TODO: ====TELEMETRY METHODS FOR DEBUG====
@@ -112,10 +113,11 @@ public class OrionNavigator
         opMode.telemetry.addData("vumark is ",data[3] + " inches away, "+data[4]+" degrees right, and "+data[0]+" inches high.");
     }
     public void PrintTensorflowTelemetry(){
-        opMode.telemetry.addLine("===ALL TF OBJECTS===");
-        List<Recognition> tfObjs = tf.GetRecognitions();
+        //opMode.telemetry.addLine("===ALL TF OBJECTS===");
+        //List<Recognition> tfObjs = tf.GetRecognitions();
         opMode.telemetry.addLine("===TF GetClosestDiscXYAngle() DATA===");
-        double[] data = tf.GetClosestDiscXYAngle(tfDistCoefficient,tfXCoefficient);
+        double[] data = tf.GetClosestDiscXYAngleLocal(tfDistCoefficient,tfXCoefficient);
+        //data = cs.ConvertToGlobalComplex(data[0], data[1], data[2]);
         opMode.telemetry.addLine("x: " + data[0] + " y: " + data[1] + " angle: " + data[2]);
     }
 }

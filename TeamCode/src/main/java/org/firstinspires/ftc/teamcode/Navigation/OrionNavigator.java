@@ -13,20 +13,19 @@ package org.firstinspires.ftc.teamcode.Navigation;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 import org.firstinspires.ftc.teamcode.Navigation.Roadrunner.RoadrunnerControl;
+import org.firstinspires.ftc.teamcode.Navigation.Sensors.Arrays.DemobotSensorArray;
 import org.firstinspires.ftc.teamcode.Navigation.Tensorflow.TensorFlowObjectDetector;
 import org.firstinspires.ftc.teamcode.Navigation.Vuforia.VuMarkNavigation;
-
-import java.util.List;
 
 public class OrionNavigator
 {
     //TODO ====REFERENCES====
     private RoadrunnerControl rr;
-    private VuMarkNavigation v;
+    private VuMarkNavigation vn;
     private TensorFlowObjectDetector tf;
+    private DemobotSensorArray sa;
     private RobotTransformSystem cs;
     private DemobotControl control;
     private OpMode opMode;
@@ -50,9 +49,10 @@ public class OrionNavigator
             rr = new RoadrunnerControl(opMode);
             rr.Init();
         }
-        v = new VuMarkNavigation(opMode);
-        tf = new TensorFlowObjectDetector(opMode, v.GetVuforia(), new double[]{0,0,0});
+        vn = new VuMarkNavigation(opMode);
+        tf = new TensorFlowObjectDetector(opMode, vn.GetVuforia(), new double[]{0,0,0});
         cs = new RobotTransformSystem(0,0,0);
+        sa = new DemobotSensorArray(opMode);
     }
 
     //TODO ====SIMPLE METHODS====
@@ -73,7 +73,7 @@ public class OrionNavigator
     public void MoveToVumark(int vumarkIndex, double xOffset, double yOffset, double headingOffset, double xThreshold, double yThreshold){
         //Move to an offset relative to a vumark and face it- useful for shooting
         //Find vumark pose
-        double[] vumarkDist = v.GetData(vumarkIndex);
+        double[] vumarkDist = vn.GetData(vumarkIndex);
 
         //Find offset from vumark in local space
         double offsetX = xOffset - vumarkDist[0];
@@ -109,7 +109,7 @@ public class OrionNavigator
 
     //TODO: ====TELEMETRY METHODS FOR DEBUG====
     public void PrintVuforiaTelemetry(int vuforiaCode){
-        double[] data = v.GetData(vuforiaCode);
+        double[] data = vn.GetData(vuforiaCode);
         opMode.telemetry.addData("vumark is ",data[3] + " inches away, "+data[4]+" degrees right, and "+data[0]+" inches high.");
     }
     public void PrintTensorflowTelemetry(){

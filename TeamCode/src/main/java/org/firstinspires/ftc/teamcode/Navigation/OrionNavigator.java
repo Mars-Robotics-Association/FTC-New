@@ -52,7 +52,7 @@ public class OrionNavigator
         vn = new VuMarkNavigation(opMode);
         tf = new TensorFlowObjectDetector(opMode, vn.GetVuforia(), new double[]{0,0,0});
         cs = new RobotTransformSystem(0,0,0);
-        sa = new DemobotSensorArray(opMode);
+        //sa = new DemobotSensorArray(opMode);
     }
 
     //TODO ====SIMPLE METHODS====

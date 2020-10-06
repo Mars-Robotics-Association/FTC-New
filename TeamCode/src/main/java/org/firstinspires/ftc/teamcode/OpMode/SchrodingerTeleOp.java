@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Core.ControllerInput;
 import org.firstinspires.ftc.teamcode.Core.ControllerInputListener;
 import org.firstinspires.ftc.teamcode.Core.DemobotControl;
+import org.firstinspires.ftc.teamcode.Core.SchrodingerControl;
 
 //The class for controlling the robot in teleop. Includes basic drive movement, shooter operations,
 //and advanced autonomous functions.
@@ -18,17 +19,19 @@ import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 //REQUIRED TO FUNCTION: Controllers
 
 @Config
-@TeleOp(name = "Demobot TeleOp")
-public class DemobotTeleop extends OpMode implements ControllerInputListener
+@TeleOp(name = "Scrodinger TeleOp")
+public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
 {
     ////Dependencies////
-    private DemobotControl control;
+    private SchrodingerControl control;
     private ControllerInput controllerInput1;
     private ControllerInput controllerInput2;
     FtcDashboard dashboard;
 
     ////Variables////
     //Tweaking Vars
+    public static double armRotSpeed = 5000;
+    public static double armExtensionSpeed = 1;
     public static double turnWhileDrivingSpeed = 1;//used to change how fast robot turns when driving
     public static double driveSpeed = 1;//used to change how fast robot drives
     public static double turnSpeed = 1;//used to change how fast robot turns
@@ -42,7 +45,7 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
     @Override
     public void init() {
         //Sets up demobot control class
-        control = new DemobotControl(this, true, false, false);
+        control = new SchrodingerControl(this, true, true, false);
         control.Init();
 
         //Sets up controller inputs
@@ -51,6 +54,7 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
         controllerInput2 = new ControllerInput(gamepad2, 2);
         controllerInput2.addListener(this);
 
+        //Sets up dashboard
         dashboard = FtcDashboard.getInstance();
         dashboard.setTelemetryTransmissionInterval(25);
     }
@@ -62,13 +66,18 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void loop() {
+        //controller input loop
+        controllerInput1.Loop();
+        controllerInput2.Loop();
+
         //Only run if robot isn't busy
         if(!busy) {
-            MangeDriveMovement();
+            //MangeDriveMovement();
         }
 
         control.SetDrivePID(headingP, headingI, headingD);
         telemetry.addData("angular vel ", control.GetImu().GetAngularVelocity());
+        control.PrintTelemetry();
         telemetry.update();
 
         TelemetryPacket packet = new TelemetryPacket();
@@ -100,28 +109,36 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void APressed(double controllerNumber) {
+        telemetry.addLine("A pressed on controller " + controllerNumber);
         if(controllerNumber == 1){
-            //AIM SHOOTER if A pressed
-            control.AimShooter();
+            //ARM TO INTAKE if A pressed
+            control.ArmToIntake();
+            telemetry.addLine("A pressed!");
         }
     }
 
     @Override
     public void BPressed(double controllerNumber) {
         if(controllerNumber == 1){
-            //AIM SHOOTER if A pressed
-            control.FireShooter();
+            //ARM TO PLACE if B pressed
+            control.ArmToPlace(1);
         }
     }
 
     @Override
     public void XPressed(double controllerNumber) {
-
+        if(controllerNumber == 1){
+            //CHANGE GRIPPER STATE if X pressed
+            control.SwitchGripperState();
+        }
     }
 
     @Override
     public void YPressed(double controllerNumber) {
-
+        if(controllerNumber == 1){
+            //CHANGE GRABBER STATE if Y pressed
+            control.SwitchFoundationGrabberState();
+        }
     }
 
     @Override
@@ -189,32 +206,54 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void LBHeld(double controllerNumber) {
-
+        if(controllerNumber == 1){
+            //EXTEND ARM if pressed
+            control.ChangeArmExtension(1);
+        }
     }
 
     @Override
     public void RBHeld(double controllerNumber) {
-
+        if(controllerNumber == 1){
+            //EXTEND ARM if pressed
+            control.ChangeArmExtension(0);
+        }
     }
 
     @Override
     public void LTHeld(double controllerNumber) {
-
+        if(controllerNumber == 1){
+            //ROTATE ARM if pressed
+            control.ChangeArmRotation(-armRotSpeed);
+        }
     }
 
     @Override
     public void RTHeld(double controllerNumber) {
-
+        if(controllerNumber == 1){
+            //ROTATE ARM if pressed
+            control.ChangeArmRotation(armRotSpeed);
+        }
+        if(controllerNumber == 2){
+            //INTAKE if pressed
+            control.Intake(-1);
+        }
     }
 
     @Override
     public void LBReleased(double controllerNumber) {
-
+        if(controllerNumber == 1){
+            //EXTEND ARM if pressed
+            control.ChangeArmExtension(0.5);
+        }
     }
 
     @Override
     public void RBReleased(double controllerNumber) {
-
+        if(controllerNumber == 1){
+            //EXTEND ARM if pressed
+            control.ChangeArmExtension(0.5);
+        }
     }
 
     @Override
@@ -224,6 +263,9 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void RTReleased(double controllerNumber) {
-
+        if(controllerNumber == 2){
+            //STOP INTAKE if released
+            control.Intake(0);
+        }
     }
 }

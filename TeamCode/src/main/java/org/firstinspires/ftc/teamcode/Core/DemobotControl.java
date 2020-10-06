@@ -4,8 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.ServoController;
 
+import org.firstinspires.ftc.teamcode.AutonomousFunctions.DemobotAutoFuncs;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Intake;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Shooter;
+import org.firstinspires.ftc.teamcode.Navigation.OrionNavigator;
 
 //The class used to control the demobot. Autonomous functions, opmodes, and other scripts can call
 //methods in here to control the demobot.
@@ -18,6 +20,8 @@ public class DemobotControl extends RobotControl
     //Mechanical Components
     private Shooter robotShooter;
     private Intake robotIntake;
+    //Autonomous Functions
+    protected DemobotAutoFuncs autoFuncs;
     //Shooter/Intake Motors
     private DcMotor intakeMotor;
     private DcMotor spinnerMotor;
@@ -45,11 +49,16 @@ public class DemobotControl extends RobotControl
             robotShooter.Init(spinnerMotor, loaderMotor, shooterAimer, 20);
 
             robotIntake = new Intake();
-            robotIntake.Init(new DcMotor[]{intakeMotor});
+            robotIntake.Init(new DcMotor[]{intakeMotor}, new double[]{1});
         }
 
         //TODO ===INIT CORE ROBOT===
         super.InitCoreRobotModules();
+
+        if(USE_NAVIGATOR) {
+            //TODO: ===INIT AUTO FUNCS===
+            autoFuncs = new DemobotAutoFuncs(this);
+        }
     }
 
     public void Start(){
@@ -82,4 +91,7 @@ public class DemobotControl extends RobotControl
         //Runs the intake of the robot
         robotIntake.SetIntakePower(1);
     }
+
+    public DemobotAutoFuncs GetAutoFuncs(){return autoFuncs;}
+
 }

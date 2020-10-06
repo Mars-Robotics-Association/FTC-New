@@ -18,8 +18,6 @@ public class RobotControl
     //Core
     protected PID pid; //Look here: https://github.com/tekdemo/MiniPID-Java for how to use it
     protected IMU imu;
-    //Autonomous Functions
-    protected DemobotAutoFuncs autoFuncs;
     //Orion Navigator
     protected OrionNavigator orion;
     //OpMode
@@ -60,9 +58,6 @@ public class RobotControl
             //TODO: ===INIT ORION===
             orion = new OrionNavigator(currentOpMode, this);
             orion.Init();
-
-            //TODO: ===INIT AUTO FUNCS===
-            autoFuncs = new DemobotAutoFuncs(this);
         }
 
         //TODO: ===INIT CHASSIS===
@@ -102,12 +97,10 @@ public class RobotControl
     public void OdometryDrive(double angle, double speed, double distance) {
         //Used to autonomously drive a certain distance at a certain angle.
         //Enter angle, speed, and distance
-        autoFuncs.MoveSpline(angle, distance, speed);
     }
     public void SpotTurn(double angle, double speed) {
         //Turns the robot on center of the wheel axis using a ramp turn
         //Enter target angle and turn speed
-        autoFuncs.SpotTurn(speed, angle, 0);
     }
     public void SweepTurn(double angle, double speed, double turnOffset) {
         //Turns the robot gradually
@@ -118,7 +111,6 @@ public class RobotControl
     public OrionNavigator GetOrion(){return orion;}
     public IMU GetImu(){return imu;}
     public DemobotChassis GetChassis(){return chassis;}
-    public DemobotAutoFuncs GetAutoFuncs(){return autoFuncs;}
     public PID GetPID(){return chassis.GetHeadingPID();}
     public OpMode GetOpMode(){return currentOpMode;}
 

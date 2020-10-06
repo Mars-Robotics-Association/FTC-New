@@ -14,6 +14,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Core.DemobotControl;
+import org.firstinspires.ftc.teamcode.Core.RobotControl;
 import org.firstinspires.ftc.teamcode.Navigation.Roadrunner.RoadrunnerControl;
 import org.firstinspires.ftc.teamcode.Navigation.Sensors.Arrays.DemobotSensorArray;
 import org.firstinspires.ftc.teamcode.Navigation.Tensorflow.TensorFlowObjectDetector;
@@ -27,7 +28,7 @@ public class OrionNavigator
     private TensorFlowObjectDetector tf;
     private DemobotSensorArray sa;
     private RobotTransformSystem cs;
-    private DemobotControl control;
+    private RobotControl control;
     private OpMode opMode;
 
     //TODO ====VARIABLES====
@@ -39,7 +40,7 @@ public class OrionNavigator
     }
 
 
-    public OrionNavigator(OpMode setOpMode, DemobotControl setControl){
+    public OrionNavigator(OpMode setOpMode, RobotControl setControl){
         opMode = setOpMode;
         control = setControl;
     }

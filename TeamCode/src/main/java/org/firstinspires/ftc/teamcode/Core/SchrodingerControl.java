@@ -5,18 +5,19 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.ServoController;
 
 import org.firstinspires.ftc.teamcode.MechanicalControl.Intake;
+import org.firstinspires.ftc.teamcode.MechanicalControl.SchrodingerArm;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Shooter;
 
-//The class used to control the demobot. Autonomous functions, opmodes, and other scripts can call
-//methods in here to control the demobot.
+//The class used to control schrodinger. Autonomous functions, opmodes, and other scripts can call
+//methods in here to control the schrodinger.
 
 //REQUIRED TO RUN: Phones | REV Hub | Demobot Chassis | Shooter | Odometry Unit
 
-public class DemobotControl extends RobotControl
+public class SchrodingerControl extends RobotControl
 {
     ////Dependencies////
     //Mechanical Components
-    private Shooter robotShooter;
+    private SchrodingerArm robotArm;
     private Intake robotIntake;
     //Shooter/Intake Motors
     private DcMotor intakeMotor;
@@ -26,9 +27,9 @@ public class DemobotControl extends RobotControl
 
     ////Variables////
     //Calibration
-    private double shooterHeight = 0.5; //in meters
+    private double armExtension = 0.5; //in meters
 
-    public DemobotControl(OpMode setOpMode, boolean useChassis, boolean usePayload, boolean useNavigator) {
+    public SchrodingerControl(OpMode setOpMode, boolean useChassis, boolean usePayload, boolean useNavigator) {
         super(setOpMode, useChassis, usePayload, useNavigator);
     }
 
@@ -41,8 +42,7 @@ public class DemobotControl extends RobotControl
             loaderMotor = currentOpMode.hardwareMap.dcMotor.get("LM");
             shooterAimer = currentOpMode.hardwareMap.crservo.get("SA").getController();
 
-            robotShooter = new Shooter();
-            robotShooter.Init(spinnerMotor, loaderMotor, shooterAimer, 20);
+            robotArm = new SchrodingerArm();
 
             robotIntake = new Intake();
             robotIntake.Init(new DcMotor[]{intakeMotor});
@@ -57,27 +57,12 @@ public class DemobotControl extends RobotControl
     }
 
     //CALLABLE METHODS//
-    public void ShooterGoBoom(double distanceFromTarget, double heightFromTarget) {
-        //Shoots the ball at target with either linear or arc shooter
-        //Enter distance and height from target
-    }
-    public void AimShooter() {
-        //Aims the shooter at the specified target
-        //Enter vumark to look for
-        //double[] vumarkOffset = GetOrion().GetVuforia(0);
-        robotShooter.SetTrajectory(10, 5, 0);
-        //TODO: apply correct offset to angle
-        SpotTurn(robotShooter.GetTargetHeading(), 0.5);
-        robotShooter.Aim();
-    }
-    public void SpinUpShooter(){
-        //Spins the shooter up
-        robotShooter.SpinUp();
-    }
-    public void FireShooter(){
-        //Fires shooter
-        robotShooter.Fire();
-    }
+    public void ChangeArmRotation(double amount){}
+    public void ArmToIntake(){}
+    public void ArmToPlace(int stackHeight){}
+    public void SetGripperState(boolean closed){}
+    public void SetFoundationGrabberState(boolean down){}
+    public void Dance(){}
     public void Intake() {
         //Runs the intake of the robot
         robotIntake.SetIntakePower(1);

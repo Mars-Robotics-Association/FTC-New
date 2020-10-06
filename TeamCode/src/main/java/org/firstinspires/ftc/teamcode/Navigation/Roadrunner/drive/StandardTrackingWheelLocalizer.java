@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Config
 public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer {
-    public static double TICKS_PER_REV = 8192;
+    public static double TICKS_PER_REV = 8192; //2048
     public static double WHEEL_RADIUS = 1; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
@@ -37,8 +37,8 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
 
     public StandardTrackingWheelLocalizer(HardwareMap hardwareMap) {
         super(Arrays.asList(
-                new Pose2d(0, LATERAL_DISTANCE / 2, 0), // left
-                new Pose2d(0, -LATERAL_DISTANCE / 2, 180), // right
+                new Pose2d(0, LATERAL_DISTANCE, 0), // left
+                new Pose2d(0, -LATERAL_DISTANCE, Math.toRadians(180)), // right
                 new Pose2d(FORWARD_OFFSET, -2, Math.toRadians(90)) // front
         ));
 
@@ -59,7 +59,7 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     public List<Double> getWheelPositions() {
         return Arrays.asList(
                 encoderTicksToInches(leftEncoder.getCurrentPosition()),
-                encoderTicksToInches(rightEncoder.getCurrentPosition()) * 1,
+                encoderTicksToInches(rightEncoder.getCurrentPosition()),
                 encoderTicksToInches(frontEncoder.getCurrentPosition())
         );
     }

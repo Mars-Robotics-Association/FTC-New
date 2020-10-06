@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.AutonomousFunctions;
 
 import org.firstinspires.ftc.teamcode.Core.DemobotControl;
+import org.firstinspires.ftc.teamcode.Core.RobotControl;
 import org.firstinspires.ftc.teamcode.MechanicalControl.DemobotChassis;
 import org.firstinspires.ftc.teamcode.Navigation.Odometry.DemoBotOdometry;
 import org.firstinspires.ftc.teamcode.Core.IMU;
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Core.IMU;
 public class DemobotAutoFuncs
 {
     //Dependencies
-    DemobotControl Control;
+    RobotControl Control;
     DemobotChassis Chassis;
     DemoBotOdometry Odometry;
     IMU Imu;
@@ -20,7 +21,7 @@ public class DemobotAutoFuncs
 
 
     //Initializer
-    public DemobotAutoFuncs(DemobotControl setControl)
+    public DemobotAutoFuncs(RobotControl setControl)
     {
         Control = setControl;
         Chassis = Control.GetChassis();

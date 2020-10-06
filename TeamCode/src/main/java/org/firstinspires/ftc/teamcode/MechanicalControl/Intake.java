@@ -6,16 +6,15 @@ public class Intake
 {
     ////DEPENDENCIES////
     //Motors
-    private DcMotor intakeMotor;
+    private DcMotor[] intakeMotors;
 
-    public void Init(DcMotor setIntakeMotor){
-        intakeMotor = setIntakeMotor;
+    public void Init(DcMotor[] setIntakeMotors){
+        intakeMotors = setIntakeMotors;
     }
 
-    public void IntakeOn(){
-        intakeMotor.setPower(1);
-    }
-    public void IntakeOff(){
-        intakeMotor.setPower(0);
+    public void SetIntakePower(double power){
+        for (DcMotor motor: intakeMotors) {
+            motor.setPower(power);
+        }
     }
 }

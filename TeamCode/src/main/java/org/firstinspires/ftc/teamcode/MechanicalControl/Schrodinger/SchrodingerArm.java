@@ -36,8 +36,9 @@ public class SchrodingerArm
         armServoR = setArmServoR;
         armServoL = setArmServoL;
 
-        SetTargetRotation(armRotationMin);
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotor.setTargetPosition(0);
+        SetTargetRotation(armRotationMin);
         armMotor.setPower(1);
     }
 

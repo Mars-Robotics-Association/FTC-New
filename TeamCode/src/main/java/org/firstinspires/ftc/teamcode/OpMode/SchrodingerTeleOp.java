@@ -30,7 +30,7 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
 
     ////Variables////
     //Tweaking Vars
-    public static double armRotSpeed = 5000;
+    public static double armRotSpeed = 5;
     public static double armExtensionSpeed = 1;
     public static double turnWhileDrivingSpeed = 1;//used to change how fast robot turns when driving
     public static double driveSpeed = 1;//used to change how fast robot drives
@@ -72,7 +72,7 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
 
         //Only run if robot isn't busy
         if(!busy) {
-            //MangeDriveMovement();
+            MangeDriveMovement();
         }
 
         control.SetDrivePID(headingP, headingI, headingD);

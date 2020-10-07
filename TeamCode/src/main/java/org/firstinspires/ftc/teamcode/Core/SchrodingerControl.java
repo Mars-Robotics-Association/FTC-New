@@ -80,11 +80,12 @@ public class SchrodingerControl extends RobotControl
     public void ChangeArmRotation(double speed){arm.ChangeRotation(speed);}
     public void ChangeArmExtension(double speed){arm.ChangeExtension(speed);}
     public void ArmToIntake(){
-        gripper.ResetGripper();
+        gripper.SetGripperState(true);
+        gripper.SetTargetRotation(180);
         arm.ResetArm();
     }
     public void ArmToPlace(int stackHeight){
-        gripper.SetTargetRotation(180);
+        gripper.SetTargetRotation(0);
         gripper.SetGripperState(true);
         arm.SetTargetRotation(-90);
     }

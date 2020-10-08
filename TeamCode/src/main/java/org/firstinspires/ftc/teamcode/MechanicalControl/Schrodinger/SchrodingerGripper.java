@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -28,8 +29,8 @@ public class SchrodingerGripper
 
     //Gripper Grabbing
     //TODO- Find max and min of gripper grabbers in degrees with closed as 0
-    public static double grabOpen = 100;
-    public static double grabClosed = 90;
+    public static double grabOpen = 110;
+    public static double grabClosed = 80;
     private double targetGrabPos;
 
 
@@ -49,6 +50,10 @@ public class SchrodingerGripper
     public void SetTargetRotation(double degrees){
         rotationServoR.setPosition(0 + degrees * servoPosPerDegrees);
         rotationServoL.setPosition(1 - degrees * servoPosPerDegrees);
+    }
+    public void ChangeTargetRotation(double degrees){
+        rotationServoR.setPosition(rotationServoR.getPosition() + degrees * servoPosPerDegrees);
+        rotationServoL.setPosition(rotationServoL.getPosition() - degrees * servoPosPerDegrees);
     }
     public void SetGripperState(boolean closed){
         if(closed){

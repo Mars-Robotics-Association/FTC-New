@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -11,7 +12,7 @@ public class SchrodingerArm
 {
     ////DEPENDENCIES////
     //Motors
-    private DcMotor armMotor;
+    public DcMotor armMotor;
     //Servos
     private Servo armServoR, armServoL;
 
@@ -36,6 +37,10 @@ public class SchrodingerArm
         armServoR = setArmServoR;
         armServoL = setArmServoL;
 
+        ResetArmMotor();
+    }
+
+    public void ResetArmMotor() {
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setTargetPosition(0);
         SetTargetRotation(armRotationMin);
@@ -43,7 +48,8 @@ public class SchrodingerArm
     }
 
     public void SetTargetRotation(double rotation){
-
+        armMotor.setTargetPosition((int) (rotation/armMotorPosPerDegrees));
+        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void SetTargetExtension(double inches){
         armServoL.setPosition(0 + inches * extensionServoPosPerInch);
@@ -57,7 +63,7 @@ public class SchrodingerArm
         armServoL.setPosition(speed);
         armServoR.setPosition(speed);
     }
-    public void ResetArm(){
+    public void ArmToZero(){
         SetTargetRotation(armRotationMin);
         //SetTargetExtension(armExtensionMin);
     }

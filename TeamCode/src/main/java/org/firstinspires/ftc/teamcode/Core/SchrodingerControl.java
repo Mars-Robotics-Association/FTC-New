@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Core;
 
+import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -23,6 +24,9 @@ public class SchrodingerControl extends RobotControl
     private SchrodingerGripper gripper;
     private Intake intake;
     private SchrodingerFoundationGrabbers grabbers;
+
+    //Sensors
+    private RevTouchSensor armResetTouchSensor;
 
     //Auto Funcs
     SchrodingerAutoFuncs autoFuncs;
@@ -61,6 +65,8 @@ public class SchrodingerControl extends RobotControl
 
             intake = new Intake();
             intake.Init(new DcMotor[]{intakeMotorR, intakeMotorL}, new double[]{1,-1});
+
+            armResetTouchSensor = currentOpMode.hardwareMap.get(RevTouchSensor.class, "armReset");
         }
 
         //TODO ===INIT CORE ROBOT===
@@ -82,13 +88,14 @@ public class SchrodingerControl extends RobotControl
     public void ArmToIntake(){
         gripper.SetGripperState(true);
         gripper.SetTargetRotation(180);
-        arm.ResetArm();
+        arm.ArmToZero();
     }
     public void ArmToPlace(int stackHeight){
         gripper.SetTargetRotation(0);
         gripper.SetGripperState(true);
-        arm.SetTargetRotation(-90);
+        arm.SetTargetRotation(-130);
     }
+    public void ChangeGripperRotation(double speed){gripper.ChangeTargetRotation(speed);}
     public void SetGripperState(boolean closed){gripper.SetGripperState(closed);}
     public void SwitchGripperState(){gripper.SwitchGripperState();}
     public void SetFoundationGrabberState(boolean down){grabbers.SetGrabberState(down);}
@@ -97,6 +104,10 @@ public class SchrodingerControl extends RobotControl
     public void Intake(double power) {
         //Runs the intake of the robot
         intake.SetIntakePower(power);
+    }
+    public void CheckIfArmNeedsReset(){
+        if(armResetTouchSensor.isPressed() && arm.armMotor.getCurrentPosition() != 0)arm.ResetArmMotor();
+
     }
     public void PrintTelemetry(){
         gripper.PrintTelemetry(currentOpMode.telemetry);

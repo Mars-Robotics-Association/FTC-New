@@ -28,10 +28,11 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
     private ControllerInput controllerInput2;
     FtcDashboard dashboard;
 
+
     ////Variables////
     //Tweaking Vars
-    public static double armRotSpeed = 5;
-    public static double armExtensionSpeed = 1;
+    public static double armRotSpeed = 5000;
+    public static double gripperRotSpeed = 10;
     public static double turnWhileDrivingSpeed = 1;//used to change how fast robot turns when driving
     public static double driveSpeed = 1;//used to change how fast robot drives
     public static double turnSpeed = 1;//used to change how fast robot turns
@@ -69,6 +70,9 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
         //controller input loop
         controllerInput1.Loop();
         controllerInput2.Loop();
+
+        //If arm needs reset
+        control.CheckIfArmNeedsReset();
 
         //Only run if robot isn't busy
         if(!busy) {
@@ -207,6 +211,10 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
     @Override
     public void LBHeld(double controllerNumber) {
         if(controllerNumber == 1){
+            //ROTATE GRIPPER if pressed
+            control.ChangeGripperRotation(gripperRotSpeed);
+        }
+        if(controllerNumber == 2){
             //EXTEND ARM if pressed
             control.ChangeArmExtension(1);
         }
@@ -215,6 +223,10 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
     @Override
     public void RBHeld(double controllerNumber) {
         if(controllerNumber == 1){
+            //ROTATE GRIPPER if pressed
+            control.ChangeGripperRotation(-gripperRotSpeed);
+        }
+        if(controllerNumber == 2){
             //EXTEND ARM if pressed
             control.ChangeArmExtension(0);
         }
@@ -242,7 +254,7 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void LBReleased(double controllerNumber) {
-        if(controllerNumber == 1){
+        if(controllerNumber == 2){
             //EXTEND ARM if pressed
             control.ChangeArmExtension(0.5);
         }
@@ -250,7 +262,7 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void RBReleased(double controllerNumber) {
-        if(controllerNumber == 1){
+        if(controllerNumber == 2){
             //EXTEND ARM if pressed
             control.ChangeArmExtension(0.5);
         }

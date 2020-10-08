@@ -55,13 +55,14 @@ public class SchrodingerControl extends RobotControl
 
             Servo grabberServoR = currentOpMode.hardwareMap.servo.get("fr");
             Servo grabberServoL = currentOpMode.hardwareMap.servo.get("fl");
+            DcMotor TM = currentOpMode.hardwareMap.dcMotor.get("TM");
 
             DcMotor intakeMotorR = currentOpMode.hardwareMap.dcMotor.get("IR");
             DcMotor intakeMotorL = currentOpMode.hardwareMap.dcMotor.get("IL");
 
             arm = new SchrodingerArm(armMotor, armServoR, armServoL);
             gripper = new SchrodingerGripper(gripperR, gripperL, headingServo, rotationServoR, rotationServoL);
-            grabbers = new SchrodingerFoundationGrabbers(grabberServoR, grabberServoL);
+            grabbers = new SchrodingerFoundationGrabbers(grabberServoR, grabberServoL,TM);
 
             intake = new Intake();
             intake.Init(new DcMotor[]{intakeMotorR, intakeMotorL}, new double[]{1,-1});
@@ -119,4 +120,5 @@ public class SchrodingerControl extends RobotControl
     public SchrodingerGripper GetGripper(){return gripper;}
     public SchrodingerArm GetArm(){return arm;}
     public Intake GetIntake(){return intake;}
+    public SchrodingerFoundationGrabbers GetFoundationGrabbers(){return grabbers;}
 }

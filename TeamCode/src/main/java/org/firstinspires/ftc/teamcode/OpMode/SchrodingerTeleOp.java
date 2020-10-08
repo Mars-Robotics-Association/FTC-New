@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Core.ControllerInput;
 import org.firstinspires.ftc.teamcode.Core.ControllerInputListener;
 import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 import org.firstinspires.ftc.teamcode.Core.SchrodingerControl;
+import org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger.SchrodingerFoundationGrabbers;
 
 //The class for controlling the robot in teleop. Includes basic drive movement, shooter operations,
 //and advanced autonomous functions.
@@ -92,6 +93,16 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
         packet.put("Robot velocity y ", control.GetImu().GetAcceleratioin().yAccel);
         packet.put("Robot actual angle ", controllerInput1.CalculateLJSAngle());
         dashboard.sendTelemetryPacket(packet);
+
+        if(gamepad1.dpad_up){
+            control.GetFoundationGrabbers().ExtendTape();
+        }
+        else if(gamepad1.dpad_down){
+            control.GetFoundationGrabbers().RetractTape();
+        }
+        else {
+            control.GetFoundationGrabbers().StopTape();
+        }
     }
 
     //Mange driving of the robot via the joysticks
@@ -280,4 +291,6 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
             control.Intake(0);
         }
     }
+
+
 }

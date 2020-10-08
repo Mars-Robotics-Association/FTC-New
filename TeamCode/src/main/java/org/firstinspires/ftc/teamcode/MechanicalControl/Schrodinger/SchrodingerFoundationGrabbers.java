@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -11,6 +12,7 @@ public class SchrodingerFoundationGrabbers
     ////DEPENDENCIES////
     //Servos
     private Servo gripperR, gripperL;
+    private DcMotor TM;
 
     ////VARIABLES////
     //Universal
@@ -24,9 +26,10 @@ public class SchrodingerFoundationGrabbers
     private double targetGrabPos;
 
 
-    public SchrodingerFoundationGrabbers(Servo setGripperR, Servo setGripperL){
+    public SchrodingerFoundationGrabbers(Servo setGripperR, Servo setGripperL, DcMotor SetTM){
         gripperR = setGripperR;
         gripperL = setGripperL;
+        TM = SetTM;
     }
 
     public void SetGrabberState(boolean closed){
@@ -49,5 +52,17 @@ public class SchrodingerFoundationGrabbers
         telemetry.addLine("===FOUNDATION-GRABBERS===");
         telemetry.addData("fGrabberR pos ", gripperR.getPosition());
         telemetry.addData("fGrabberL pos ", gripperL.getPosition());
+    }
+
+    public void ExtendTape(){
+        TM.setPower(0.5);
+    }
+
+    public void RetractTape(){
+        TM.setPower(-0.5);
+    }
+
+    public void StopTape(){
+        TM.setPower(0);
     }
 }

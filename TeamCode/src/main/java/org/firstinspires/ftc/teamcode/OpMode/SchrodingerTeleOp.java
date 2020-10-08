@@ -77,8 +77,8 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
 
         //Only run if robot isn't busy
         if(!busy) {
-            MangeDriveMovement();
         }
+        MangeDriveMovement();
 
         control.SetDrivePID(headingP, headingI, headingD);
         telemetry.addData("angular vel ", control.GetImu().GetAngularVelocity());
@@ -102,6 +102,13 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
         }
         else {
             control.GetFoundationGrabbers().StopTape();
+        }
+        if(gamepad1.left_stick_button){
+            try {
+                control.Dance();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 

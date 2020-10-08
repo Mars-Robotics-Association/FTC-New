@@ -29,7 +29,7 @@ public class SchrodingerControl extends RobotControl
     private RevTouchSensor armResetTouchSensor;
 
     //Auto Funcs
-    SchrodingerAutoFuncs autoFuncs;
+    private SchrodingerAutoFuncs autoFuncs;
 
     ////Variables////
     //Calibration
@@ -73,9 +73,9 @@ public class SchrodingerControl extends RobotControl
         //TODO ===INIT CORE ROBOT===
         super.InitCoreRobotModules();
 
-        if(USE_NAVIGATOR) {
+        if(USE_CHASSIS) {
             //TODO: ===INIT AUTO FUNCS===
-            autoFuncs = new SchrodingerAutoFuncs(arm, gripper, intake);
+            autoFuncs = new SchrodingerAutoFuncs(this);
         }
     }
 
@@ -101,7 +101,7 @@ public class SchrodingerControl extends RobotControl
     public void SwitchGripperState(){gripper.SwitchGripperState();}
     public void SetFoundationGrabberState(boolean down){grabbers.SetGrabberState(down);}
     public void SwitchFoundationGrabberState(){grabbers.SwitchGrabberState();}
-    public void Dance(){autoFuncs.Dance();}
+    public void Dance() throws InterruptedException {autoFuncs.Dance();}
     public void Intake(double power) {
         //Runs the intake of the robot
         intake.SetIntakePower(power);

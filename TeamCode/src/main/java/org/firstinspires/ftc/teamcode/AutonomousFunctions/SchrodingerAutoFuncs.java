@@ -1,22 +1,35 @@
 package org.firstinspires.ftc.teamcode.AutonomousFunctions;
 
+import org.firstinspires.ftc.robotcore.internal.tfod.Timer;
+import org.firstinspires.ftc.teamcode.Core.SchrodingerControl;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Intake;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger.SchrodingerArm;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger.SchrodingerGripper;
 
 public class SchrodingerAutoFuncs
 {
-    SchrodingerArm arm;
-    SchrodingerGripper gripper;
-    Intake intake;
+    private SchrodingerControl control;
 
-    public SchrodingerAutoFuncs(SchrodingerArm setArm, SchrodingerGripper setGripper, Intake setIntake){
-        arm = setArm;
-        gripper = setGripper;
-        intake = setIntake;
+    private double targetTime = 0;
+    private Timer timer;
+
+    public SchrodingerAutoFuncs(SchrodingerControl setControl){
+        control = setControl;
     }
 
-    public void Dance(){
+    public void Dance() throws InterruptedException {
         //TODO: make robot dance
+        control.RawTurn(1);
+        Thread.sleep(100);
+        control.RawTurn(-1);
+        control.SwitchFoundationGrabberState();
+        Thread.sleep(500);
+        control.RawTurn(1);
+        control.SwitchFoundationGrabberState();
+        Thread.sleep(500);
+        control.RawTurn(-1);
+        control.SwitchFoundationGrabberState();
+        Thread.sleep(500);
+        control.ArmToPlace(1);
     }
 }

@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.MechanicalControl.Intake;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger.SchrodingerArm;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger.SchrodingerFoundationGrabbers;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger.SchrodingerGripper;
+import org.firstinspires.ftc.teamcode.Navigation.Odometry.DemoBotOdometry;
 
 //The class used to control schrodinger. Autonomous functions, opmodes, and other scripts can call
 //methods in here to control the schrodinger.
@@ -24,6 +25,7 @@ public class SchrodingerControl extends RobotControl
     private SchrodingerGripper gripper;
     private Intake intake;
     private SchrodingerFoundationGrabbers grabbers;
+    private DemoBotOdometry odometry;
 
     //Sensors
     private RevTouchSensor armResetTouchSensor;
@@ -74,6 +76,7 @@ public class SchrodingerControl extends RobotControl
         super.InitCoreRobotModules();
 
         if(USE_CHASSIS) {
+            odometry = new DemoBotOdometry(FR, FL);
             //TODO: ===INIT AUTO FUNCS===
             autoFuncs = new SchrodingerAutoFuncs(this);
         }
@@ -101,7 +104,8 @@ public class SchrodingerControl extends RobotControl
     public void SwitchGripperState(){gripper.SwitchGripperState();}
     public void SetFoundationGrabberState(boolean down){grabbers.SetGrabberState(down);}
     public void SwitchFoundationGrabberState(){grabbers.SwitchGrabberState();}
-    public void Dance() throws InterruptedException {autoFuncs.Dance();}
+    public void Dance1() throws InterruptedException {autoFuncs.Dance1();}
+    public void Dance2() throws InterruptedException {autoFuncs.Dance2();}
     public void Intake(double power) {
         //Runs the intake of the robot
         intake.SetIntakePower(power);
@@ -121,4 +125,5 @@ public class SchrodingerControl extends RobotControl
     public SchrodingerArm GetArm(){return arm;}
     public Intake GetIntake(){return intake;}
     public SchrodingerFoundationGrabbers GetFoundationGrabbers(){return grabbers;}
+    public DemoBotOdometry GetOdometry() {return odometry;}
 }

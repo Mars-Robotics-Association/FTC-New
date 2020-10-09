@@ -9,9 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Core.ControllerInput;
 import org.firstinspires.ftc.teamcode.Core.ControllerInputListener;
-import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 import org.firstinspires.ftc.teamcode.Core.SchrodingerControl;
-import org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger.SchrodingerFoundationGrabbers;
+import org.firstinspires.ftc.teamcode.MechanicalControl.Intake;
 
 //The class for controlling the robot in teleop. Includes basic drive movement, shooter operations,
 //and advanced autonomous functions.
@@ -105,11 +104,30 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
         }
         if(gamepad1.left_stick_button){
             try {
-                control.Dance();
+                control.Dance1();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        /*if(gamepad1.right_stick_button){
+            try {
+                control.Dance2();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }*/
+        if(gamepad1.right_stick_button){
+            control.GetIntake().SetIntakePower(-1);
+        }
+        else control.GetIntake().SetIntakePower(0);
+
+        if(gamepad1.dpad_left){
+            control.ChangeArmExtension(1);
+        }
+        else if(gamepad1.dpad_right){
+            control.ChangeArmExtension(-1);
+        }
+        else control.ChangeArmExtension(0.5);
     }
 
     //Mange driving of the robot via the joysticks

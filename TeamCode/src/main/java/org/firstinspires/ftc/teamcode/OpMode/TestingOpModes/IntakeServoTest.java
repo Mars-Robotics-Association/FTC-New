@@ -12,7 +12,7 @@ public class IntakeServoTest extends LinearOpMode {
     public void runOpMode() {
         servo = hardwareMap.servo.get("SA");
         waitForStart();
-        servo.setPosition(1);
+        servo.setPosition(0);
         while (opModeIsActive()){
             telemetry.addData("Servo pos: ", servo.getPosition());
         }

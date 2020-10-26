@@ -15,6 +15,7 @@ public class IntakeServoTest extends LinearOpMode {
         servo.setPosition(0);
         while (opModeIsActive()){
             telemetry.addData("Servo pos: ", servo.getPosition());
+            telemetry.update();
         }
     }
 }

@@ -41,6 +41,7 @@ public class motorServoTesting extends OpMode{
 
     @Override
     public void loop(){
+        //Spin motor 1 forwards/backwards using left trigger
         if (gamepad1.left_trigger > 0.1){
             motor1.setPower(1);
         }else if (gamepad1.right_trigger > 0.1){
@@ -50,7 +51,7 @@ public class motorServoTesting extends OpMode{
         }
 
 
-
+        //Spin motor 1 forwards/backwards using left trigger
         if (gamepad1.right_bumper){
             motor2.setPower(1);
         }else if (gamepad1.left_bumper){
@@ -60,7 +61,7 @@ public class motorServoTesting extends OpMode{
         }
 
 
-
+        //Spin motor 1 forwards/backwards using left trigger
         if (gamepad1.dpad_up){
             motor3.setPower(1);
         }else if (gamepad1.dpad_down){
@@ -70,7 +71,7 @@ public class motorServoTesting extends OpMode{
         }
 
 
-
+        //Spin motor 1 forwards/backwards using left trigger
         if (gamepad1.x){
             motor4.setPower(1);
         }else if (gamepad1.y){
@@ -83,7 +84,7 @@ public class motorServoTesting extends OpMode{
 
 
 
-
+        //Send servo 1 to extremes using left trigger
         if (gamepad2.left_trigger > 0.1){
             servo1.setPosition(0);
         }else if (gamepad2.right_trigger> 0.1){

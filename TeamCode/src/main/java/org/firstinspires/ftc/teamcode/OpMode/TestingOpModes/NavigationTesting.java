@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Core.DemobotControl;
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Navigation.OrionNavigator;
 
 @Config
 @Autonomous(name = "NavigationTest")
-public class NavigationTesting extends OpMode {
+public class NavigationTesting extends LinearOpMode {
     private DemobotControl control;
     private OrionNavigator orion;
     private FtcDashboard dashboard;
@@ -24,26 +25,29 @@ public class NavigationTesting extends OpMode {
     public static double robotY = 0;
     public static double robotH = 0;
 
+    public static double robotMoveX = 0;
+    public static double robotMoveY = 0;
+    public static double robotMoveTan = 0;
+
     @Override
-    public void init(){
-        control = new DemobotControl(this,false,false,true);
+    public void runOpMode() throws InterruptedException {
+        control = new DemobotControl(this,true,false,true);
         control.Init();
         orion = control.GetOrion();
         dashboard = FtcDashboard.getInstance();
         dashboard.setTelemetryTransmissionInterval(25);
+
+        waitForStart();
+        orion.SetPose(robotX, robotY, robotH);
+        orion.MoveSpline(robotMoveX, robotMoveY, robotMoveTan);
+
     }
 
-    @Override
-    public void start(){
-        orion.SetPose(0,0,0); //TODO: Set this to the robot's pose at start in global coordinates
-    }
-
-    @Override
+    /*@Override
     public void loop(){
         orion.SetTFCoefficients(tfDistCoef, tfXCoef);
-        orion.SetPose(robotX, robotY, robotH);
         //orion.PrintVuforiaTelemetry(2);
-        orion.GoToDisc();
+        //orion.GoToDisc();
         orion.PrintTensorflowTelemetry();
 
         //orion.MoveToVumark(2, 0, 0, 0,5, 5);
@@ -54,5 +58,5 @@ public class NavigationTesting extends OpMode {
         Canvas fieldOverlay = packet.fieldOverlay();
         //packet.put("target X ", control.GetImu().GetAngularVelocity());
         dashboard.sendTelemetryPacket(packet);
-    }
+    }*/
 }

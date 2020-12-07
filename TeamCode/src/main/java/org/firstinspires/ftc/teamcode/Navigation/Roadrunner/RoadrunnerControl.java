@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Navigation.Roadrunner;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -25,6 +26,14 @@ public class RoadrunnerControl
     public void MoveSpline(double x, double y, double tangent){
         Trajectory traj = drive.trajectoryBuilder(new Pose2d())
                 .splineTo(new Vector2d(x, y), tangent)
+                .build();
+
+        drive.followTrajectory(traj);
+    }
+
+    public void MoveLine(double x, double y){
+        Trajectory traj = drive.trajectoryBuilder(new Pose2d())
+                .lineTo(new Vector2d(x,y))
                 .build();
 
         drive.followTrajectory(traj);

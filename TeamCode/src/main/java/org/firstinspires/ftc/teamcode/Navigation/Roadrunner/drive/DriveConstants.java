@@ -9,7 +9,7 @@ import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints;
  *
  * TODO: Tune or adjust the following constants to fit your robot. Note that the non-final
  * fields may also be edited through the dashboard (connect to the robot's WiFi network and
- * navigate to https://192.168.49.1:8080/dash). Make sure to save the values here after you
+ * navigate to https://192.168.49.1:8080/dash). Make sure to save the values here after you http://192.168.49.1:8080/dash
  * adjust them in the dashboard; **config variable changes don't persist between app restarts**.
  *
  * These are not the only parameters; some are located in the localizer classes, drive base classes,
@@ -41,7 +41,7 @@ public class DriveConstants {
      */
     public static double WHEEL_RADIUS = 2; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 16; // in
+    public static double TRACK_WIDTH = 14.5; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -49,9 +49,9 @@ public class DriveConstants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double kV = 1.0 / rpmToVelocity(MAX_RPM);
-    public static double kA = 0;
-    public static double kStatic = 0;
+    public static double kV =  0.0149; //1.0 / rpmToVelocity(MAX_RPM)
+    public static double kA = 0.00004;
+    public static double kStatic = 0.06510;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,

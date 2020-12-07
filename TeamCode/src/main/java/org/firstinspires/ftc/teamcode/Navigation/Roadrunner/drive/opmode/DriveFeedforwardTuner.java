@@ -35,7 +35,7 @@ import static org.firstinspires.ftc.teamcode.Navigation.Roadrunner.drive.DriveCo
 @Autonomous(group = "drive")
 public class DriveFeedforwardTuner extends LinearOpMode {
     public static final double MAX_POWER = 0.7;
-    public static final double DISTANCE = 100; // in
+    public static final double DISTANCE = 40; // in
 
     @Override
     public void runOpMode() throws InterruptedException {

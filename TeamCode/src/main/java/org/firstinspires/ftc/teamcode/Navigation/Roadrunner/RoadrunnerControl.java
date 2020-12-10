@@ -23,7 +23,7 @@ public class RoadrunnerControl
         drive = new SampleMecanumDrive(opMode.hardwareMap);
     }
 
-    public void MoveSpline(double x, double y, double tangent){
+    public void MoveSpline(double x, double y, double tangent){ //moves using fancy splines
         Trajectory traj = drive.trajectoryBuilder(new Pose2d())
                 .splineTo(new Vector2d(x, y), tangent)
                 .build();
@@ -31,7 +31,7 @@ public class RoadrunnerControl
         drive.followTrajectory(traj);
     }
 
-    public void MoveLine(double x, double y){
+    public void MoveLine(double x, double y){ //moves linearly along a line
         Trajectory traj = drive.trajectoryBuilder(new Pose2d())
                 .lineTo(new Vector2d(x,y))
                 .build();
@@ -41,7 +41,7 @@ public class RoadrunnerControl
 
     public void Turn(double angle){drive.turn(Math.toRadians(angle));}
 
-    public void SetPose(double x, double y, double heading){drive.setPoseEstimate(new Pose2d(x,y, heading));}//TODO: figure out if this resets robot pos
+    public void SetPose(double x, double y, double heading){drive.setPoseEstimate(new Pose2d(x,y, heading));} //Sets robot pose
     public Pose2d GetCurrentPose(){return drive.getPoseEstimate();}
 
 }

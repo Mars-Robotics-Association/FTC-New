@@ -118,6 +118,18 @@ public class TensorFlowObjectDetector
         else return null;
     }
 
+    public int ReturnNumberOfDiscsInSight() { //returns number of discs, counting stacks as 3 discs
+        List<Recognition> items = GetRecognitions();
+        int amount = 0;
+        if(items != null){
+            for (Recognition r : items) {
+                if(r.getLabel()==LABEL_SECOND_ELEMENT) amount += 1;
+                else if(r.getLabel()==LABEL_FIRST_ELEMENT) amount += 3;
+            }
+        }
+        return amount;
+    }
+
     //Returns coords of the closest disc
     public double[] GetClosestDisc(){ //Find object by its y distance from the robot
         List<Recognition> objs = GetRecognitions(); //find all objects
@@ -126,7 +138,7 @@ public class TensorFlowObjectDetector
         double width = 0;
         if(objs != null) {
             for (Recognition obj : objs) {
-                if (obj.getLabel() == LABEL_SECOND_ELEMENT || obj.getLabel() == LABEL_FIRST_ELEMENT) { //get all discs
+                if (obj.getLabel() == LABEL_SECOND_ELEMENT || obj.getLabel() == LABEL_FIRST_ELEMENT) { //accept all discs
                     //Find x and y of disc
                     double discX = (obj.getRight() + obj.getLeft()) / 2;
                     discX -= 500;

@@ -31,7 +31,7 @@ public class NavigationTesting extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        control = new DemobotControl(this,true,false,true);
+        control = new DemobotControl(this,false,false,true);
         control.Init();
         orion = control.GetOrion();
         dashboard = FtcDashboard.getInstance();
@@ -39,7 +39,11 @@ public class NavigationTesting extends LinearOpMode {
 
         waitForStart();
         orion.SetPose(robotX, robotY, robotH);
-        orion.MoveSpline(robotMoveX, robotMoveY, robotMoveTan);
+        while (!isStopRequested()) {
+            telemetry.addData("Number of discs: ", orion.GetNumberOfDiscs());
+            telemetry.update(); 
+        }
+        //orion.MoveSpline(robotMoveX, robotMoveY, robotMoveTan);
 
     }
 

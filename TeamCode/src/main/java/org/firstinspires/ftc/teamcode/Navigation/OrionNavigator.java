@@ -108,6 +108,8 @@ public class OrionNavigator
         if(control.isUSE_CHASSIS()) rr.MoveSpline(globalOffset[0], globalOffset[1], 0);
     }
 
+    public int GetNumberOfDiscs(){return tf.ReturnNumberOfDiscsInSight();}
+
     //TODO: ====TELEMETRY METHODS FOR DEBUG====
     public void PrintVuforiaTelemetry(int vuforiaCode){
         double[] data = vn.GetData(vuforiaCode);

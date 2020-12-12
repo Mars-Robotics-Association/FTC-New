@@ -59,6 +59,7 @@ public class OrionNavigator
     //TODO ====SIMPLE METHODS====
     public void Turn(double angle){rr.Turn(angle);}
     public void MoveSpline(double x, double y, double tangent){rr.MoveSpline(x,y,tangent);}
+    public void MoveLinear(double x, double y, double heading){rr.MoveLine(x,y,heading);}
     public void SetPose(double x, double y, double heading){
         if(control.isUSE_CHASSIS())rr.SetPose(x,y,heading);
         cs.SetRobotGlobalPose(x,y,heading);

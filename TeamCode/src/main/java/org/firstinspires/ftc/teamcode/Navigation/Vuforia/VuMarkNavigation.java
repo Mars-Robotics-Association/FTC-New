@@ -63,13 +63,13 @@ public class VuMarkNavigation {
     public VuMarkNavigation(OpMode opmode) {
         opMode = opmode;
 
-        //webcamName = opmode.hardwareMap.get(WebcamName.class, "Webcam 1");
-        int cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
+        webcamName = opmode.hardwareMap.get(WebcamName.class, "Webcam 1");
+        int cameraMonitorViewId = opmode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", opmode.hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
         parameters.vuforiaLicenseKey = "AeZ+Eyv/////AAABmfcFKgZ5NkXfgqEeyUnIJMIHuzBJhNTY+sbZO+ChF7mbo1evegC5fObZ830PRBTGTM6jbp+1XXCzx3XhY1kaZevEQXNpAKhXU9We0AMlp1mhnAUjGI2sprJZqJIfFGxkK598u8Bj3qQy4+PlCrk+Od/tAGs8dqAAsZPp4KpczFQttxMBC5JZNeIbIFP57InXOeJgyeH1sXK+R2i6nPfOFRvHJjdQaLWdAasv7i3b0RH5ctG7Ky7J9g9BPYI03kkChCJkbPg03XnoqCcC7rEpAk3n8a9CqtwTUu57Sy0jCDUd2O6X9kHjZ5ZmS0I3O0YSzX3Jp2ppTE2kDS2I9zBYEmuEqkMjItxd52oES0Ij0rZm";
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-        //parameters.cameraName = webcamName;
+        parameters.cameraName = webcamName;
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         trackables = GetVuforia().loadTrackablesFromAsset("UltimateGoal");

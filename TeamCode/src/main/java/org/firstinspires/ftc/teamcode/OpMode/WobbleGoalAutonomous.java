@@ -38,19 +38,28 @@ public class WobbleGoalAutonomous extends LinearOpMode {
         dashboard.setTelemetryTransmissionInterval(25);
 
         waitForStart();
-        orion.SetPose(robotX, robotY, robotH);
-        orion.MoveLinear(32,0,0);
-        sleep(500);
-        int numberOfDiscs = orion.GetNumberOfDiscs();        //figure out where to go
-        if(numberOfDiscs == 0){
+        orion.SetPose(robotX, robotY, robotH);//robot starts on blue left line
+        orion.MoveLinear(32,0,0);//move to disc stack
+        sleep(500);//wait for tensorflow to detect discs
+        int numberOfDiscs = orion.GetNumberOfDiscs();//figure out where to go
+
+        if(numberOfDiscs == 0){ //go to A
             telemetry.addLine("route 1");
-            orion.MoveSpline(30, 12, 0);
+            orion.MoveSpline(30, 12, 0);//drop off wobble goal 1
         }
-        else if(numberOfDiscs > 0 && numberOfDiscs < 3){
+
+        else if(numberOfDiscs > 0 && numberOfDiscs < 3){ //go to B
             telemetry.addLine("route 2");
-            orion.MoveSpline(30, -12, 0); 
+            orion.MoveSpline(30, -12, 0);//drop off wobble goal 1
+            orion.MoveLinear(-20,-30, 0);
+            orion.MoveLinear(-42,0, 0);
+            orion.MoveLinear(0,16,0);
+            orion.MoveLinear(30,0,0);
+            orion.MoveSpline(32,10,0);
+
         }
-        else{
+
+        else{ //go to C
             telemetry.addLine("route 3");
         }
     }

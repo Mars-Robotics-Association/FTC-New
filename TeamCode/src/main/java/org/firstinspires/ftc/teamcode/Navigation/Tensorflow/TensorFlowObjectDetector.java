@@ -47,6 +47,7 @@ public class TensorFlowObjectDetector
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Quad";
     private static final String LABEL_SECOND_ELEMENT = "Single";
+    private static float cameraXOffset = -400;
 
     //TODO: calibrate!
     private float cameraDistanceVar = 1;
@@ -141,7 +142,7 @@ public class TensorFlowObjectDetector
                 if (obj.getLabel() == LABEL_SECOND_ELEMENT || obj.getLabel() == LABEL_FIRST_ELEMENT) { //accept all discs
                     //Find x and y of disc
                     double discX = (obj.getRight() + obj.getLeft()) / 2;
-                    discX -= 500;
+                    discX += cameraXOffset;
                     double discY = (obj.getTop() + obj.getBottom()) / 2;
                     double discWidth = obj.getWidth();
                     //if current dist is less than highest dist or if its the first loop

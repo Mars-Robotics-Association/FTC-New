@@ -64,6 +64,10 @@ public class OrionNavigator
         if(control.isUSE_CHASSIS())rr.SetPose(x,y,heading);
         cs.SetRobotGlobalPose(x,y,heading);
     }
+    public Pose2d GetPose(){
+        if(control.isUSE_CHASSIS()) return rr.GetCurrentPose();
+        else return null;
+    }
     public void UpdatePose(){
         if(control.isUSE_CHASSIS()){
             Pose2d robotPose = rr.GetCurrentPose();
@@ -109,6 +113,16 @@ public class OrionNavigator
         if(control.isUSE_CHASSIS()) rr.MoveSpline(globalOffset[0], globalOffset[1], 0);
     }
 
+    public void MoveTowardsDiscRaw(double speed, double correctionCoefficient){
+        UpdatePose();
+        double error = tf.GetClosestDisc()[0] * correctionCoefficient;
+        if(error == 0) return;
+        rr.MoveRaw(new Pose2d(speed, error, rr.GetCurrentPose().getHeading()));
+    }
+
+    public void MoveRaw(double x, double y, double turn){rr.MoveRaw(new Pose2d(x,y,turn));}
+    public void TurnRaw(double speed){rr.TurnRaw(speed);}
+
     public int GetNumberOfDiscs(){return tf.ReturnNumberOfDiscsInSight();}
 
     //TODO: ====TELEMETRY METHODS FOR DEBUG====
@@ -123,5 +137,9 @@ public class OrionNavigator
         double[] data = tf.GetClosestDiscXYAngleLocal(tfDistCoefficient,tfXCoefficient);
         //data = cs.ConvertToGlobalComplex(data[0], data[1], data[2]);
         opMode.telemetry.addLine("x: " + data[0] + " y: " + data[1] + " angle: " + data[2]);
+
+        opMode.telemetry.addLine("===TF GetClosestDisc() DATA===");
+        data = tf.GetClosestDisc();
+        opMode.telemetry.addLine("xScreenPos: " + data[0] + "yScreenPos: " + data[1] + "width: " + data[2]);
     }
 }

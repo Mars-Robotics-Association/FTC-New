@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Core;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.ServoController;
@@ -10,8 +11,13 @@ import org.firstinspires.ftc.teamcode.Navigation.OrionNavigator;
 
 //Code for all mecanum base robots
 
+@Config
 public class RobotControl
 {
+    //MovementTowardsDiscs
+    public static double discMoveCoefficient = -0.0015;
+    public static double discMoveSpeed = 0.2;
+
     ////Dependencies////
     //Mechanical Components
     protected DemobotChassis chassis;
@@ -105,6 +111,9 @@ public class RobotControl
     public void SweepTurn(double angle, double speed, double turnOffset) {
         //Turns the robot gradually
         //Enter target angle, speed, and turn offset
+    }
+    public void MoveTowardsClosestDisc(){
+        orion.MoveTowardsDiscRaw(discMoveSpeed, discMoveCoefficient);
     }
 
     //TODO: UNIVERSAL GETTERS

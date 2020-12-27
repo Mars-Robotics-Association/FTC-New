@@ -39,6 +39,13 @@ public class RoadrunnerControl
         drive.followTrajectory(traj);
     }
 
+    public void MoveRaw(Pose2d move){
+        drive.setDrivePower(move);
+    }
+    public void TurnRaw(double speed){
+        drive.setMotorPowers(speed, speed, -speed, -speed);
+    }
+
     public void Turn(double angle){drive.turn(Math.toRadians(angle));}
 
     public void SetPose(double x, double y, double heading){drive.setPoseEstimate(new Pose2d(x,y, heading));} //Sets robot pose

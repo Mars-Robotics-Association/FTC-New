@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode.OpMode.TestingOpModes;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 import org.firstinspires.ftc.teamcode.Navigation.OrionNavigator;
@@ -25,9 +22,8 @@ public class NavigationTesting extends LinearOpMode {
     public static double robotY = 0;
     public static double robotH = 0;
 
-    public static double robotMoveX = 0;
-    public static double robotMoveY = 0;
-    public static double robotMoveTan = 0;
+    public static double discMoveCoefficient = -0.0015;
+    public static double discMoveSpeed = 0.2;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -39,20 +35,11 @@ public class NavigationTesting extends LinearOpMode {
 
         waitForStart();
         orion.SetPose(robotX, robotY, robotH);
-        orion.MoveLinear(0,-16,0);
-        orion.MoveSpline(20,0,0);
-        //figure out where to go
-        int numberOfDiscs = orion.GetNumberOfDiscs();
-        if(numberOfDiscs == 0){
-            telemetry.addLine("route 1");
+        while(!isStopRequested()) {
+            orion.PrintTensorflowTelemetry();
+            orion.MoveTowardsDiscRaw(discMoveSpeed, discMoveCoefficient);
+            telemetry.update();
         }
-        else if(numberOfDiscs > 0 && numberOfDiscs < 3){
-            telemetry.addLine("route 2");
-        }
-        else{
-            telemetry.addLine("route 3");
-        }
-        telemetry.update();
     }
 
     /*@Override

@@ -29,9 +29,9 @@ public class BelindaTeleop extends OpMode implements ControllerInputListener
 
     ////Variables////
     //Tweaking Vars
-    public static double turnWhileDrivingSpeed = 1;//used to change how fast robot turns when driving
-    public static double driveSpeed = 1;//used to change how fast robot drives
-    public static double turnSpeed = 1;//used to change how fast robot turns
+    public static double turnWhileDrivingSpeed = 0.5;//used to change how fast robot turns when driving
+    public static double driveSpeed = 0.8;//used to change how fast robot drives
+    public static double turnSpeed = 0.5;//used to change how fast robot turns
     public static double headingP = 0.002;
     public static double headingI = 0;
     public static double headingD = 0.001;

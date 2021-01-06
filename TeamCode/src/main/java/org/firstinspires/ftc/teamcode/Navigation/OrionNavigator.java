@@ -59,6 +59,7 @@ public class OrionNavigator
     //TODO ====SIMPLE METHODS====
     public void Turn(double angle){rr.Turn(angle);}
     public void MoveSpline(double x, double y, double tangent){rr.MoveSpline(x,y,tangent);}
+    public void MoveSplineConstHeading(double x, double y, double tangent){rr.MoveSplineConstantHeading(x,y,tangent);}
     public void MoveLinear(double x, double y, double heading){rr.MoveLine(x,y,heading);}
     public void SetPose(double x, double y, double heading){
         if(control.isUSE_CHASSIS())rr.SetPose(x,y,heading);
@@ -122,6 +123,7 @@ public class OrionNavigator
 
     public void MoveRaw(double x, double y, double turn){rr.MoveRaw(new Pose2d(x,y,turn));}
     public void TurnRaw(double speed){rr.TurnRaw(speed);}
+    public void TurnTo(double angle){rr.TurnTo(angle);}
 
     public int GetNumberOfDiscs(){return tf.ReturnNumberOfDiscsInSight();}
 

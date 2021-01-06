@@ -31,9 +31,17 @@ public class RoadrunnerControl
         drive.followTrajectory(traj);
     }
 
-    public void MoveLine(double x, double y, double heading){ //moves linearly along a line
+    public void MoveLine(double x, double y, double heading){ //moves linearly along a line .lineToLinearHeading(new Pose2d(x,y,heading))
         Trajectory traj = drive.trajectoryBuilder(new Pose2d())
-                .lineToLinearHeading(new Pose2d(x,y,heading))
+                .lineToConstantHeading(new Vector2d(x,y))
+                .build();
+
+        drive.followTrajectory(traj);
+    }
+
+    public void MoveSplineConstantHeading(double x, double y, double endTangent){
+        Trajectory traj = drive.trajectoryBuilder(new Pose2d())
+                .splineToConstantHeading(new Vector2d(x,y), endTangent)
                 .build();
 
         drive.followTrajectory(traj);
@@ -47,6 +55,7 @@ public class RoadrunnerControl
     }
 
     public void Turn(double angle){drive.turn(Math.toRadians(angle));}
+    public void TurnTo(double angle){drive.turn(Math.toRadians(angle) - GetCurrentPose().getHeading());}
 
     public void SetPose(double x, double y, double heading){drive.setPoseEstimate(new Pose2d(x,y, heading));} //Sets robot pose
     public Pose2d GetCurrentPose(){return drive.getPoseEstimate();}

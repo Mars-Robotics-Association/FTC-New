@@ -44,23 +44,34 @@ public class WobbleGoalAutonomous extends LinearOpMode {
         int numberOfDiscs = orion.GetNumberOfDiscs();//figure out where to go
 
         if(numberOfDiscs == 0){ //go to A
-            telemetry.addLine("route 1");
+            telemetry.addLine("close target");
             orion.MoveSpline(30, 12, 0);//drop off wobble goal 1
+            orion.MoveLinear(-62, -36, 0);//go to second wobble goal
+            orion.MoveLinear(0, -24, 0);
+            orion.MoveSpline(62, 60, 0);//places it
         }
 
         else if(numberOfDiscs > 0 && numberOfDiscs < 3){ //go to B
-            telemetry.addLine("route 2");
-            orion.MoveSpline(30, -12, 0);//drop off wobble goal 1
-            orion.MoveLinear(-20,-30, 0);
-            orion.MoveLinear(-42,0, 0);
-            orion.MoveLinear(0,16,0);
-            orion.MoveLinear(30,0,0);
-            orion.MoveSpline(32,10,0);
+            telemetry.addLine("middle target");
+            orion.MoveSpline(50, -8, 0);//drop off wobble goal 1
+            /*orion.MoveLinear(-10, -30, 0);
+            orion.MoveLinear(-72, 0, 0);*/
+            orion.MoveLinear(-44,-42, 0);//heads back
+            orion.MoveLinear(-35,0, 0);
+            orion.MoveLinear(0,10,0);//lines up for second wobble goal
+            orion.MoveLinear(30,0,0);//places it
+            orion.MoveSpline(56,10,0);
 
         }
 
         else{ //go to C
-            telemetry.addLine("route 3");
+            telemetry.addLine("far target");
+            orion.MoveSpline(78, 12, 0);//drop off wobble goal 1
+            orion.MoveLinear(-68,-52, 0);//heads back
+            orion.MoveLinear(-42,0, 0);
+            orion.MoveLinear(0,16,0);//lines up for second wobble goal
+            orion.MoveLinear(30,0,0);//places it
+            orion.MoveSpline(80,34,0);
         }
     }
 }

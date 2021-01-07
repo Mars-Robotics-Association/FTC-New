@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.Core;
 
-import org.junit.jupiter.api.AssertionsKt;
+import org.firstinspires.ftc.teamcode.Core.Input.ControllerInputListener;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ControllerInputTest implements ControllerInputListener {
 

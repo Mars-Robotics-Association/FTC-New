@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode.Core;
+package org.firstinspires.ftc.teamcode.Core.Robots;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.ServoController;
 
-import org.firstinspires.ftc.teamcode.AutonomousFunctions.DemobotAutoFuncs;
-import org.firstinspires.ftc.teamcode.MechanicalControl.DemobotChassis;
+import org.firstinspires.ftc.teamcode.Core.PIDController;
+import org.firstinspires.ftc.teamcode.MechanicalControl.Belinda.BelindaChassis;
 import org.firstinspires.ftc.teamcode.Navigation.OrionNavigator;
+import org.firstinspires.ftc.teamcode.Sensors.IMU;
 
 //Code for all mecanum base robots
 
@@ -20,9 +20,9 @@ public class RobotControl
 
     ////Dependencies////
     //Mechanical Components
-    protected DemobotChassis chassis;
+    protected BelindaChassis chassis;
     //Core
-    protected PID pid; //Look here: https://github.com/tekdemo/MiniPID-Java for how to use it
+    protected PIDController pidController; //Look here: https://github.com/tekdemo/MiniPID-Java for how to use it
     protected IMU imu;
     //Orion Navigator
     protected OrionNavigator orion;
@@ -58,7 +58,7 @@ public class RobotControl
     public void InitCoreRobotModules(){
         //TODO: ==INIT CORE MODULES==
         imu = new IMU(currentOpMode);
-        pid = new PID(0,0,0);
+        pidController = new PIDController(0,0,0);
 
         if(USE_NAVIGATOR) {
             //TODO: ===INIT ORION===
@@ -74,7 +74,7 @@ public class RobotControl
             RL = currentOpMode.hardwareMap.dcMotor.get("RL");
         }
         if(USE_CHASSIS) {
-            chassis = new DemobotChassis(imu, FR, FL, RR, RL, currentOpMode.telemetry);//Create chassis instance w/ motors
+            chassis = new BelindaChassis(imu, FR, FL, RR, RL, currentOpMode.telemetry);//Create chassis instance w/ motors
             chassis.Init();
         }
     }
@@ -119,8 +119,8 @@ public class RobotControl
     //TODO: UNIVERSAL GETTERS
     public OrionNavigator GetOrion(){return orion;}
     public IMU GetImu(){return imu;}
-    public DemobotChassis GetChassis(){return chassis;}
-    public PID GetPID(){return chassis.GetHeadingPID();}
+    public BelindaChassis GetChassis(){return chassis;}
+    public PIDController GetPID(){return chassis.GetHeadingPID();}
     public OpMode GetOpMode(){return currentOpMode;}
 
     //TODO: SETTER METHODS

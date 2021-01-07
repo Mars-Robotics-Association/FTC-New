@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpMode;
+package org.firstinspires.ftc.teamcode.Samples.OpMode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -6,13 +6,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Core.DemobotControl;
+import org.firstinspires.ftc.teamcode.Core.Robots.DemobotControl;
 import org.firstinspires.ftc.teamcode.Navigation.OrionNavigator;
 
 @Config
 @Autonomous(name = "ExampleAutonomous")
 @Disabled
-public class ExampleAutonomous extends LinearOpMode
+public class SampleAutonomous extends LinearOpMode
 {
     private DemobotControl control;
     private OrionNavigator orion;

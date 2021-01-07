@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.Navigation.Sensors.Arrays;
+package org.firstinspires.ftc.teamcode.Sensors.Arrays;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Navigation.Sensors.ColorSensorArray;
-import org.firstinspires.ftc.teamcode.Navigation.Sensors.TouchSensorArray;
+import org.firstinspires.ftc.teamcode.Sensors.ColorSensorArray;
+import org.firstinspires.ftc.teamcode.Sensors.TouchSensorArray;
 
 public class DemobotSensorArray
 {

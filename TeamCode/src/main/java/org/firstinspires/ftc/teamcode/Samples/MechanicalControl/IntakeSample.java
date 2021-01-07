@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.MechanicalControl.Intake;
+import org.firstinspires.ftc.teamcode.MechanicalControl.Belinda.Intake;
 
 /*Sample class for MechanicalControl.Intake
 Intake goes forwards when right trigger is down and reverses when left trigger is down. Stops when nothing is down.*/

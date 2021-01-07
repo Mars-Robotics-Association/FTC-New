@@ -10,7 +10,7 @@ package org.firstinspires.ftc.teamcode.Core;
 * 
 * @see //brettbeauregard.com/blog/2011/04/improving-the-beginners-pid-direction/improving-the-beginners-pid-introduction
 */
-public class PID
+public class PIDController
 {
 	//**********************************
 	// Class private variables
@@ -53,7 +53,7 @@ public class PID
 	 * @param i Integral gain.  Becomes large if setpoint cannot reach target quickly. 
 	 * @param d Derivative gain. Responds quickly to large changes in error. Small values prevents P and I terms from causing overshoot.
 	 */
-	public PID(double p, double i, double d){
+	public PIDController(double p, double i, double d){
 		P=p; I=i; D=d;
 		checkSigns();
 		}
@@ -66,7 +66,7 @@ public class PID
 	 * @param d Derivative gain. Responds quickly to large changes in error. Small values prevents P and I terms from causing overshoot.
 	 * @param f Feed-forward gain. Open loop "best guess" for the output should be. Only useful if setpoint represents a rate.
 	 */
-	public PID(double p, double i, double d, double f){
+	public PIDController(double p, double i, double d, double f){
 		P=p; I=i; D=d; F=f;
 		checkSigns();
 		}

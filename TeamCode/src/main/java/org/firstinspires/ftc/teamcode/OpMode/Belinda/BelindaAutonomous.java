@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.OpMode;
+package org.firstinspires.ftc.teamcode.OpMode.Belinda;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Core.DemobotControl;
+import org.firstinspires.ftc.teamcode.Core.Robots.DemobotControl;
 
 //A simple autonomous script for the demobot
 
@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Core.DemobotControl;
 
 @Config
 @Autonomous(name = "Demobot Autonomous")
-public class DemobotAutonomous extends LinearOpMode {
+public class BelindaAutonomous extends LinearOpMode {
     DemobotControl control;
 
     //Pid coefficients

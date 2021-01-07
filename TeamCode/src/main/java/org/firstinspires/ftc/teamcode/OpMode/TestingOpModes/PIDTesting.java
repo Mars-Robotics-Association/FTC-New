@@ -1,16 +1,21 @@
-package org.firstinspires.ftc.teamcode.Core;
+package org.firstinspires.ftc.teamcode.OpMode.TestingOpModes;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Core.PIDController;
+import org.firstinspires.ftc.teamcode.Sensors.IMU;
+
 @Config
 @TeleOp
+@Disabled
 public class PIDTesting extends OpMode {
-    PID pid;
+    PIDController pidController;
     IMU imu;
     FtcDashboard dashboard;
 
@@ -20,7 +25,7 @@ public class PIDTesting extends OpMode {
 
     @Override
     public void init() {
-        pid = new PID(p,i,d);
+        pidController = new PIDController(p,i,d);
         imu = new IMU(this);
         imu.Start();
         dashboard = FtcDashboard.getInstance();
@@ -29,8 +34,8 @@ public class PIDTesting extends OpMode {
 
     @Override
     public void loop() {
-        pid.setPID(p,i,d);
-        double pidVal = pid.getOutput(0, imu.GetAngularVelocity());
+        pidController.setPID(p,i,d);
+        double pidVal = pidController.getOutput(0, imu.GetAngularVelocity());
         telemetry.addData("angular vel ", imu.GetAngularVelocity());
         telemetry.addData("pid offset ", pidVal);
         telemetry.addData("p ", p);

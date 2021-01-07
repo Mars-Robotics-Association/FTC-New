@@ -7,9 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Core.ControllerInput;
-import org.firstinspires.ftc.teamcode.Core.ControllerInputListener;
-
 @Config
 @TeleOp(name = "motorServoTest")
 public class motorServoTesting extends OpMode{

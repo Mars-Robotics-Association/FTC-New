@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.MechanicalControl;
+package org.firstinspires.ftc.teamcode.MechanicalControl.Belinda;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

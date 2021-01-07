@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpMode;
+package org.firstinspires.ftc.teamcode.OpMode.Belinda;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.canvas.Canvas;
@@ -7,10 +7,9 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Core.ControllerInput;
-import org.firstinspires.ftc.teamcode.Core.ControllerInputListener;
-import org.firstinspires.ftc.teamcode.Core.SchrodingerControl;
-import org.firstinspires.ftc.teamcode.MechanicalControl.Intake;
+import org.firstinspires.ftc.teamcode.Core.Input.ControllerInput;
+import org.firstinspires.ftc.teamcode.Core.Input.ControllerInputListener;
+import org.firstinspires.ftc.teamcode.Core.Robots.DemobotControl;
 
 //The class for controlling the robot in teleop. Includes basic drive movement, shooter operations,
 //and advanced autonomous functions.
@@ -19,34 +18,30 @@ import org.firstinspires.ftc.teamcode.MechanicalControl.Intake;
 //REQUIRED TO FUNCTION: Controllers
 
 @Config
-@TeleOp(name = "Scrodinger TeleOp")
-public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
+@TeleOp(name = "*Belinda TeleOp*")
+public class BelindaTeleop extends OpMode implements ControllerInputListener
 {
     ////Dependencies////
-    private SchrodingerControl control;
+    private DemobotControl control;
     private ControllerInput controllerInput1;
     private ControllerInput controllerInput2;
     FtcDashboard dashboard;
 
-
     ////Variables////
     //Tweaking Vars
-    public static double armRotSpeed = 5000;
-    public static double gripperRotSpeed = 10;
-    public static double turnWhileDrivingSpeed = 1;//used to change how fast robot turns when driving
-    public static double driveSpeed = 1;//used to change how fast robot drives
-    public static double turnSpeed = 1;//used to change how fast robot turns
+    public static double turnWhileDrivingSpeed = 0.5;//used to change how fast robot turns when driving
+    public static double driveSpeed = 0.8;//used to change how fast robot drives
+    public static double turnSpeed = 0.5;//used to change how fast robot turns
     public static double headingP = 0.002;
     public static double headingI = 0;
     public static double headingD = 0.001;
     //Utility Vars
     private boolean busy = false;
 
-
     @Override
     public void init() {
         //Sets up demobot control class
-        control = new SchrodingerControl(this, true, true, false);
+        control = new DemobotControl(this, true, false, true);
         control.Init();
 
         //Sets up controller inputs
@@ -55,7 +50,6 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
         controllerInput2 = new ControllerInput(gamepad2, 2);
         controllerInput2.addListener(this);
 
-        //Sets up dashboard
         dashboard = FtcDashboard.getInstance();
         dashboard.setTelemetryTransmissionInterval(25);
     }
@@ -67,21 +61,16 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void loop() {
-        //controller input loop
         controllerInput1.Loop();
         controllerInput2.Loop();
 
-        //If arm needs reset
-        control.CheckIfArmNeedsReset();
-
         //Only run if robot isn't busy
         if(!busy) {
+            MangeDriveMovement();
         }
-        MangeDriveMovement();
 
         control.SetDrivePID(headingP, headingI, headingD);
         telemetry.addData("angular vel ", control.GetImu().GetAngularVelocity());
-        control.PrintTelemetry();
         telemetry.update();
 
         TelemetryPacket packet = new TelemetryPacket();
@@ -92,54 +81,20 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
         packet.put("Robot velocity y ", control.GetImu().GetAcceleratioin().yAccel);
         packet.put("Robot actual angle ", controllerInput1.CalculateLJSAngle());
         dashboard.sendTelemetryPacket(packet);
-
-        if(gamepad1.dpad_up){
-            control.GetFoundationGrabbers().ExtendTape();
-        }
-        else if(gamepad1.dpad_down){
-            control.GetFoundationGrabbers().RetractTape();
-        }
-        else {
-            control.GetFoundationGrabbers().StopTape();
-        }
-        if(gamepad1.left_stick_button){
-            try {
-                control.Dance1();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        /*if(gamepad1.right_stick_button){
-            try {
-                control.Dance2();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }*/
-        if(gamepad1.right_stick_button){
-            control.GetIntake().SetIntakePower(-1);
-        }
-        else control.GetIntake().SetIntakePower(0);
-
-        if(gamepad1.dpad_left){
-            control.ChangeArmExtension(1);
-        }
-        else if(gamepad1.dpad_right){
-            control.ChangeArmExtension(-1);
-        }
-        else control.ChangeArmExtension(0.5);
     }
 
     //Mange driving of the robot via the joysticks
     private void MangeDriveMovement(){
         //MOVE if left joystick magnitude > 0.1
         if (controllerInput1.CalculateLJSMag() > 0.1) {
-            control.RawDrive(controllerInput1.CalculateLJSAngle(), controllerInput1.CalculateLJSMag() * driveSpeed, controllerInput1.GetRJSX() * turnWhileDrivingSpeed);//drives at (angle, speed, turnOffset)
+            //control.RawDrive(controllerInput1.CalculateLJSAngle(), controllerInput1.CalculateLJSMag() * driveSpeed, controllerInput1.GetRJSX() * turnWhileDrivingSpeed);//drives at (angle, speed, turnOffset)
+            control.GetOrion().MoveRaw(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed, controllerInput1.GetRJSX()*turnWhileDrivingSpeed);
             telemetry.addData("Moving at ", controllerInput1.CalculateLJSAngle());
         }
         //TURN if right joystick magnitude > 0.1 and not moving
         else if (Math.abs(controllerInput1.GetRJSX()) > 0.1) {
-            control.RawTurn(controllerInput1.GetRJSX() * turnSpeed);//turns at speed according to rjs1
+            //control.RawTurn(controllerInput1.GetRJSX() * turnSpeed);//turns at speed according to rjs1
+            control.GetOrion().TurnRaw(controllerInput1.GetRJSX() * turnSpeed);
             telemetry.addData("Turning", true);
         }
         else {
@@ -149,36 +104,27 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void APressed(double controllerNumber) {
-        telemetry.addLine("A pressed on controller " + controllerNumber);
         if(controllerNumber == 1){
-            //ARM TO INTAKE if A pressed
-            control.ArmToIntake();
-            telemetry.addLine("A pressed!");
+            //AIM SHOOTER if A pressed
+            //control.AimShooter();
         }
     }
 
     @Override
     public void BPressed(double controllerNumber) {
         if(controllerNumber == 1){
-            //ARM TO PLACE if B pressed
-            control.ArmToPlace(1);
+            //AIM SHOOTER if A pressed
+            //control.FireShooter();
         }
     }
 
     @Override
     public void XPressed(double controllerNumber) {
-        if(controllerNumber == 1){
-            //CHANGE GRIPPER STATE if X pressed
-            control.SwitchGripperState();
-        }
     }
 
     @Override
     public void YPressed(double controllerNumber) {
-        if(controllerNumber == 1){
-            //CHANGE GRABBER STATE if Y pressed
-            control.SwitchFoundationGrabberState();
-        }
+
     }
 
     @Override
@@ -193,7 +139,12 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void XHeld(double controllerNumber) {
-
+        if(controllerNumber == 1){
+            busy = true;
+            control.MoveTowardsClosestDisc();
+            telemetry.addLine("Moving to closest disc!");
+            telemetry.update();
+        }
     }
 
     @Override
@@ -213,7 +164,7 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void XReleased(double controllerNumber) {
-
+        if(controllerNumber == 1) busy = false;
     }
 
     @Override
@@ -246,62 +197,32 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void LBHeld(double controllerNumber) {
-        if(controllerNumber == 1){
-            //ROTATE GRIPPER if pressed
-            control.ChangeGripperRotation(gripperRotSpeed);
-        }
-        if(controllerNumber == 2){
-            //EXTEND ARM if pressed
-            control.ChangeArmExtension(1);
-        }
+
     }
 
     @Override
     public void RBHeld(double controllerNumber) {
-        if(controllerNumber == 1){
-            //ROTATE GRIPPER if pressed
-            control.ChangeGripperRotation(-gripperRotSpeed);
-        }
-        if(controllerNumber == 2){
-            //EXTEND ARM if pressed
-            control.ChangeArmExtension(0);
-        }
+
     }
 
     @Override
     public void LTHeld(double controllerNumber) {
-        if(controllerNumber == 1){
-            //ROTATE ARM if pressed
-            control.ChangeArmRotation(-armRotSpeed);
-        }
+
     }
 
     @Override
     public void RTHeld(double controllerNumber) {
-        if(controllerNumber == 1){
-            //ROTATE ARM if pressed
-            control.ChangeArmRotation(armRotSpeed);
-        }
-        if(controllerNumber == 2){
-            //INTAKE if pressed
-            control.Intake(-1);
-        }
+
     }
 
     @Override
     public void LBReleased(double controllerNumber) {
-        if(controllerNumber == 2){
-            //EXTEND ARM if pressed
-            control.ChangeArmExtension(0.5);
-        }
+
     }
 
     @Override
     public void RBReleased(double controllerNumber) {
-        if(controllerNumber == 2){
-            //EXTEND ARM if pressed
-            control.ChangeArmExtension(0.5);
-        }
+
     }
 
     @Override
@@ -311,11 +232,6 @@ public class SchrodingerTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void RTReleased(double controllerNumber) {
-        if(controllerNumber == 2){
-            //STOP INTAKE if released
-            control.Intake(0);
-        }
+
     }
-
-
 }

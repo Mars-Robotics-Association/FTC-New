@@ -1,12 +1,11 @@
-package org.firstinspires.ftc.teamcode.Core;
+package org.firstinspires.ftc.teamcode.Core.Robots;
 
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.AutonomousFunctions.SchrodingerAutoFuncs;
-import org.firstinspires.ftc.teamcode.MechanicalControl.Intake;
+import org.firstinspires.ftc.teamcode.MechanicalControl.Belinda.Intake;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger.SchrodingerArm;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger.SchrodingerFoundationGrabbers;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger.SchrodingerGripper;
@@ -30,8 +29,6 @@ public class SchrodingerControl extends RobotControl
     //Sensors
     private RevTouchSensor armResetTouchSensor;
 
-    //Auto Funcs
-    private SchrodingerAutoFuncs autoFuncs;
 
     ////Variables////
     //Calibration
@@ -77,8 +74,6 @@ public class SchrodingerControl extends RobotControl
 
         if(USE_CHASSIS) {
             odometry = new DemoBotOdometry(FR, FL);
-            //TODO: ===INIT AUTO FUNCS===
-            autoFuncs = new SchrodingerAutoFuncs(this);
         }
     }
 
@@ -104,8 +99,6 @@ public class SchrodingerControl extends RobotControl
     public void SwitchGripperState(){gripper.SwitchGripperState();}
     public void SetFoundationGrabberState(boolean down){grabbers.SetGrabberState(down);}
     public void SwitchFoundationGrabberState(){grabbers.SwitchGrabberState();}
-    public void Dance1() throws InterruptedException {autoFuncs.Dance1();}
-    public void Dance2() throws InterruptedException {autoFuncs.Dance2();}
     public void Intake(double power) {
         //Runs the intake of the robot
         intake.SetIntakePower(power);

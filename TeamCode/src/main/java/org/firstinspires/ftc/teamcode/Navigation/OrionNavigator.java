@@ -13,10 +13,9 @@ package org.firstinspires.ftc.teamcode.Navigation;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Core.DemobotControl;
-import org.firstinspires.ftc.teamcode.Core.RobotControl;
+import org.firstinspires.ftc.teamcode.Core.Robots.RobotControl;
 import org.firstinspires.ftc.teamcode.Navigation.Roadrunner.RoadrunnerControl;
-import org.firstinspires.ftc.teamcode.Navigation.Sensors.Arrays.DemobotSensorArray;
+import org.firstinspires.ftc.teamcode.Sensors.Arrays.DemobotSensorArray;
 import org.firstinspires.ftc.teamcode.Navigation.Tensorflow.TensorFlowObjectDetector;
 import org.firstinspires.ftc.teamcode.Navigation.Vuforia.VuMarkNavigation;
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Navigation.Sensors;
+package org.firstinspires.ftc.teamcode.Sensors;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;

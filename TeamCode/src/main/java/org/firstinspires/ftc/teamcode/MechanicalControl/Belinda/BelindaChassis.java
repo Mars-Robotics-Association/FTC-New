@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.MechanicalControl;
+package org.firstinspires.ftc.teamcode.MechanicalControl.Belinda;
 
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Core.IMU;
-import org.firstinspires.ftc.teamcode.Core.PID;
+import org.firstinspires.ftc.teamcode.Sensors.IMU;
+import org.firstinspires.ftc.teamcode.Core.PIDController;
 
 //Class for controlling the chassis of the demobot. Includes basic turning and driving. NOTE: the
 //turn and move stuff here has to be called continuously (every loop), or it won't function properly.
@@ -15,12 +15,12 @@ import org.firstinspires.ftc.teamcode.Core.PID;
 //REQUIRED TO COMPILE: Phones | REV Hub
 //REQUIRED TO RUN: Chassis
 
-public class DemobotChassis
+public class BelindaChassis
 {
     ////Dependencies////
     private OpMode CurrentOpMode;
-    private PID headingPID;
-    private PID driftPID;
+    private PIDController headingPIDController;
+    private PIDController driftPIDController;
     private IMU imu;
 
     ////Variables////
@@ -41,15 +41,15 @@ public class DemobotChassis
     //telemetry
     private Telemetry RobotTelemetry;
 
-    public PID GetHeadingPID() {
-        return headingPID;
+    public PIDController GetHeadingPID() {
+        return headingPIDController;
     }
-    public PID GetDriftPID() {
-        return driftPID;
+    public PIDController GetDriftPID() {
+        return driftPIDController;
     }
 
     //Initializer
-    public DemobotChassis(IMU setImu, DcMotor fr, DcMotor fl, DcMotor rr, DcMotor rl, Telemetry telemetry){
+    public BelindaChassis(IMU setImu, DcMotor fr, DcMotor fl, DcMotor rr, DcMotor rl, Telemetry telemetry){
         imu = setImu;
         FR = fr;
         FL = fl;
@@ -66,8 +66,8 @@ public class DemobotChassis
         dashboard = FtcDashboard.getInstance();
         dashboard.setTelemetryTransmissionInterval(25);
 
-        headingPID = new PID(0,0,0);//Create the pid controller.
-        driftPID = new PID(0,0,0);//Create the pid controller.
+        headingPIDController = new PIDController(0,0,0);//Create the pid controller.
+        driftPIDController = new PIDController(0,0,0);//Create the pid controller.
     }
 
     ////CALLABLE METHODS////
@@ -80,16 +80,16 @@ public class DemobotChassis
         SetModeRunWithoutEncoders();
 
         double robotDriftAngle = imu.CalculateDriftAngle();
-        double driftPIDOffset = driftPID.getOutput(robotDriftAngle, angle);
+        double driftPIDOffset = driftPIDController.getOutput(robotDriftAngle, angle);
 
         //Gets speeds for the motors
         double[] speeds = CalculateWheelSpeedsTurning(angle, speed, turnSpeed);
 
         //Uses pid controller to correct for heading error using (currentAngle, targetAngle)
-        double headingPIDOffset = headingPID.getOutput(turnSpeed, imu.GetAngularVelocity());
+        double headingPIDOffset = headingPIDController.getOutput(turnSpeed, imu.GetAngularVelocity());
         //if the number is not real, reset pid controller
         if(!(headingPIDOffset > 0 || headingPIDOffset <= 0)){
-            headingPID.reset();
+            headingPIDController.reset();
         }
         RobotTelemetry.addData("Angular Velocity ", imu.GetAngularVelocity());
         RobotTelemetry.addData("PID Offset ", headingPIDOffset);
@@ -184,7 +184,7 @@ public class DemobotChassis
         SetMotorSpeeds(0.5,0.5,0.5,0.5);
     }
     public void SetPIDCoefficients(double p, double i, double d){
-        headingPID.setPID(p,i,d);
+        headingPIDController.setPID(p,i,d);
     }
 
     public double[] CalculateWheelSpeedsTurning(double degrees, double speed, double turnSpeed)

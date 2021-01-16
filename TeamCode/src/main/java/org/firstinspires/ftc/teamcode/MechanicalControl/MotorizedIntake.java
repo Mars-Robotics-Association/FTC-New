@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.MechanicalControl.Belinda;
+package org.firstinspires.ftc.teamcode.MechanicalControl;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-public class Intake
+public class MotorizedIntake
 {
     ////DEPENDENCIES////
     //Motors

@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.MechanicalControl;
 
 import org.junit.jupiter.api.Test;
 
-class ShooterCalibrationTest {
+class DemobotShooterCalibrationTest {
 
     @Test
     public void main(){

@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Core.Input.ControllerInput;
 import org.firstinspires.ftc.teamcode.Core.Input.ControllerInputListener;
-import org.firstinspires.ftc.teamcode.Core.Robots.DemobotControl;
+import org.firstinspires.ftc.teamcode.Core.Robots.BelindaControl;
 
 //The class for controlling the robot in teleop. Includes basic drive movement, shooter operations,
 //and advanced autonomous functions.
@@ -17,12 +17,13 @@ import org.firstinspires.ftc.teamcode.Core.Robots.DemobotControl;
 //REQUIRED TO RUN: Phones | REV Hub | Demobot Chassis | Shooter | Odometry Unit
 //REQUIRED TO FUNCTION: Controllers
 
+
 @Config
 @TeleOp(name = "Demobot TeleOp")
 public class DemobotTeleop extends OpMode implements ControllerInputListener
 {
     ////Dependencies////
-    private DemobotControl control;
+    private BelindaControl control;
     private ControllerInput controllerInput1;
     private ControllerInput controllerInput2;
     FtcDashboard dashboard;
@@ -42,7 +43,7 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
     @Override
     public void init() {
         //Sets up demobot control class
-        control = new DemobotControl(this, true, false, false);
+        control = new BelindaControl(this, true, false, false);
         control.Init();
 
         //Sets up controller inputs
@@ -102,7 +103,7 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
     public void APressed(double controllerNumber) {
         if(controllerNumber == 1){
             //AIM SHOOTER if A pressed
-            control.AimShooter();
+            //control.AimShooter();
         }
     }
 
@@ -110,7 +111,7 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
     public void BPressed(double controllerNumber) {
         if(controllerNumber == 1){
             //AIM SHOOTER if A pressed
-            control.FireShooter();
+            //control.FireShooter();
         }
     }
 

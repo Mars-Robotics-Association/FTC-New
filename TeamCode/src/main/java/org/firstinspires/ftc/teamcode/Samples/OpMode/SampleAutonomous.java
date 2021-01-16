@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Core.Robots.DemobotControl;
+import org.firstinspires.ftc.teamcode.Core.Robots.BelindaControl;
 import org.firstinspires.ftc.teamcode.Navigation.OrionNavigator;
 
 @Config
@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Navigation.OrionNavigator;
 @Disabled
 public class SampleAutonomous extends LinearOpMode
 {
-    private DemobotControl control;
+    private BelindaControl control;
     private OrionNavigator orion;
     private FtcDashboard dashboard;
 
@@ -25,7 +25,7 @@ public class SampleAutonomous extends LinearOpMode
 
     @Override
     public void runOpMode() throws InterruptedException {
-        control = new DemobotControl(this,true,false,true);
+        control = new BelindaControl(this,true,false,true);
         control.Init();
         orion = control.GetOrion();
         dashboard = FtcDashboard.getInstance();

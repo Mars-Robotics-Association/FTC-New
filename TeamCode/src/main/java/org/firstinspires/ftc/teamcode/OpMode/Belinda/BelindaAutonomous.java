@@ -4,7 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Core.Robots.DemobotControl;
+import org.firstinspires.ftc.teamcode.Core.Robots.BelindaControl;
 
 //A simple autonomous script for the demobot
 
@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Core.Robots.DemobotControl;
 @Config
 @Autonomous(name = "Demobot Autonomous")
 public class BelindaAutonomous extends LinearOpMode {
-    DemobotControl control;
+    BelindaControl control;
 
     //Pid coefficients
     public static double p;
@@ -24,7 +24,7 @@ public class BelindaAutonomous extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //Init Control
-        control = new DemobotControl(this, true, false, true);
+        control = new BelindaControl(this, true, false, true);
         control.Init();
         control.Start();
 
@@ -38,7 +38,7 @@ public class BelindaAutonomous extends LinearOpMode {
         while (true){
             /*Control.SetDrivePID(p,i,d);
             Control.RawDrive(0,0,0);*/
-            control.FireShooter();
+            //control.FireShooter();
         }
     }
 }

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.MechanicalControl.Belinda.Intake;
+import org.firstinspires.ftc.teamcode.MechanicalControl.MotorizedIntake;
 
 /*Sample class for MechanicalControl.Intake
 Intake goes forwards when right trigger is down and reverses when left trigger is down. Stops when nothing is down.*/
@@ -13,11 +13,11 @@ Intake goes forwards when right trigger is down and reverses when left trigger i
 @Disabled
 public class IntakeSample extends OpMode
 {
-    Intake intake;
+    MotorizedIntake intake;
 
     @Override
     public void init() {
-        intake = new Intake();
+        intake = new MotorizedIntake();
         intake.Init(new DcMotor[]{hardwareMap.dcMotor.get("motor1")}, new double[]{1});
     }
 

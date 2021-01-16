@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DemobotControlTest {
+class BelindaControlTest {
 
     @Test
     void init() {

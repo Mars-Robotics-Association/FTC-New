@@ -13,7 +13,7 @@ package org.firstinspires.ftc.teamcode.Navigation;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Core.Robots.RobotControl;
+import org.firstinspires.ftc.teamcode.Core.Robots.MecanumBaseControl;
 import org.firstinspires.ftc.teamcode.Navigation.Roadrunner.RoadrunnerControl;
 import org.firstinspires.ftc.teamcode.Sensors.Arrays.DemobotSensorArray;
 import org.firstinspires.ftc.teamcode.Navigation.Tensorflow.TensorFlowObjectDetector;
@@ -27,7 +27,7 @@ public class OrionNavigator
     private TensorFlowObjectDetector tf;
     private DemobotSensorArray sa;
     private RobotTransformSystem cs;
-    private RobotControl control;
+    private MecanumBaseControl control;
     private OpMode opMode;
 
     //TODO ====VARIABLES====
@@ -39,7 +39,7 @@ public class OrionNavigator
     }
 
 
-    public OrionNavigator(OpMode setOpMode, RobotControl setControl){
+    public OrionNavigator(OpMode setOpMode, MecanumBaseControl setControl){
         opMode = setOpMode;
         control = setControl;
     }
@@ -113,6 +113,13 @@ public class OrionNavigator
         if(control.isUSE_CHASSIS()) rr.MoveSpline(globalOffset[0], globalOffset[1], 0);
     }
 
+    /**
+     * Moves the robot towards the closest visible disc. Does not adjust using heading, but rather
+     * by using side-to-side strafing.
+     *
+     * @param  speed  the speed at which to move the robot.
+     * @param  correctionCoefficient  a multiplier for that speed to be calibrated for each robot. Values should be low.
+     */
     public void MoveTowardsDiscRaw(double speed, double correctionCoefficient){
         UpdatePose();
         double error = tf.GetClosestDisc()[0] * correctionCoefficient;

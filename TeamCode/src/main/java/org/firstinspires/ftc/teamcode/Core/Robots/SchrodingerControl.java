@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.MechanicalControl.Belinda.Intake;
+import org.firstinspires.ftc.teamcode.MechanicalControl.MotorizedIntake;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger.SchrodingerArm;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger.SchrodingerFoundationGrabbers;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Schrodinger.SchrodingerGripper;
@@ -16,13 +16,13 @@ import org.firstinspires.ftc.teamcode.Navigation.Odometry.DemoBotOdometry;
 
 //REQUIRED TO RUN: Phones | REV Hub | Demobot Chassis | Shooter | Odometry Unit
 
-public class SchrodingerControl extends RobotControl
+public class SchrodingerControl extends MecanumBaseControl
 {
     ////Dependencies////
     //Mechanical Components
     private SchrodingerArm arm;
     private SchrodingerGripper gripper;
-    private Intake intake;
+    private MotorizedIntake intake;
     private SchrodingerFoundationGrabbers grabbers;
     private DemoBotOdometry odometry;
 
@@ -63,7 +63,7 @@ public class SchrodingerControl extends RobotControl
             gripper = new SchrodingerGripper(gripperR, gripperL, headingServo, rotationServoR, rotationServoL);
             grabbers = new SchrodingerFoundationGrabbers(grabberServoR, grabberServoL,TM);
 
-            intake = new Intake();
+            intake = new MotorizedIntake();
             intake.Init(new DcMotor[]{intakeMotorR, intakeMotorL}, new double[]{1,-1});
 
             armResetTouchSensor = currentOpMode.hardwareMap.get(RevTouchSensor.class, "armReset");
@@ -116,7 +116,7 @@ public class SchrodingerControl extends RobotControl
     //PUBLIC GETTERS
     public SchrodingerGripper GetGripper(){return gripper;}
     public SchrodingerArm GetArm(){return arm;}
-    public Intake GetIntake(){return intake;}
+    public MotorizedIntake GetIntake(){return intake;}
     public SchrodingerFoundationGrabbers GetFoundationGrabbers(){return grabbers;}
     public DemoBotOdometry GetOdometry() {return odometry;}
 }

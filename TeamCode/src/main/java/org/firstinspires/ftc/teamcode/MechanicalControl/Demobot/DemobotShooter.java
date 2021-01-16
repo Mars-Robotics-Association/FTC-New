@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.MechanicalControl.Belinda;
+package org.firstinspires.ftc.teamcode.MechanicalControl.Demobot;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.ServoController;
 
 //REQUIRED TO COMPILE: REV Hub | Phones | Shooter
 
-public class Shooter
+public class DemobotShooter
 {
     ////DEPENDENCIES////
     //Motors/servos

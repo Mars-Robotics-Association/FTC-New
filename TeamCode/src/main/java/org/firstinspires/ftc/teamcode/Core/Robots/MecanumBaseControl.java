@@ -9,10 +9,8 @@ import org.firstinspires.ftc.teamcode.MechanicalControl.Belinda.BelindaChassis;
 import org.firstinspires.ftc.teamcode.Navigation.OrionNavigator;
 import org.firstinspires.ftc.teamcode.Sensors.IMU;
 
-//Code for all mecanum base robots
-
 @Config
-public class RobotControl
+public class MecanumBaseControl
 {
     //MovementTowardsDiscs
     public static double discMoveCoefficient = -0.0015;
@@ -46,7 +44,7 @@ public class RobotControl
     public boolean isUSE_NAVIGATOR(){return USE_NAVIGATOR;}
 
     //Initializer
-    public RobotControl(OpMode setOpMode, boolean useChassis, boolean usePayload, boolean useNavigator)
+    public MecanumBaseControl(OpMode setOpMode, boolean useChassis, boolean usePayload, boolean useNavigator)
     {
         currentOpMode = setOpMode;
         USE_CHASSIS = useChassis;

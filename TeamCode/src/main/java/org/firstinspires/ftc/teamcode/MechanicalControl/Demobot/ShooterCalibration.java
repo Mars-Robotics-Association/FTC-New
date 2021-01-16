@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.MechanicalControl.Belinda;
+package org.firstinspires.ftc.teamcode.MechanicalControl.Demobot;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.hardware.ServoController;
 public class ShooterCalibration extends LinearOpMode
 {
     ////DEPENDENCIES////
-    Shooter shooter;
+    DemobotShooter demobotShooter;
     DcMotor spinner;
     DcMotor loader;
     ServoController aimer;
@@ -38,8 +38,8 @@ public class ShooterCalibration extends LinearOpMode
         aimer = hardwareMap.crservo.get("aimer").getController();
 
         //init shooter
-        shooter = new Shooter();
-        shooter.Init(spinner, loader, aimer, 20);
+        demobotShooter = new DemobotShooter();
+        demobotShooter.Init(spinner, loader, aimer, 20);
 
         waitForStart();
 
@@ -67,10 +67,10 @@ public class ShooterCalibration extends LinearOpMode
 
     public void shoot(double angle){ //TODO: use a button on robot instead of timers
         //shoots at an angle
-        shooter.RawAim(angle);
-        shooter.SpinUp();
+        demobotShooter.RawAim(angle);
+        demobotShooter.SpinUp();
         sleep(2000);//wait 2 seconds
-        shooter.Fire();
+        demobotShooter.Fire();
         sleep(10000);//wait ten seconds
     }
 

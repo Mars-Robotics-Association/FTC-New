@@ -9,6 +9,11 @@ import org.firstinspires.ftc.teamcode.MechanicalControl.Belinda.SquirtleShooterC
 import org.firstinspires.ftc.teamcode.MechanicalControl.MotorizedIntake;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Demobot.DemobotShooter;
 
+/**
+ * Control class for the Belinda Robot. Controls payload.
+ * Required to run: Phones | REV Hub | Belinda Chassis
+ * Suggested to run: Shooter | Intake | Odometry | Webcam
+ */
 //The class used to control the demobot. Autonomous functions, opmodes, and other scripts can call
 //methods in here to control the demobot.
 
@@ -29,6 +34,11 @@ public class BelindaControl extends MecanumBaseControl
     //Calibration
     private double shooterHeight = 0.5; //in meters
 
+    /**@param setOpMode pass the opmode running this down to access hardware map
+     * @param useChassis whether to use the chassis of the robot
+     * @param usePayload whether to use the shooter/intake/lift of the robot
+     * @param useNavigator whether to use Orion (webcams + odometry navigation)
+     */
     public BelindaControl(OpMode setOpMode, boolean useChassis, boolean usePayload, boolean useNavigator) {
         super(setOpMode, useChassis, usePayload, useNavigator);
     }

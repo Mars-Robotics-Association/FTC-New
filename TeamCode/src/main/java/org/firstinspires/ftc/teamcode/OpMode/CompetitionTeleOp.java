@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Core.Input.ControllerInput;
 import org.firstinspires.ftc.teamcode.Core.Input.ControllerInputListener;
 import org.firstinspires.ftc.teamcode.Core.Robots.BelindaControl;
 
-@TeleOp(name = "*COMPETION TELEOP*", group = "Competition")
+@TeleOp(name = "*COMPETITION TELEOP*", group = "Competition")
 @Config
 public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 {
@@ -19,9 +19,12 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     ////Variables////
     //Tweaking Vars
-    public static double turnWhileDrivingSpeed = 1;//used to change how fast robot turns when driving
     public static double driveSpeed = 1;//used to change how fast robot drives
-    public static double turnSpeed = 1;//used to change how fast robot turns
+    public static double turnSpeed = -1;//used to change how fast robot turns
+
+    private double speedMultiplier = 1;
+
+    private boolean busy = false;
 
     @Override
     public void init() {
@@ -32,16 +35,30 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
         controllerInput1.addListener(this);
         controllerInput2 = new ControllerInput(gamepad2, 2);
         controllerInput2.addListener(this);
+
+        telemetry.addData("Speed Multiplier", speedMultiplier);
+        telemetry.update();
     }
 
     @Override
+    public void start(){control.Start();}
+
+    @Override
     public void loop() {
-        control.GetOrion().MoveRaw(gamepad1.left_stick_x * driveSpeed, gamepad1.left_stick_y*driveSpeed, gamepad1.right_stick_x*turnWhileDrivingSpeed);
+        controllerInput1.Loop();
+        controllerInput2.Loop();
+
+        if(!busy) control.GetOrion().MoveRaw(gamepad1.left_stick_y*driveSpeed*speedMultiplier, gamepad1.left_stick_x*driveSpeed*speedMultiplier, gamepad1.right_stick_x*turnSpeed*speedMultiplier);
 
     }
 
     @Override
     public void APressed(double controllerNumber) {
+        if(controllerNumber == 1) {
+            if (speedMultiplier == 1) speedMultiplier = 0.5;
+            else if (speedMultiplier == 0.5) speedMultiplier = 0.25;
+            else speedMultiplier = 1;
+        }
     }
 
     @Override
@@ -71,7 +88,12 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void XHeld(double controllerNumber) {
-
+        if(controllerNumber == 1){
+            busy = true;
+            control.MoveTowardsClosestDisc();
+            telemetry.addLine("Moving to closest disc!");
+            telemetry.update();
+        }
     }
 
     @Override
@@ -91,7 +113,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void XReleased(double controllerNumber) {
-
+        if(controllerNumber == 1) busy = false;
     }
 
     @Override

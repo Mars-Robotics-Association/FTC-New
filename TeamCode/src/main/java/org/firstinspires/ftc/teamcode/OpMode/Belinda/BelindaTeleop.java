@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -19,6 +20,7 @@ import org.firstinspires.ftc.teamcode.Core.Robots.BelindaControl;
 
 @Config
 @TeleOp(name = "*Belinda TeleOp*")
+@Disabled
 public class BelindaTeleop extends OpMode implements ControllerInputListener
 {
     ////Dependencies////

@@ -3,11 +3,8 @@ package org.firstinspires.ftc.teamcode.Core.Robots;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoController;
 
-import org.firstinspires.ftc.teamcode.MechanicalControl.Belinda.SquirtleShooterController;
-import org.firstinspires.ftc.teamcode.MechanicalControl.MotorizedIntake;
-import org.firstinspires.ftc.teamcode.MechanicalControl.Demobot.DemobotShooter;
+import org.firstinspires.ftc.teamcode.MechanicalControl.Belinda.BelindaShooterIntakeController;
 
 /**
  * Control class for the Belinda Robot. Controls payload.
@@ -23,7 +20,7 @@ public class BelindaControl extends MecanumBaseControl
 {
     ////Dependencies////
     //Mechanical Components
-    private SquirtleShooterController shooterIntake;
+    private BelindaShooterIntakeController shooterIntake;
     //Shooter/Intake Motors
     private DcMotor shooterMotor1;
     private DcMotor shooterMotor2;
@@ -52,7 +49,7 @@ public class BelindaControl extends MecanumBaseControl
             intakeServo = currentOpMode.hardwareMap.servo.get("intakeServo");
             loaderServo = currentOpMode.hardwareMap.servo.get("loaderServo");
 
-            shooterIntake = new SquirtleShooterController();
+            shooterIntake = new BelindaShooterIntakeController();
             shooterIntake.Init(new DcMotor[]{shooterMotor1, shooterMotor2}, new double[]{1,1}, new Servo[]{intakeServo, loaderServo}, 1);
         }
 

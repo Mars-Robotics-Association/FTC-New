@@ -25,6 +25,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
     private double speedMultiplier = 1;
 
     private boolean busy = false;
+    private double turnOffset = 0;
 
     @Override
     public void init() {
@@ -48,8 +49,17 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
         controllerInput1.Loop();
         controllerInput2.Loop();
 
-        if(!busy) control.GetOrion().MoveRaw(gamepad1.left_stick_y*driveSpeed*speedMultiplier, gamepad1.left_stick_x*driveSpeed*speedMultiplier, gamepad1.right_stick_x*turnSpeed*speedMultiplier);
+        if(!busy) {
+            ManageDriving();
+        }
 
+    }
+
+    private void ManageDriving() {
+        double moveX = -gamepad1.left_stick_y*driveSpeed*speedMultiplier;
+        double moveY = -gamepad1.left_stick_x*driveSpeed*speedMultiplier;
+        double turn = gamepad1.right_stick_x*turnSpeed*speedMultiplier + turnOffset;
+        control.GetOrion().MoveRaw(moveX, moveY, turn);
     }
 
     @Override
@@ -83,7 +93,12 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void BHeld(double controllerNumber) {
-
+        if(controllerNumber == 1){
+            busy = true;
+            control.TurnTowardsVuMark();
+            telemetry.addLine("Turning To VuMark!");
+            telemetry.update();
+        }
     }
 
     @Override
@@ -158,7 +173,9 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void RTHeld(double controllerNumber) {
-
+        if(controllerNumber == 1){
+            turnOffset = control.TurnTowardsClosestDiscSpeed();
+        }
     }
 
     @Override
@@ -178,6 +195,8 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void RTReleased(double controllerNumber) {
-
+        if(controllerNumber == 1){
+            turnOffset = 0;
+        }
     }
 }

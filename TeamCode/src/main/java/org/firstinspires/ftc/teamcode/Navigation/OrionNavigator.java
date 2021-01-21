@@ -23,7 +23,8 @@ public class OrionNavigator
 {
     //TODO ====REFERENCES====
     private RoadrunnerControl rr;
-    private VuMarkNavigation vn;
+    private VuMarkNavigation vuforiaFront;
+    private VuMarkNavigation vuforiaBack;
     private TensorFlowObjectDetector tf;
     private DemobotSensorArray sa;
     private RobotTransformSystem cs;
@@ -49,8 +50,9 @@ public class OrionNavigator
             rr = new RoadrunnerControl(opMode);
             rr.Init();
         }
-        vn = new VuMarkNavigation(opMode);
-        tf = new TensorFlowObjectDetector(opMode, vn.GetVuforia(), new double[]{0,0,0});
+        vuforiaFront = new VuMarkNavigation(opMode, "Webcam 1");
+        //vuforiaBack = new VuMarkNavigation(opMode, "Webcam 2");
+        tf = new TensorFlowObjectDetector(opMode, vuforiaFront.GetVuforia(), new double[]{0,0,0});
         cs = new RobotTransformSystem(0,0,0);
         //sa = new DemobotSensorArray(opMode);
     }
@@ -79,7 +81,7 @@ public class OrionNavigator
     public void MoveToVumark(int vumarkIndex, double xOffset, double yOffset, double headingOffset, double xThreshold, double yThreshold){
         //Move to an offset relative to a vumark and face it- useful for shooting
         //Find vumark pose
-        double[] vumarkDist = vn.GetData(vumarkIndex);
+        double[] vumarkDist = vuforiaFront.GetData(vumarkIndex);
 
         //Find offset from vumark in local space
         double offsetX = xOffset - vumarkDist[0];
@@ -124,7 +126,36 @@ public class OrionNavigator
         UpdatePose();
         double error = tf.GetClosestDisc()[0] * correctionCoefficient;
         if(error == 0) return;
-        rr.MoveRaw(new Pose2d(speed, error, rr.GetCurrentPose().getHeading()));
+        rr.MoveRaw(new Pose2d(speed, error, rr.GetCurrentPose().getHeading())); //try to keep disc in center of screen
+    }
+
+    public double TurnTowardsDiscSpeed(double correctionCoefficient){
+        UpdatePose();
+        double error = tf.GetClosestDisc()[0];
+        if(error == 0) return 0;
+        return error * correctionCoefficient; //try to keep disc in center of screen
+    }
+
+    public void TurnTowardsVuMark(double speed, int vumarkCode, double correctionCoefficient, boolean useFrontVuforia){
+        double[] data;
+        if(useFrontVuforia) data = vuforiaFront.GetData(vumarkCode);
+        else data = vuforiaBack.GetData(vumarkCode);
+
+        double rotationalError = data[4]; //TODO: Figure out whether to use 4 or 5
+        if(!(rotationalError > 0 || rotationalError < 0 || rotationalError ==0)) return; //if its null
+
+        rr.TurnRaw(speed*rotationalError*correctionCoefficient); //turn based on the rotational error towards vumark
+    }
+
+    public double TurnTowardsVuMarkSpeed(int vumarkCode, double correctionCoefficient, boolean useFrontVuforia){
+        double[] data;
+        if(useFrontVuforia) data = vuforiaFront.GetData(vumarkCode);
+        else data = vuforiaBack.GetData(vumarkCode);
+
+        double rotationalError = data[4]; //TODO: Figure out whether to use 4 or 5
+        if(!(rotationalError > 0 || rotationalError < 0 || rotationalError ==0)) return 0; //if its null
+
+        return rotationalError * correctionCoefficient; //turn based on the rotational error towards vumark
     }
 
     public void MoveRaw(double x, double y, double turn){rr.MoveRaw(new Pose2d(x,y,turn));}
@@ -134,8 +165,8 @@ public class OrionNavigator
     public int GetNumberOfDiscs(){return tf.ReturnNumberOfDiscsInSight();}
 
     //TODO: ====TELEMETRY METHODS FOR DEBUG====
-    public void PrintVuforiaTelemetry(int vuforiaCode){
-        double[] data = vn.GetData(vuforiaCode);
+    public void PrintVuforiaTelemetry(int vumarkCode){
+        double[] data = vuforiaFront.GetData(vumarkCode);
         opMode.telemetry.addData("vumark is ",data[3] + " inches away, "+data[4]+" degrees right, and "+data[0]+" inches high.");
     }
     public void PrintTensorflowTelemetry(){

@@ -36,7 +36,7 @@ public class WobbleGoalAutonomous extends LinearOpMode {
 
         waitForStart();
         orion.SetPose(robotX, robotY, robotH);//robot starts on blue left line
-        orion.MoveLinear(32,0,0);//move to disc stack
+        orion.MoveLinear(28,0,0);//move to disc stack
         sleep(500);//wait for tensorflow to detect discs
         int numberOfDiscs = orion.GetNumberOfDiscs();//figure out where to go
 
@@ -50,14 +50,15 @@ public class WobbleGoalAutonomous extends LinearOpMode {
 
         else if(numberOfDiscs > 0 && numberOfDiscs < 3){ //go to B
             telemetry.addLine("middle target");
-            orion.MoveSpline(50, -8, 0);//drop off wobble goal 1
+            orion.MoveSpline(54, -2, 0);//drop off wobble goal 1
             /*orion.MoveLinear(-10, -30, 0);
             orion.MoveLinear(-72, 0, 0);*/
-            orion.MoveLinear(-44,-42, 0);//heads back
-            orion.MoveLinear(-35,0, 0);
-            orion.MoveLinear(0,10,0);//lines up for second wobble goal
-            orion.MoveLinear(30,0,0);//places it
+            orion.MoveLinear(-44,-50, 0);//heads back
+            orion.MoveLinear(-40,0, 0);
+            orion.MoveLinear(0,20,0);//lines up for second wobble goal
+            orion.MoveLinear(30,-3,0);//places it
             orion.MoveSpline(56,10,0);
+            orion.MoveLinear(-15,0,0);//goes back to line
 
         }
 

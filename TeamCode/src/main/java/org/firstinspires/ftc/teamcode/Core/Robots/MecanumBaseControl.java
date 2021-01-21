@@ -12,9 +12,14 @@ import org.firstinspires.ftc.teamcode.Sensors.IMU;
 @Config
 public class MecanumBaseControl
 {
-    //MovementTowardsDiscs
+    ////Calibration////
+    //Movement Towards Discs
     public static double discMoveCoefficient = -0.0015;
+    public static double discTurnCoefficient = -0.0015;
     public static double discMoveSpeed = 0.2;
+    //Turn to Vumark
+    public static double vumarkTurnCoefficient = 0.1;
+    public static int targetVumarkID = 1;
 
     ////Dependencies////
     //Mechanical Components
@@ -42,6 +47,7 @@ public class MecanumBaseControl
     public boolean isUSE_CHASSIS(){return USE_CHASSIS;}
     public boolean isUSE_PAYLOAD(){return USE_PAYLOAD;}
     public boolean isUSE_NAVIGATOR(){return USE_NAVIGATOR;}
+
 
     //Initializer
     public MecanumBaseControl(OpMode setOpMode, boolean useChassis, boolean usePayload, boolean useNavigator)
@@ -110,9 +116,10 @@ public class MecanumBaseControl
         //Turns the robot gradually
         //Enter target angle, speed, and turn offset
     }
-    public void MoveTowardsClosestDisc(){
-        orion.MoveTowardsDiscRaw(discMoveSpeed, discMoveCoefficient);
-    }
+    public void MoveTowardsClosestDisc(){ orion.MoveTowardsDiscRaw(discMoveSpeed, discMoveCoefficient); }
+    public double TurnTowardsClosestDiscSpeed(){return orion.TurnTowardsDiscSpeed(discTurnCoefficient);}
+
+    public void TurnTowardsVuMark(){orion.TurnTowardsVuMark(1, targetVumarkID, vumarkTurnCoefficient, false);}
 
     //TODO: UNIVERSAL GETTERS
     public OrionNavigator GetOrion(){return orion;}

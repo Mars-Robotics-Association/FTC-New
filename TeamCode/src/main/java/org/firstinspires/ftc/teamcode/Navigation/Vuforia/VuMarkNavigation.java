@@ -60,10 +60,10 @@ public class VuMarkNavigation {
 
     private WebcamName webcamName;
 
-    public VuMarkNavigation(OpMode opmode) {
+    public VuMarkNavigation(OpMode opmode, String webcamID) {
         opMode = opmode;
 
-        webcamName = opmode.hardwareMap.get(WebcamName.class, "Webcam 1");
+        webcamName = opmode.hardwareMap.get(WebcamName.class, webcamID);
         int cameraMonitorViewId = opmode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", opmode.hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 

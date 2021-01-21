@@ -36,9 +36,7 @@ public class NavigationTesting extends LinearOpMode {
         waitForStart();
         orion.SetPose(robotX, robotY, robotH);
         while(!isStopRequested()) {
-            orion.PrintTensorflowTelemetry();
-            orion.MoveTowardsDiscRaw(discMoveSpeed, discMoveCoefficient);
-            telemetry.update();
+            control.TurnTowardsVuMark();
         }
     }
 

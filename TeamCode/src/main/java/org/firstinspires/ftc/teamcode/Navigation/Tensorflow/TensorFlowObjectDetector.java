@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.Navigation.Tensorflow;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -42,6 +43,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.List;
 
+@Config
 public class TensorFlowObjectDetector
 {
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";

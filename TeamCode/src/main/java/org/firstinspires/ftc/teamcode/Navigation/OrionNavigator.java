@@ -138,10 +138,15 @@ public class OrionNavigator
 
     public void TurnTowardsVuMark(double speed, int vumarkCode, double correctionCoefficient, boolean useFrontVuforia){
         double[] data;
-        if(useFrontVuforia) data = vuforiaFront.GetData(vumarkCode);
-        else data = vuforiaBack.GetData(vumarkCode);
+        data = vuforiaFront.GetData(vumarkCode);
 
-        double rotationalError = data[4]; //TODO: Figure out whether to use 4 or 5
+        double rotationalError = data[4]; //get heading
+        /*if(rotationalError > 0) rotationalError -= 180;
+        else if(rotationalError < 0) rotationalError += 180;*/
+        if(!(rotationalError > 0 ||rotationalError < 0 || rotationalError == 0)) rotationalError = 0;
+
+        opMode.telemetry.addData("VuMark heading error ", rotationalError);
+
         if(!(rotationalError > 0 || rotationalError < 0 || rotationalError ==0)) return; //if its null
 
         rr.TurnRaw(speed*rotationalError*correctionCoefficient); //turn based on the rotational error towards vumark

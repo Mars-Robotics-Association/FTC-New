@@ -18,8 +18,8 @@ public class MecanumBaseControl
     public static double discTurnCoefficient = -0.0015;
     public static double discMoveSpeed = 0.2;
     //Turn to Vumark
-    public static double vumarkTurnCoefficient = 0.1;
-    public static int targetVumarkID = 1;
+    public static double vumarkTurnCoefficient = -0.05;
+    public static int targetVumarkID = 0;
 
     ////Dependencies////
     //Mechanical Components
@@ -119,7 +119,7 @@ public class MecanumBaseControl
     public void MoveTowardsClosestDisc(){ orion.MoveTowardsDiscRaw(discMoveSpeed, discMoveCoefficient); }
     public double TurnTowardsClosestDiscSpeed(){return orion.TurnTowardsDiscSpeed(discTurnCoefficient);}
 
-    public void TurnTowardsVuMark(){orion.TurnTowardsVuMark(1, targetVumarkID, vumarkTurnCoefficient, false);}
+    public void TurnTowardsVuMark(){orion.TurnTowardsVuMark(1, targetVumarkID, vumarkTurnCoefficient, true);}
 
     //TODO: UNIVERSAL GETTERS
     public OrionNavigator GetOrion(){return orion;}

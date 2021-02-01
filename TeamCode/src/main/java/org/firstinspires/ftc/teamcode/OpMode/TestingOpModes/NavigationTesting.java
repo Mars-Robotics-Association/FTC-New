@@ -35,7 +35,8 @@ public class NavigationTesting extends LinearOpMode {
 
         waitForStart();
         orion.SetPose(robotX, robotY, robotH);
-        while(!isStopRequested()) {
+
+        while (!isStopRequested()){
             control.TurnTowardsVuMark();
         }
     }

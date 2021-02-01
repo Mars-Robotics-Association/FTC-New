@@ -84,7 +84,6 @@ public class VuMarkNavigation {
         double[] data = {0.0,0.0,0.0,0.0,0.0,0.0};
         VuforiaTrackable vumark = trackables.get(vumarkIndex);
 
-        //RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(vumark);
         VuforiaTrackable vuMark = vumark;
         if (vuMark != null) {
 
@@ -93,11 +92,8 @@ public class VuMarkNavigation {
              * on which VuMark was visible. */
             opMode.telemetry.addData("VuMark", "%s visible", vuMark.getName());
 
-            /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
-             * it is perhaps unlikely that you will actually need to act on this pose information, but
-             * we illustrate it nevertheless, for completeness. */
-            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)vumark.getListener()).getPose();
-            //opMode.telemetry.addData("Pose", format(pose));
+            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)vumark.getListener()).getFtcCameraFromTarget();
+            opMode.telemetry.addData("Pose", format(pose));
 
             /* We further illustrate how to decompose the pose into useful rotational and
              * translational components */
@@ -115,8 +111,8 @@ public class VuMarkNavigation {
                 double rY = rot.secondAngle;
                 double rZ = rot.thirdAngle;
 
-                double dist = Math.sqrt(Math.pow(Math.abs(tZ),2)+Math.pow(Math.abs(tX),2));//tX use to by tY, this was switched because the camera uses portrait mode
-                double rZreal = Math.toDegrees(Math.atan(Math.abs(tY)/Math.abs(tZ)));
+                double dist = Math.sqrt(Math.pow(Math.abs(tX),2)+Math.pow(Math.abs(tY),2));//tX use to by tY, this was switched because the camera uses portrait mode
+                double rZreal = Math.toDegrees(Math.atan(tX/tZ));
                 //opMode.telemetry.addData("Vumark",dist + " milimeters away");
                 //opMode.telemetry.addData("Vumark",-1*tX+" milimeters high");
                 data[0] = tX / mmPerInch;

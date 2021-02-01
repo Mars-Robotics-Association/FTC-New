@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.MechanicalControl.Belinda.BelindaShooterIntakeController;
+import org.firstinspires.ftc.teamcode.MechanicalControl.Curiosity.CuriosityPayloadController;
 
 /**
  * Control class for the Belinda Robot. Controls payload.
@@ -19,11 +20,11 @@ import org.firstinspires.ftc.teamcode.MechanicalControl.Belinda.BelindaShooterIn
 
 //REQUIRED TO RUN: Phones | REV Hub | Demobot Chassis | Shooter | Odometry Unit
 
-public class BelindaControl extends MecanumBaseControl
+public class CuriosityUltimateGoalControl extends MecanumBaseControl
 {
     ////Dependencies////
     //Mechanical Components
-    private BelindaShooterIntakeController shooterIntake;
+    private CuriosityPayloadController shooterIntake;
 
     ////Variables////
     //Calibration
@@ -34,7 +35,7 @@ public class BelindaControl extends MecanumBaseControl
      * @param usePayload whether to use the shooter/intake/lift of the robot
      * @param useNavigator whether to use Orion (webcams + odometry navigation)
      */
-    public BelindaControl(OpMode setOpMode, boolean useChassis, boolean usePayload, boolean useNavigator) {
+    public CuriosityUltimateGoalControl(OpMode setOpMode, boolean useChassis, boolean usePayload, boolean useNavigator) {
         super(setOpMode, useChassis, usePayload, useNavigator);
     }
 
@@ -44,13 +45,14 @@ public class BelindaControl extends MecanumBaseControl
         if(USE_PAYLOAD) {
             DcMotor shooterMotor1 = currentOpMode.hardwareMap.dcMotor.get("SM1");
             DcMotor shooterMotor2 = currentOpMode.hardwareMap.dcMotor.get("SM2");
-            DcMotor intakeMotor = currentOpMode.hardwareMap.dcMotor.get("IM");
-            intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            Servo intakeServo1 = currentOpMode.hardwareMap.servo.get("intakeServo1");
+            Servo intakeServo2 = currentOpMode.hardwareMap.servo.get("intakeServo2");
             Servo loaderServo = currentOpMode.hardwareMap.servo.get("loaderServo");
-            DistanceSensor loaderSensor = currentOpMode.hardwareMap.get(DistanceSensor.class, "loaderSensor");
+            Servo starpathServo = currentOpMode.hardwareMap.servo.get("starpathServo");
+            Servo bootServo = currentOpMode.hardwareMap.servo.get("bootServo");
 
-            shooterIntake = new BelindaShooterIntakeController();
-            shooterIntake.Init(currentOpMode, new DcMotor[]{shooterMotor1, shooterMotor2}, new double[]{1,-1}, new Servo[]{loaderServo}, 1, intakeMotor, loaderSensor, 1);
+            shooterIntake = new CuriosityPayloadController();
+            shooterIntake.Init(currentOpMode, new DcMotor[]{shooterMotor1, shooterMotor2}, intakeServo1, intakeServo2, bootServo, starpathServo, loaderServo);
         }
 
         //TODO ===INIT CORE ROBOT===
@@ -65,8 +67,11 @@ public class BelindaControl extends MecanumBaseControl
     }
 
     //CALLABLE METHODS//
-    public void ShooterRoutine(){shooterIntake.ShootRoutine();}
-    public void StopShooter(){shooterIntake.ShooterOff();}
+    public void ShooterRoutine(){shooterIntake.Shoot();}
+    public void StopShooter(){shooterIntake.StopShooter();}
     public void Intake(){shooterIntake.Intake();}
-    public void StopIntake(){shooterIntake.IntakeOff();}
+    public void StopIntake(){shooterIntake.StopIntake();}
+    public void LoadStarpath(){shooterIntake.LoadFromIntake();}
+    public void StopLoadStarpath(){shooterIntake.StopLoadFromIntake();}
+    public void RotateStarpathToNextPos(){shooterIntake.RotateStarpathToNextPos();}
 }

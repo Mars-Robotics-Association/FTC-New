@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpMode;
+package org.firstinspires.ftc.teamcode.OpMode.Belinda;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -8,9 +8,9 @@ import org.firstinspires.ftc.teamcode.Core.Input.ControllerInput;
 import org.firstinspires.ftc.teamcode.Core.Input.ControllerInputListener;
 import org.firstinspires.ftc.teamcode.Core.Robots.CuriosityUltimateGoalControl;
 
-@TeleOp(name = "*COMPETITION TELEOP*", group = "Competition")
+@TeleOp(name = "*SHOOTER TELEOP*")
 @Config
-public class CompetitionTeleOp extends OpMode implements ControllerInputListener
+public class ShooterTestTeleOp extends OpMode implements ControllerInputListener
 {
     ////Dependencies////
     private CuriosityUltimateGoalControl control;
@@ -29,7 +29,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void init() {
-        control = new CuriosityUltimateGoalControl(this, true, true, true);
+        control = new CuriosityUltimateGoalControl(this, false, true, false);
         control.Init();
 
         controllerInput1 = new ControllerInput(gamepad1, 1);
@@ -50,17 +50,11 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
         controllerInput2.Loop();
 
         if(!busy) {
-            ManageDriving();
         }
 
     }
 
-    private void ManageDriving() {
-        double moveX = -gamepad1.left_stick_y*driveSpeed*speedMultiplier;
-        double moveY = -gamepad1.left_stick_x*driveSpeed*speedMultiplier;
-        double turn = gamepad1.right_stick_x*turnSpeed*speedMultiplier + turnOffset;
-        control.GetOrion().MoveRaw(moveX, moveY, turn);
-    }
+    //B,A,X,RT,LT,Y used
 
     @Override
     public void APressed(double controllerNumber) {
@@ -96,21 +90,14 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
     @Override
     public void BHeld(double controllerNumber) {
         if(controllerNumber == 1){
-            busy = true;
-            control.TurnTowardsVuMark();
-            telemetry.addLine("Turning To VuMark!");
-            control.GetOrion().PrintVuforiaTelemetry(0);
-            telemetry.update();
+
         }
     }
 
     @Override
     public void XHeld(double controllerNumber) {
         if(controllerNumber == 1){
-            busy = true;
-            control.MoveTowardsClosestDisc();
-            telemetry.addLine("Moving to closest disc!");
-            telemetry.update();
+
         }
     }
 

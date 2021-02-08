@@ -69,6 +69,8 @@ public class CuriosityUltimateGoalControl extends MecanumBaseControl
     //CALLABLE METHODS//
     public void ShooterRoutine(){shooterIntake.Shoot();}
     public void StopShooter(){shooterIntake.StopShooter();}
+    public void ShooterOn(){shooterIntake.ShooterOn();}
+    public void ShooterOff(){shooterIntake.ShooterOff();}
     public void Intake(){shooterIntake.Intake();}
     public void StopIntake(){shooterIntake.StopIntake();}
     public void LoadStarpath(){shooterIntake.LoadFromIntake();}

@@ -106,12 +106,6 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void XHeld(double controllerNumber) {
-        if(controllerNumber == 1){
-            busy = true;
-            control.MoveTowardsClosestDisc();
-            telemetry.addLine("Moving to closest disc!");
-            telemetry.update();
-        }
     }
 
     @Override
@@ -166,7 +160,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void RBHeld(double controllerNumber) {
-
+        if(controllerNumber == 1) control.ShooterOn();
     }
 
     @Override
@@ -188,7 +182,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void RBReleased(double controllerNumber) {
-
+        if(controllerNumber == 1) control.ShooterOff();
     }
 
     @Override

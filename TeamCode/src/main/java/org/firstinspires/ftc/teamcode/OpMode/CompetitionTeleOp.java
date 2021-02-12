@@ -20,12 +20,14 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
     ////Variables////
     //Tweaking Vars
     public static double driveSpeed = 1;//used to change how fast robot drives
-    public static double turnSpeed = -1;//used to change how fast robot turns
+    public static double turnSpeed = 1;//used to change how fast robot turns
 
     private double speedMultiplier = 1;
 
     private boolean busy = false;
     private double turnOffset = 0;
+
+    private int payloadController = 2;
 
     @Override
     public void init() {
@@ -78,7 +80,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void XPressed(double controllerNumber) {
-        if(controllerNumber == 1){
+        if(controllerNumber == payloadController){
             control.RotateStarpathToNextPos();
         }
     }
@@ -110,7 +112,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void YHeld(double controllerNumber) {
-        if(controllerNumber==1) control.ShooterRoutine();
+        if(controllerNumber==payloadController) control.ShooterRoutine();
     }
 
     @Override
@@ -125,12 +127,12 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void XReleased(double controllerNumber) {
-        if(controllerNumber == 1) busy = false;
+        if(controllerNumber == payloadController) busy = false;
     }
 
     @Override
     public void YReleased(double controllerNumber) {
-        if(controllerNumber==1) control.StopShooter();
+        if(controllerNumber==payloadController) control.StopShooter();
     }
 
     @Override
@@ -160,17 +162,17 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void RBHeld(double controllerNumber) {
-        if(controllerNumber == 1) control.ShooterOn();
+        if(controllerNumber == payloadController) control.ShooterOn();
     }
 
     @Override
     public void LTHeld(double controllerNumber) {
-        if(controllerNumber == 1) control.Intake();
+        if(controllerNumber == payloadController) control.Intake();
     }
 
     @Override
     public void RTHeld(double controllerNumber) {
-        if(controllerNumber == 1){
+        if(controllerNumber == payloadController){
             control.LoadStarpath();
         }
     }
@@ -182,17 +184,17 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void RBReleased(double controllerNumber) {
-        if(controllerNumber == 1) control.ShooterOff();
+        if(controllerNumber == payloadController) control.ShooterOff();
     }
 
     @Override
     public void LTReleased(double controllerNumber) {
-        if(controllerNumber == 1) control.StopIntake();
+        if(controllerNumber == payloadController) control.StopIntake();
     }
 
     @Override
     public void RTReleased(double controllerNumber) {
-        if(controllerNumber == 1){
+        if(controllerNumber == payloadController){
             control.StopLoadStarpath();
         }
     }

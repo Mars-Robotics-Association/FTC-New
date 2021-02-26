@@ -1,103 +1,81 @@
 package org.firstinspires.ftc.teamcode.OpMode;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Core.Input.ControllerInput;
 import org.firstinspires.ftc.teamcode.Core.Input.ControllerInputListener;
-import org.firstinspires.ftc.teamcode.Core.Robots.BelindaControl;
+import org.firstinspires.ftc.teamcode.Core.Robots.CuriosityUltimateGoalControl;
 
-//The class for controlling the robot in teleop. Includes basic drive movement, shooter operations,
-//and advanced autonomous functions.
-
-//REQUIRED TO RUN: Phones | REV Hub | Demobot Chassis | Shooter | Odometry Unit
-//REQUIRED TO FUNCTION: Controllers
-
-
+@TeleOp(name = "Kenobi TeleOp", group = "Competition")
 @Config
-@TeleOp(name = "Demobot TeleOp")
-public class DemobotTeleop extends OpMode implements ControllerInputListener
+public class OpportunityTeleOp extends OpMode implements ControllerInputListener
 {
     ////Dependencies////
-  //  private BelindaControl control;
+    private MecanumBaseControl control;
     private ControllerInput controllerInput1;
     private ControllerInput controllerInput2;
-    FtcDashboard dashboard;
 
     ////Variables////
     //Tweaking Vars
-    public static double turnWhileDrivingSpeed = 1;//used to change how fast robot turns when driving
     public static double driveSpeed = 1;//used to change how fast robot drives
     public static double turnSpeed = 1;//used to change how fast robot turns
-    public static double headingP = 0.002;
-    public static double headingI = 0;
-    public static double headingD = 0.001;
 
-    public int moveX
-    public int moveY
+    private double speedMultiplier = 1;
 
-    //Utility Vars
     private boolean busy = false;
+    private double turnOffset = 0;
 
+    private int payloadController = 2;
 
     @Override
     public void init() {
-
-        control = new BelindaControl(this, true, false, false);
+        control = new MecanumBaseControl(this, true, true, true);
         control.Init();
 
-        //Sets up controller inputs
         controllerInput1 = new ControllerInput(gamepad1, 1);
         controllerInput1.addListener(this);
         controllerInput2 = new ControllerInput(gamepad2, 2);
         controllerInput2.addListener(this);
 
-        dashboard = FtcDashboard.getInstance();
-        dashboard.setTelemetryTransmissionInterval(25);
+        telemetry.addData("Speed Multiplier", speedMultiplier);
+        telemetry.update();
     }
 
     @Override
-    public void start(){
-        control.Start();
-    }
+    public void start(){control.Start();}
 
     @Override
     public void loop() {
+        controllerInput1.Loop();
+        controllerInput2.Loop();
 
-
-
-
-        if(Abs(gamepad1.left_stick_x)>0.1){
-
-
-            control.GetChassis().SetMotorSpeeds(,,0,0);
-            control.GetChassis().SetMotorSpeeds(0,0,0,0);
-
-
+        if(!busy) {
+            ManageDriving();
         }
 
+    }
 
-
+    private void ManageDriving() {
+        double moveX = -gamepad1.left_stick_y*driveSpeed*speedMultiplier;
+        double moveY = -gamepad1.left_stick_x*driveSpeed*speedMultiplier;
+        double turn = gamepad1.right_stick_x*turnSpeed*speedMultiplier + turnOffset;
+        control.GetOrion().MoveRaw(moveX, moveY, turn);
     }
 
     @Override
     public void APressed(double controllerNumber) {
-        if(controllerNumber == 1){
-            //AIM SHOOTER if A pressed
-            //control.AimShooter();
+        if(controllerNumber == 1) {
+            if (speedMultiplier == 1) speedMultiplier = 0.5;
+            else if (speedMultiplier == 0.5) speedMultiplier = 0.25;
+            else speedMultiplier = 1;
         }
     }
 
     @Override
     public void BPressed(double controllerNumber) {
-        if(controllerNumber == 1){
-            //AIM SHOOTER if A pressed
-            //control.FireShooter();
-        }
+
     }
 
     @Override
@@ -122,12 +100,10 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void XHeld(double controllerNumber) {
-
     }
 
     @Override
     public void YHeld(double controllerNumber) {
-
     }
 
     @Override
@@ -136,18 +112,16 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
     }
 
     @Override
-    public void BReleased(double controllerNumber) {
+    public void BReleased(double controllerNumber)  {
 
     }
 
     @Override
     public void XReleased(double controllerNumber) {
-
     }
 
     @Override
     public void YReleased(double controllerNumber) {
-
     }
 
     @Override
@@ -162,10 +136,7 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void LTPressed(double controllerNumber) {
-        if(controllerNumber == 1){
-            busy = true;
-            control.Brake();
-        }
+
     }
 
     @Override
@@ -180,7 +151,6 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void RBHeld(double controllerNumber) {
-
     }
 
     @Override
@@ -200,7 +170,6 @@ public class DemobotTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void RBReleased(double controllerNumber) {
-
     }
 
     @Override

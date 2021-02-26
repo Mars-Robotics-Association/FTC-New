@@ -24,15 +24,15 @@ public class WobbleGoalController {
     private double RightRingGrab = 2/9;//40 Degrees
 
     //  \/Don't mess with this area.\/
-    DigitalChannel LowerSensor;
+    //DigitalChannel LowerSensor;
 
-    DigitalChannel UpperSensor;
+    //DigitalChannel UpperSensor;
 
     public void Init(OpMode ourOpmode, CRServo setCRServo, Servo LeftArm, Servo RightArm){
         opMode = ourOpmode;
         LiftServo = setCRServo;
-        LeftArm = setServo;
-        RightArm = setServo;
+        //LeftArm = setServo;
+        //RightArm = setServo;
         /*
             LowerSensor = hardwareMap.get(DigitalChannel.class, "lowersensor_digital");
             LowerSensor.setMode(DigitalChannel.Mode.INPUT);
@@ -64,15 +64,15 @@ public class WobbleGoalController {
     private String LastObject = "nothing";
 
     public void GrabObject(String item){
-        if(item === "Ring"){
+        if(item == "Ring"){
             LeftArm.setPosition(LeftRingGrab);
             RightArm.setPosition(RightRingGrab);
-        } else if(item === "Wobble Goal"){
+        } else if(item == "Wobble Goal"){
             LeftArm.setPosition(LeftWobbleGrab);
             RightArm.setPosition(RightWobbleGrab);
         } else {
-            telemetry.addData("Error: Invalid item");
-            telemetry.update;
+      //      telemetry.addData("Error: Invalid item");
+        //    telemetry.update;
         }
         LastObject = item;
     }
@@ -80,15 +80,15 @@ public class WobbleGoalController {
 
     public void ReleaseObject(){
         String item = LastObject;
-        if(item === "Ring"){
+        if(item == "Ring"){
             LeftArm.setPosition(Math.round(LeftRingGrab));
             RightArm.setPosition(Math.round(RightRingGrab));
-        } else if(item === "WobbleGoal"){
+        } else if(item == "WobbleGoal"){
             LeftArm.setPosition(Math.round(LeftWobbleGrab));
             RightArm.setPosition(Math.round(RightWobbleGrab));
         } else{
-            telemetry.addData("Error: Invalid item");
-            telemetry.update;
+            //telemetry.addData("Error: Invalid item");
+          //  telemetry.update;
         }
     }
     /*
@@ -102,7 +102,7 @@ public class WobbleGoalController {
     }
 
     public void Loop() {
-        bool LowerPressed = !LowerSensor.getState(), UpperPressed = !UpperSensor.getState();
+        /*bool LowerPressed = !LowerSensor.getState(), UpperPressed = !UpperSensor.getState();
         if(UpperPressed||LowerPressed){
             LiftServo.setSpeed(0);
         } else{
@@ -118,6 +118,6 @@ public class WobbleGoalController {
             //Flips direction of motor in case it was installed incorrectly
             LiftMaxSpeed *= -1;
             LiftDirection = 0;
-        }
+        }*/
     }
 }

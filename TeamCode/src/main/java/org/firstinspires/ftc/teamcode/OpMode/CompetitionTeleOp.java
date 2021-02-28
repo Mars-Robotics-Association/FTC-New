@@ -31,7 +31,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void init() {
-        control = new CuriosityUltimateGoalControl(this, true, true, true);
+        control = new CuriosityUltimateGoalControl(this, true, false, false);
         control.Init();
 
         controllerInput1 = new ControllerInput(gamepad1, 1);

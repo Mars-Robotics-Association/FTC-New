@@ -36,7 +36,7 @@ public class SampleAutonomous extends LinearOpMode
 
 
         orion.MoveLinear(10,10,0); //moves robot along a line
-        orion.MoveSpline(10,10,0); //moves robot along a spline path
+        orion.MoveSpline(10,10,0, false); //moves robot along a spline path
 
         sleep(500);//wait for tensorflow to detect discs
         int numberOfDiscs = orion.GetNumberOfDiscs();//figure out where to go

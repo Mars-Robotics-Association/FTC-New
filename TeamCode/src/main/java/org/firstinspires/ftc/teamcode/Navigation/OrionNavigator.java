@@ -59,8 +59,8 @@ public class OrionNavigator
 
     //TODO ====SIMPLE METHODS====
     public void Turn(double angle){rr.Turn(angle);}
-    public void MoveSpline(double x, double y, double tangent){rr.MoveSpline(x,y,tangent);}
-    public void MoveSplineConstHeading(double x, double y, double tangent){rr.MoveSplineConstantHeading(x,y,tangent);}
+    public void MoveSpline(double x, double y, double tangent, boolean reverse){rr.MoveSpline(x,y,tangent, reverse);}
+    public void MoveSplineConstHeading(double x, double y, double tangent, boolean reverse){rr.MoveSplineConstantHeading(x,y,tangent, reverse);}
     public void MoveLinear(double x, double y, double heading){rr.MoveLine(x,y,heading);}
     public void SetPose(double x, double y, double heading){
         if(control.isUSE_CHASSIS())rr.SetPose(x,y,heading);
@@ -77,43 +77,18 @@ public class OrionNavigator
         }
     }
 
-    //TODO ====COMPLEX METHODS====
-    public void MoveToVumark(int vumarkIndex, double xOffset, double yOffset, double headingOffset, double xThreshold, double yThreshold){
-        //Move to an offset relative to a vumark and face it- useful for shooting
-        //Find vumark pose
-        double[] vumarkDist = vuforiaFront.GetData(vumarkIndex);
+    public void AlignToVumark(int vumarkIndex, double xOffset, double yOffset, double headingOffset){
+        double[] vumarkData = vuforiaFront.GetData(vumarkIndex);
+        if(vumarkData == null) return;
 
-        //Find offset from vumark in local space
-        double offsetX = xOffset - vumarkDist[0];
-        double offsetY = yOffset - vumarkDist[2];
-        double offsetH = headingOffset + vumarkDist[5];
 
-        //Update pose and covert offset to global space
-        UpdatePose();
-        double[] globalOffset = cs.ConvertToGlobalComplex(offsetX, offsetY, offsetH);
+        if(!control.isUSE_CHASSIS()) return;
 
-        //Return telemetry
-        opMode.telemetry.addData("## Vumark Global Pos ##   ", "(" + globalOffset[0] + ", " + globalOffset[1] + ", " + globalOffset[2] + ")");
-
-        //Move spline if using chassis
-        if(control.isUSE_CHASSIS()) MoveSpline(globalOffset[0], globalOffset[1], 0);
-        //Turn to face target if using chassis
-        if(control.isUSE_CHASSIS()) Turn(globalOffset[2]);
+        rr.SetPose(vumarkData[2], vumarkData[0], Math.toRadians(-vumarkData[5]));
+        MoveLinear(xOffset, yOffset, 0);
+        TurnTo(headingOffset);
     }
 
-    public void GoToDisc(){
-        //Update robot pose
-        UpdatePose();
-        //Get disc's offset
-        double[] offset = tf.GetClosestDiscXYAngleLocal(tfDistCoefficient, tfXCoefficient);
-        double[] globalOffset = cs.ConvertToGlobalComplex(offset[0], offset[1], offset[2]);
-        opMode.telemetry.addLine("===TF GoToDisc() DATA===");
-        opMode.telemetry.addLine("x: " + globalOffset[0] + " y: " + globalOffset[1] + " angle: " + globalOffset[2]);
-        //Turn to face disc
-        if(control.isUSE_CHASSIS()) Turn(globalOffset[2]);
-        //Move to intake disc
-        if(control.isUSE_CHASSIS()) rr.MoveSpline(globalOffset[0], globalOffset[1], 0);
-    }
 
     /**
      * Moves the robot towards the closest visible disc. Does not adjust using heading, but rather
@@ -152,17 +127,6 @@ public class OrionNavigator
         rr.TurnRaw(speed*rotationalError*correctionCoefficient); //turn based on the rotational error towards vumark
     }
 
-    public double TurnTowardsVuMarkSpeed(int vumarkCode, double correctionCoefficient, boolean useFrontVuforia){
-        double[] data;
-        if(useFrontVuforia) data = vuforiaFront.GetData(vumarkCode);
-        else data = vuforiaBack.GetData(vumarkCode);
-
-        double rotationalError = data[4]; //TODO: Figure out whether to use 4 or 5
-        if(!(rotationalError > 0 || rotationalError < 0 || rotationalError ==0)) return 0; //if its null
-
-        return rotationalError * correctionCoefficient; //turn based on the rotational error towards vumark
-    }
-
     public void MoveRaw(double x, double y, double turn){rr.MoveRaw(new Pose2d(x,y,turn));}
     public void TurnRaw(double speed){rr.TurnRaw(speed);}
     public void TurnTo(double angle){rr.TurnTo(angle);}
@@ -172,7 +136,8 @@ public class OrionNavigator
     //TODO: ====TELEMETRY METHODS FOR DEBUG====
     public void PrintVuforiaTelemetry(int vumarkCode){
         double[] data = vuforiaFront.GetData(vumarkCode);
-        opMode.telemetry.addData("vumark is ",data[3] + " inches away, "+data[4]+" degrees right, and "+data[0]+" inches high.");
+        //opMode.telemetry.addData("vumark is ",data[3] + " inches away, "+data[4]+" degrees right, and "+data[0]+" inches high.");
+        opMode.telemetry.addLine("X: " + data[2] + ", Y: " + data[0] + ", Angle: " + data[5]);
     }
     public void PrintTensorflowTelemetry(){
         //opMode.telemetry.addLine("===ALL TF OBJECTS===");

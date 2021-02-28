@@ -1,13 +1,10 @@
 package org.firstinspires.ftc.teamcode.Core.Robots;
 
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.MechanicalControl.Belinda.BelindaShooterIntakeController;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Curiosity.CuriosityPayloadController;
 
 /**
@@ -20,6 +17,7 @@ import org.firstinspires.ftc.teamcode.MechanicalControl.Curiosity.CuriosityPaylo
 
 //REQUIRED TO RUN: Phones | REV Hub | Demobot Chassis | Shooter | Odometry Unit
 
+@Config
 public class CuriosityUltimateGoalControl extends MecanumBaseControl
 {
     ////Dependencies////
@@ -28,7 +26,9 @@ public class CuriosityUltimateGoalControl extends MecanumBaseControl
 
     ////Variables////
     //Calibration
-    private double shooterHeight = 0.5; //in meters
+    public static double shootXOffset = 60;
+    public static double shootYOffset = 0;
+    public static double shootAngleOffset = 0;
 
     /**@param setOpMode pass the opmode running this down to access hardware map
      * @param useChassis whether to use the chassis of the robot
@@ -67,13 +67,41 @@ public class CuriosityUltimateGoalControl extends MecanumBaseControl
     }
 
     //CALLABLE METHODS//
-    public void ShooterRoutine(){shooterIntake.Shoot();}
-    public void StopShooter(){shooterIntake.StopShooter();}
+    public void ShootOne(){shooterIntake.ShootOne();}
+
+    public void ShootRoutine(){
+        double startTime = currentOpMode.getRuntime();
+        ShooterOn();
+        while (currentOpMode.getRuntime() < startTime+2){
+            currentOpMode.telemetry.addLine("spinning up");
+            currentOpMode.telemetry.update();
+        }
+        ShootThree();
+    }
+
+    public void AlignAndShoot(){
+        ShooterOn();
+        orion.AlignToVumark(0, shootXOffset, shootYOffset, shootAngleOffset);
+        ShootThree();
+    }
+
+    public void ShootThree(){shooterIntake.ShootThree();}
+
+    public void ShootAsync(){shooterIntake.ShootAsync();}
+    public void StopShootAsync(){shooterIntake.StopShootAsync();}
+
     public void ShooterOn(){shooterIntake.ShooterOn();}
     public void ShooterOff(){shooterIntake.ShooterOff();}
+
+    public void ModifyForPowerShot(){shooterIntake.ModifyForPowerShot();}
+    public void StopModifyForPowerShot(){shooterIntake.StopModifyForPowerShot();}
+
     public void Intake(){shooterIntake.Intake();}
     public void StopIntake(){shooterIntake.StopIntake();}
     public void LoadStarpath(){shooterIntake.LoadFromIntake();}
     public void StopLoadStarpath(){shooterIntake.StopLoadFromIntake();}
     public void RotateStarpathToNextPos(){shooterIntake.RotateStarpathToNextPos();}
+    public void StarpathToShooter(){shooterIntake.StarPathToShooter();}
+    public void StarpathToIntake(){shooterIntake.StarpathToIntake();}
+    public boolean IsShooterRunning(){return shooterIntake.shooterRunning;}
 }

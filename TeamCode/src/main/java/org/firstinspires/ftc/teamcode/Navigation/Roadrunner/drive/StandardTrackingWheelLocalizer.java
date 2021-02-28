@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -31,19 +32,23 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     public static double WHEEL_RADIUS = 1; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double LATERAL_DISTANCE = 7.1; // in; distance between the left and right wheels
-    public static double FORWARD_OFFSET = -5.25; // in; offset of the lateral wheel
+    public static double LATERAL_DISTANCE = 14; // in; distance between the left and right wheels
+    public static double FORWARD_OFFSET = 6; // in; offset of the lateral wheel
 
-    public static double X_MULTIPLIER = -1; // Multiplier in the X direction
-    public static double Y_MULTIPLIER = -1; // Multiplier in the Y direction
+    public static double X_MULTIPLIER = 1; // Multiplier in the X direction
+    public static double Y_MULTIPLIER = 1; // Multiplier in the Y direction
+
+    public static double ROT_LEFT = 0;
+    public static double ROT_RIGHT = 180;
+    public static double ROT_FRONT = 90;
 
     private DcMotor leftEncoder, rightEncoder, frontEncoder;
 
     public StandardTrackingWheelLocalizer(HardwareMap hardwareMap) {
         super(Arrays.asList(
-                new Pose2d(0, -LATERAL_DISTANCE, 0), // left
-                new Pose2d(0, LATERAL_DISTANCE, Math.toRadians(180)), // right
-                new Pose2d(FORWARD_OFFSET, 0, Math.toRadians(270)) // front
+                new Pose2d(0, -LATERAL_DISTANCE/2, Math.toRadians(ROT_LEFT)), // left
+                new Pose2d(0, LATERAL_DISTANCE/2, Math.toRadians(ROT_RIGHT)), // right
+                new Pose2d(FORWARD_OFFSET, 0, Math.toRadians(ROT_FRONT)) // front
         ));
 
         leftEncoder = hardwareMap.dcMotor.get("FL");

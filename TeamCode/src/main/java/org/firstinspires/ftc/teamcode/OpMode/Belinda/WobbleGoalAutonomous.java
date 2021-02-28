@@ -5,13 +5,13 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Core.Robots.BelindaControl;
+import org.firstinspires.ftc.teamcode.Core.Robots.CuriosityUltimateGoalControl;
 import org.firstinspires.ftc.teamcode.Navigation.OrionNavigator;
 
 @Config
 @Autonomous(name = "*WOBBLE GOAL*", group = "Competition")
 public class WobbleGoalAutonomous extends LinearOpMode {
-    private BelindaControl control;
+    private CuriosityUltimateGoalControl control;
     private OrionNavigator orion;
     private FtcDashboard dashboard;
 
@@ -19,38 +19,90 @@ public class WobbleGoalAutonomous extends LinearOpMode {
     public static double tfXCoef = 0.001;
 
     public static double robotX = 0;
-    public static double robotY = 0;
-    public static double robotH = 0;
+    public static double robotY = -4;
+    public static double robotH = 180;
 
-    public static double robotMoveX = 0;
-    public static double robotMoveY = 0;
-    public static double robotMoveTan = 0;
+    public static double powerShotStartAngle = -21;
+    public static double powerShotIncrament = -3.5;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        control = new BelindaControl(this,true,false,true);
+        control = new CuriosityUltimateGoalControl(this,true,true,true);
         control.Init();
         orion = control.GetOrion();
         dashboard = FtcDashboard.getInstance();
         dashboard.setTelemetryTransmissionInterval(25);
 
         waitForStart();
-        orion.SetPose(robotX, robotY, robotH);//robot starts on blue left line
-        orion.MoveLinear(18,-6,0);//move to disc stack
+        orion.SetPose(robotX, robotY, Math.toRadians(robotH));//robot starts on blue left line
+
+        control.StarpathToShooter();
+
+        //Move to where it can see discs
+        orion.MoveLinear(10, 0, 0);
+
         sleep(500);//wait for tensorflow to detect discs
         int numberOfDiscs = orion.GetNumberOfDiscs();//figure out where to go
 
-        if(numberOfDiscs == 0){ //go to A
+        //Go to square A
+        orion.MoveSpline(70, 12, 0, true);
 
+        if(numberOfDiscs == 0){ //A
+            //deposit wobble goal and go to shoot position
+            orion.MoveLinear(60, 12, 0);
+            orion.MoveLinear(60, -36, 0);
         }
-        if(numberOfDiscs > 0 && numberOfDiscs < 3){ //go to B
+        if(numberOfDiscs > 0 && numberOfDiscs < 3){ //B
+            //spline to B, deposit, and go to shoot position
+            orion.MoveSpline(94, -12, 0, true);
+            orion.MoveLinear(84, -12, 0);
+            orion.MoveLinear(60, -36, 0);
+        }
+        else { //C
+            //keep going forwards, deposit, and go to shoot position
+            orion.MoveLinear(112, 12, 0);
+            orion.MoveLinear(102, 12, 0);
+            orion.MoveLinear(60, -36, 0);
+        }
 
-        }
-        else { //go to C
-
-        }
 
     }
+
+    private void PowerShotRoutine(){
+        //Start at (x,y)
+        control.ModifyForPowerShot();
+        control.ShooterOn();
+
+        //turn to first shot
+        orion.Turn(powerShotStartAngle);
+        control.ShootOne();
+        control.ShooterOn();
+
+        control.ModifyForPowerShot();
+        //turn to second shot
+        orion.Turn(powerShotIncrament);
+        control.ShootOne();
+        control.ShooterOn();
+
+        control.ModifyForPowerShot();
+        //turn to third shot
+        orion.Turn(powerShotIncrament);
+        control.ShootOne();
+
+        //Reset shooter
+        control.ShooterOff();
+        control.StopModifyForPowerShot();
+    }
+    /*private void Shoot(){
+        control.ShootAsync();
+        while(control.IsShooterRunning()){
+            control.ShootAsync();
+            telemetry.addLine("Shooting");
+            telemetry.update();
+        }
+        control.StopShootAsync();
+        control.ShooterOn();
+    }*/
 }
 
 /*if(numberOfDiscs == 0){ //go to A

@@ -23,8 +23,8 @@ public class RoadrunnerControl
         drive = new SampleMecanumDrive(opMode.hardwareMap);
     }
 
-    public void MoveSpline(double x, double y, double tangent){ //moves using fancy splines
-        Trajectory traj = drive.trajectoryBuilder(new Pose2d())
+    public void MoveSpline(double x, double y, double tangent, boolean reverse){ //moves using fancy splines
+        Trajectory traj = drive.trajectoryBuilder(GetCurrentPose(), reverse)
                 .splineTo(new Vector2d(x, y), tangent)
                 .build();
 
@@ -32,15 +32,15 @@ public class RoadrunnerControl
     }
 
     public void MoveLine(double x, double y, double heading){ //moves linearly along a line .lineToLinearHeading(new Pose2d(x,y,heading))
-        Trajectory traj = drive.trajectoryBuilder(new Pose2d())
+        Trajectory traj = drive.trajectoryBuilder(GetCurrentPose())
                 .lineToConstantHeading(new Vector2d(x,y))
                 .build();
 
         drive.followTrajectory(traj);
     }
 
-    public void MoveSplineConstantHeading(double x, double y, double endTangent){
-        Trajectory traj = drive.trajectoryBuilder(new Pose2d())
+    public void MoveSplineConstantHeading(double x, double y, double endTangent, boolean reverse){
+        Trajectory traj = drive.trajectoryBuilder(GetCurrentPose(), reverse)
                 .splineToConstantHeading(new Vector2d(x,y), endTangent)
                 .build();
 
@@ -55,7 +55,16 @@ public class RoadrunnerControl
     }
 
     public void Turn(double angle){drive.turn(Math.toRadians(angle));}
-    public void TurnTo(double angle){drive.turn(Math.toRadians(angle) - GetCurrentPose().getHeading());}
+    public void TurnTo(double angle){
+        if(angle > 360) angle -= 360;
+        else if(angle < 0) angle += 360;
+
+        double turnDegrees = angle - Math.toDegrees(GetCurrentPose().getHeading());
+        if(turnDegrees > 180) turnDegrees -= 360;
+        if(turnDegrees < -180) turnDegrees += 360;
+
+        Turn(turnDegrees);
+    }
 
     public void SetPose(double x, double y, double heading){drive.setPoseEstimate(new Pose2d(x,y, heading));} //Sets robot pose
     public Pose2d GetCurrentPose(){return drive.getPoseEstimate();}

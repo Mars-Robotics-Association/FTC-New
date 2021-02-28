@@ -15,15 +15,17 @@ public class NavigationTesting extends LinearOpMode {
     private OrionNavigator orion;
     private FtcDashboard dashboard;
 
-    public static double tfDistCoef = 6666;
-    public static double tfXCoef = 0.001;
+    public static double startX = 0;
+    public static double startY = 0;
+    public static double startH = 0;
 
-    public static double robotX = 0;
-    public static double robotY = 0;
-    public static double robotH = 0;
+    public static double moveX = 0;
+    public static double moveY = 0;
+    public static double moveH = 0;
 
-    public static double discMoveCoefficient = -0.0015;
-    public static double discMoveSpeed = 0.2;
+    public static double turnAngle = 0;
+
+    public static boolean isMovementSpline = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -34,10 +36,17 @@ public class NavigationTesting extends LinearOpMode {
         dashboard.setTelemetryTransmissionInterval(25);
 
         waitForStart();
-        orion.SetPose(robotX, robotY, robotH);
+        orion.SetPose(startX, startY, Math.toRadians(startH));
 
+        if(isMovementSpline) orion.MoveSpline(moveX, moveY, moveH, false);
+        else orion.MoveLinear(moveX, moveY, moveH);
+
+        /*if(moveX != 0 || moveY != 0) orion.MoveLinear(moveX, moveY, moveH);
+        orion.TurnTo(turnAngle);*/
         while (!isStopRequested()){
-            control.TurnTowardsVuMark();
+            orion.PrintVuforiaTelemetry(0);
+            orion.PrintTensorflowTelemetry();
+            telemetry.update();
         }
     }
 

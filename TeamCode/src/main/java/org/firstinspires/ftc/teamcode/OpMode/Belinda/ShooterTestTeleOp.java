@@ -103,7 +103,7 @@ public class ShooterTestTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void YHeld(double controllerNumber) {
-        if(controllerNumber==1) control.ShooterRoutine();
+        if(controllerNumber==1) control.ShootAsync();
     }
 
     @Override
@@ -123,7 +123,7 @@ public class ShooterTestTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void YReleased(double controllerNumber) {
-        if(controllerNumber==1) control.StopShooter();
+        if(controllerNumber==1) control.StopShootAsync();
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Core.Input.ControllerInput;
 import org.firstinspires.ftc.teamcode.Core.Input.ControllerInputListener;
 import org.firstinspires.ftc.teamcode.Core.Robots.CuriosityUltimateGoalControl;
+import org.firstinspires.ftc.teamcode.Core.Robots.MecanumBaseControl;
 
 @TeleOp(name = "Kenobi TeleOp", group = "Competition")
 @Config
@@ -32,7 +33,7 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
     @Override
     public void init() {
         control = new MecanumBaseControl(this, true, true, true);
-        control.Init();
+        control.InitCoreRobotModules();
 
         controllerInput1 = new ControllerInput(gamepad1, 1);
         controllerInput1.addListener(this);
@@ -44,7 +45,7 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
     }
 
     @Override
-    public void start(){control.Start();}
+    public void start(){control.StartCoreRobotModules();}
 
     @Override
     public void loop() {

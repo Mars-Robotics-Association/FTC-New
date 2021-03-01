@@ -31,7 +31,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void init() {
-        control = new CuriosityUltimateGoalControl(this, true, false, false);
+        control = new CuriosityUltimateGoalControl(this, true, true, true);
         control.Init();
 
         controllerInput1 = new ControllerInput(gamepad1, 1);
@@ -42,7 +42,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
         telemetry.addData("Speed Multiplier", speedMultiplier);
         telemetry.update();
 
-        control.StarpathToIntake();
+        if(control.isUSE_PAYLOAD()) control.StarpathToIntake();
 
         msStuckDetectLoop = 15000;
     }
@@ -65,7 +65,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
     private void ManageDriving() {
         double moveX = -gamepad1.left_stick_y*driveSpeed*speedMultiplier;
         double moveY = -gamepad1.left_stick_x*driveSpeed*speedMultiplier;
-        double turn = gamepad1.right_stick_x*turnSpeed*speedMultiplier + turnOffset;
+        double turn = -gamepad1.right_stick_x*turnSpeed*speedMultiplier + turnOffset;
         control.GetOrion().MoveRaw(moveX, moveY, turn);
     }
 

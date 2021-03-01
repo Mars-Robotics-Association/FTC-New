@@ -80,12 +80,15 @@ public class OrionNavigator
     public void AlignToVumark(int vumarkIndex, double xOffset, double yOffset, double headingOffset){
         double[] vumarkData = vuforiaFront.GetData(vumarkIndex);
         if(vumarkData == null) return;
-
-
         if(!control.isUSE_CHASSIS()) return;
+        rr.SetPose(vumarkData[2], vumarkData[0], Math.toRadians(vumarkData[4]));
 
-        rr.SetPose(vumarkData[2], vumarkData[0], Math.toRadians(-vumarkData[5]));
         MoveLinear(xOffset, yOffset, 0);
+
+        vumarkData = vuforiaFront.GetData(vumarkIndex);
+        if(vumarkData == null) return;
+        rr.SetPose(vumarkData[2], vumarkData[0], Math.toRadians(vumarkData[4]));
+
         TurnTo(headingOffset);
     }
 
@@ -137,7 +140,7 @@ public class OrionNavigator
     public void PrintVuforiaTelemetry(int vumarkCode){
         double[] data = vuforiaFront.GetData(vumarkCode);
         //opMode.telemetry.addData("vumark is ",data[3] + " inches away, "+data[4]+" degrees right, and "+data[0]+" inches high.");
-        opMode.telemetry.addLine("X: " + data[2] + ", Y: " + data[0] + ", Angle: " + data[5]);
+        opMode.telemetry.addLine("X: " + data[2] + ", Y: " + data[0] + ", Angle: " + data[4]);
     }
     public void PrintTensorflowTelemetry(){
         //opMode.telemetry.addLine("===ALL TF OBJECTS===");

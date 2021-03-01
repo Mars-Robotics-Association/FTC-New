@@ -48,8 +48,8 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
 
     private final double ArmMultiplier = 2;
     private double ArmDirection = 0;
-    private bool LeftBumper = false;
-    private bool RightBumper = false;
+    private boolean LeftBumper = false;
+    private boolean RightBumper = false;
     private double dir = 0;
 
 

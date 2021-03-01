@@ -31,8 +31,8 @@ public class WobbleGoalController {
     public void Init(OpMode ourOpmode, CRServo setCRServo, Servo LeftArm, Servo RightArm){
         opMode = ourOpmode;
         LiftServo = setCRServo;
-        //LeftArm = setServo;
-        //RightArm = setServo;
+        LeftArm = setServo;
+        RightArm = setServo;
         /*
             LowerSensor = hardwareMap.get(DigitalChannel.class, "lowersensor_digital");
             LowerSensor.setMode(DigitalChannel.Mode.INPUT);
@@ -83,8 +83,14 @@ public class WobbleGoalController {
     }
     //Grabs the object specified.
 
-    public void ReleaseObject(){
-        String item = LastObject;
+    public void ReleaseObject(String object){
+        String item;
+        if(object !== null){
+            item = object;
+        } else if(item == null){
+            item = LastObject;
+        }
+
         if(item == "Ring"){
             LeftArm.setPosition(Math.round(LeftRingGrab));
             RightArm.setPosition(Math.round(RightRingGrab));
@@ -107,7 +113,7 @@ public class WobbleGoalController {
     }
 
     public void Loop() {
-        /*bool LowerPressed = !LowerSensor.getState(), UpperPressed = !UpperSensor.getState();
+        /*private boolean LowerPressed = !LowerSensor.getState(), UpperPressed = !UpperSensor.getState();
         if(UpperPressed||LowerPressed){
             LiftServo.setSpeed(0);
         } else{

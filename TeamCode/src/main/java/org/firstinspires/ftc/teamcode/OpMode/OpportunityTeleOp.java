@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Core.Input.ControllerInput;
 import org.firstinspires.ftc.teamcode.Core.Input.ControllerInputListener;
 import org.firstinspires.ftc.teamcode.Core.Robots.CuriosityUltimateGoalControl;
+import org.firstinspires.ftc.teamcode.Core.Robots.MecanumBaseControl;
+import org.firstinspires.ftc.teamcode.MechanicalControl.Kenobi.WobbleGoalController;
 
 @TeleOp(name = "Kenobi TeleOp", group = "Competition")
 @Config
@@ -16,7 +18,7 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
     private MecanumBaseControl control;
     private ControllerInput controllerInput1;
     private ControllerInput controllerInput2;
-
+    private WobbleGoalController wobble;
     ////Variables////
     //Tweaking Vars
     public static double driveSpeed = 1;//used to change how fast robot drives
@@ -31,8 +33,13 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void init() {
+        wobble = new WobbleGoalController();
+        wobble.Init(this, hardwareMap.crservo.get("wobbleCRServo"), hardwareMap.servo.get("leftServo"), hardwareMap.servo.get("rightServo"));
+//this means this opmode is being passed, the hardware map statments as stated
+
+
         control = new MecanumBaseControl(this, true, true, true);
-        control.Init();
+        control.InitCoreRobotModules();
 
         controllerInput1 = new ControllerInput(gamepad1, 1);
         controllerInput1.addListener(this);
@@ -44,7 +51,7 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
     }
 
     @Override
-    public void start(){control.Start();}
+    public void start(){control.StartCoreRobotModules();}
 
     private final double ArmMultiplier = 2;
     private double ArmDirection = 0;
@@ -64,7 +71,7 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
 
         if(LeftBumper){ArmDirection++;}
         if(RightBumper){ArmDirection--;}
-        SetWobbleLiftPower(ArmDirection*ArmMultiplier);
+        wobble.SetWobbleLiftPower(ArmDirection*ArmMultiplier);
 
     }
 
@@ -87,14 +94,14 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
     @Override
     public void BPressed(double controllerNumber) {
         if(controllerNumber == 1){
-            RaiseWobbleLift();
+            wobble.RaiseWobbleLift();
         }
     }
 
     @Override
     public void XPressed(double controllerNumber) {
         if(controllerNumber == 1){
-            LowerWobbleLift();
+            wobble.LowerWobbleLift();
         }
     }
 

@@ -13,26 +13,28 @@ public class WobbleGoalController {
     Servo RightArm;
 
     //  \/These you CAN change.\/
-    private double LiftMaxSpeed = 6;
+    private final double LiftMaxSpeed = 6;
     private double LiftPower = 0;
-    private int LiftDirection = 0;//<-- Changing this one won't do anything
+    private double LiftDirection = 0;//<-- Changing this one won't do anything
 
-    private double LeftWobbleGrab = 2/9;//40 Degrees
-    private double LeftRingGrab = 1/9;//20 Degrees
+    private final double LeftWobbleGrab = 40;
+    private final double LeftRingGrab = 20;
+    private final double LeftRelease = 60;
 
-    private double RightWobbleGrab = 1/9;//20 Degrees
-    private double RightRingGrab = 2/9;//40 Degrees
+    private final double RightWobbleGrab = 20;
+    private final double RightRingGrab = 40;
+    private final double RightRelease = 30;
 
     //  \/Don't mess with this area.\/
     //DigitalChannel LowerSensor;
 
     //DigitalChannel UpperSensor;
 
-    public void Init(OpMode ourOpmode, CRServo setCRServo, Servo LeftArm, Servo RightArm){
+    public void Init(OpMode ourOpmode, CRServo setLiftServo, Servo setLeftArm, Servo setRightArm){
         opMode = ourOpmode;
-        LiftServo = setCRServo;
-        LeftArm = setServo;
-        RightArm = setServo;
+        LiftServo = setLiftServo;
+        LeftArm = setLeftArm;
+        RightArm = setRightArm;
         /*
             LowerSensor = hardwareMap.get(DigitalChannel.class, "lowersensor_digital");
             LowerSensor.setMode(DigitalChannel.Mode.INPUT);
@@ -66,49 +68,32 @@ public class WobbleGoalController {
     }
     //Automatically lowers the lift to the bottom. Stopped by SetWobbleLiftPower().
 
-    private String LastObject = "nothing";
+    public void GrabRing(){
+        LeftArm.setPosition(LeftRingGrab);
+        RightArm.setPosition(RightRingGrab);
 
-    public void GrabObject(String item){
-        if(item == "Ring"){
-            LeftArm.setPosition(LeftRingGrab);
-            RightArm.setPosition(RightRingGrab);
-        } else if(item == "Wobble Goal"){
-            LeftArm.setPosition(LeftWobbleGrab);
-            RightArm.setPosition(RightWobbleGrab);
-        } else {
-      //      telemetry.addData("Error: Invalid item");
-        //    telemetry.update;
-        }
-        LastObject = item;
     }
     //Grabs the object specified.
 
-    public void ReleaseObject(String object){
-        String item;
-        if(object !== null){
-            item = object;
-        } else if(item == null){
-            item = LastObject;
-        }
+    public void GrabWobbleGoal(){
+        LeftArm.setPosition(LeftWobbleGrab);
+        RightArm.setPosition(RightWobbleGrab);
 
-        if(item == "Ring"){
-            LeftArm.setPosition(Math.round(LeftRingGrab));
-            RightArm.setPosition(Math.round(RightRingGrab));
-        } else if(item == "WobbleGoal"){
-            LeftArm.setPosition(Math.round(LeftWobbleGrab));
-            RightArm.setPosition(Math.round(RightWobbleGrab));
-        } else{
-            //telemetry.addData("Error: Invalid item");
-          //  telemetry.update;
-        }
     }
+    //Grabs the object specified.
+
+    public void ReleaseObject(){
+        LeftArm.setPosition(LeftRelease);
+        RightArm.setPosition(RightRelease);
+
+    }
+
     /*
         Releases the object specified by the last call of GrabObject. If you haven't
         called GrabObject recently, it sends a telemetry message and does nothing.
     */
 
     public void start() {
-        LastObject = "WobbleGoal";//Don't do this.
         ReleaseObject();
     }
 

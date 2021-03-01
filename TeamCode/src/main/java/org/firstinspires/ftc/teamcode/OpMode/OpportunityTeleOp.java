@@ -46,6 +46,13 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
     @Override
     public void start(){control.Start();}
 
+    private final double ArmMultiplier = 2;
+    private double ArmDirection = 0;
+    private bool LeftBumper = false;
+    private bool RightBumper = false;
+    private double dir = 0;
+
+
     @Override
     public void loop() {
         controllerInput1.Loop();
@@ -54,6 +61,10 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
         if(!busy) {
             ManageDriving();
         }
+
+        if(LeftBumper){ArmDirection++;}
+        if(RightBumper){ArmDirection--;}
+        SetWobbleLiftPower(ArmDirection*ArmMultiplier);
 
     }
 
@@ -75,12 +86,16 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void BPressed(double controllerNumber) {
-
+        if(controllerNumber == 1){
+            RaiseWobbleLift();
+        }
     }
 
     @Override
     public void XPressed(double controllerNumber) {
-
+        if(controllerNumber == 1){
+            LowerWobbleLift();
+        }
     }
 
     @Override
@@ -126,12 +141,16 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void LBPressed(double controllerNumber) {
-
+        if(controllerNumber == 1) {
+            LeftBumper = true;
+        }
     }
 
     @Override
     public void RBPressed(double controllerNumber) {
-
+        if(controllerNumber == 1) {
+            RightBumper = true;
+        }
     }
 
     @Override
@@ -165,11 +184,16 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void LBReleased(double controllerNumber) {
-
+        if(controllerNumber == 1) {
+            LeftBumper = false;
+        }
     }
 
     @Override
     public void RBReleased(double controllerNumber) {
+        if(controllerNumber == 1) {
+            RightBumper = false;
+        }
     }
 
     @Override

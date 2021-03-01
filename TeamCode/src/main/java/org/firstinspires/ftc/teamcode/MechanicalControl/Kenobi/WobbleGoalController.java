@@ -42,12 +42,17 @@ public class WobbleGoalController {
 
     }
 
-
     public void SetWobbleLiftPower(double power){
         LiftPower = power;
         LiftDirection = 0;
     }
     //Simple setter function for the lift arm. Can be used to force stop raising and lowering.
+
+    public void ChangeWobbleLiftPower(double power){
+        LiftPower += power;
+        LiftDirection = 0;
+    }
+    //Works like the Scratch "change" function. Can also be used to force stop raising and lowering.
 
     public void RaiseWobbleLift(){
         LiftDirection = 1;

@@ -1,13 +1,10 @@
 package org.firstinspires.ftc.teamcode.MechanicalControl.Kenobi;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 public class WobbleGoalController {
 
-    OpMode opMode;
-    //These had to go first because Java doesn't have hoisting
     CRServo LiftServo;
     Servo LeftArm;
     Servo RightArm;
@@ -19,19 +16,16 @@ public class WobbleGoalController {
 
     private final double LeftWobbleGrab = 40;
     private final double LeftRingGrab = 20;
-    private final double LeftRelease = 60;
 
     private final double RightWobbleGrab = 20;
     private final double RightRingGrab = 40;
-    private final double RightRelease = 30;
 
     //  \/Don't mess with this area.\/
     //DigitalChannel LowerSensor;
 
     //DigitalChannel UpperSensor;
 
-    public void Init(OpMode ourOpmode, CRServo setLiftServo, Servo setLeftArm, Servo setRightArm){
-        opMode = ourOpmode;
+    public void Init(CRServo setLiftServo, Servo setLeftArm, Servo setRightArm){
         LiftServo = setLiftServo;
         LeftArm = setLeftArm;
         RightArm = setRightArm;
@@ -41,6 +35,7 @@ public class WobbleGoalController {
             UpperSensor = hardwareMap.get(DigitalChannel.class, "uppersensor_digital");
             UpperSensor.setMode(DigitalChannel.Mode.INPUT);
         */
+
 
     }
 
@@ -68,37 +63,37 @@ public class WobbleGoalController {
     }
     //Automatically lowers the lift to the bottom. Stopped by SetWobbleLiftPower().
 
-    public void GrabRing(){
-        LeftArm.setPosition(LeftRingGrab);
-        RightArm.setPosition(RightRingGrab);
+    public void GrabRing() {
+
+        LeftArm.setPosition(LeftRingGrab / 180);
+        RightArm.setPosition(RightRingGrab / 180);
 
     }
-    //Grabs the object specified.
+    //Grabs a Ring.
 
-    public void GrabWobbleGoal(){
-        LeftArm.setPosition(LeftWobbleGrab);
-        RightArm.setPosition(RightWobbleGrab);
+    public void GrabWobbleGoal() {
 
-    }
-    //Grabs the object specified.
-
-    public void ReleaseObject(){
-        LeftArm.setPosition(LeftRelease);
-        RightArm.setPosition(RightRelease);
+        LeftArm.setPosition(LeftWobbleGrab / 180);
+        RightArm.setPosition(RightWobbleGrab / 180);
 
     }
+    //Grabs a Wobble Goal.
 
+    public void ReleaseArm(){
+            LeftArm.setPosition(0.5);
+            RightArm.setPosition(0.5);
+    }
     /*
-        Releases the object specified by the last call of GrabObject. If you haven't
-        called GrabObject recently, it sends a telemetry message and does nothing.
+        Releases the Ring or Wobble Goal.
     */
 
     public void start() {
-        ReleaseObject();
+        ReleaseArm();
     }
 
     public void Loop() {
-        /*private boolean LowerPressed = !LowerSensor.getState(), UpperPressed = !UpperSensor.getState();
+        /*
+        boolean LowerPressed = !LowerSensor.getState(), UpperPressed = !UpperSensor.getState();
         if(UpperPressed||LowerPressed){
             LiftServo.setSpeed(0);
         } else{
@@ -114,6 +109,8 @@ public class WobbleGoalController {
             //Flips direction of motor in case it was installed incorrectly
             LiftMaxSpeed *= -1;
             LiftDirection = 0;
-        }*/
+        }
+        */
+
     }
 }

@@ -3,14 +3,15 @@ package org.firstinspires.ftc.teamcode.OpMode;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Core.Input.ControllerInput;
 import org.firstinspires.ftc.teamcode.Core.Input.ControllerInputListener;
-<<<<<<< Updated upstream
-import org.firstinspires.ftc.teamcode.Core.Robots.CuriosityUltimateGoalControl;
-=======
+
 //import org.firstinspires.ftc.teamcode.Core.Robots.CuriosityUltimateGoalControl;
->>>>>>> Stashed changes
+
 import org.firstinspires.ftc.teamcode.Core.Robots.MecanumBaseControl;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Kenobi.WobbleGoalController;
 
@@ -23,7 +24,22 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
     private MecanumBaseControl control;
     private ControllerInput controllerInput1;
     private ControllerInput controllerInput2;
-    private WobbleGoalController wobble;
+
+    private DcMotor FR;
+    private DcMotor FL;
+    private DcMotor RR;
+    private DcMotor RL;
+
+    private CRServo wobbleCR;
+    private Servo leftServo;
+    private Servo rightServo;
+
+
+ //   private Servo liftservo;
+  //  private Servo leftarm;
+  //  private Servo rightarm;
+
+
     ////Variables////
     //Tweaking Vars
     public static double driveSpeed = 1;//used to change how fast robot drives
@@ -40,26 +56,28 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
     private boolean ArmPos = false;
     private boolean ArmNeg = false;
 
-    @Override
-    public void init() {
-        wobble = new WobbleGoalController();
-<<<<<<< Updated upstream
-        wobble.Init(this, hardwareMap.crservo.get("wobbleCRServo"), hardwareMap.servo.get("leftServo"), hardwareMap.servo.get("rightServo"));
-//this means this opmode is being passed, the hardware map statments as stated
+        @Override
+        public void init() {
+            FR = hardwareMap.dcMotor.get("FR");
+            FL = hardwareMap.dcMotor.get("FL");
+            RR = hardwareMap.dcMotor.get("RR");
+            RL = hardwareMap.dcMotor.get("RL");
+
+            wobbleCR = hardwareMap.crservo.get("wobbleCRServo");
+            leftServo = hardwareMap.servo.get("leftServo");
+            rightServo = hardwareMap.servo.get("rightServo");
 
 
-        control = new MecanumBaseControl(this, true, true, true);
+            wobble = new WobbleGoalController();
+            wobble.Init(
+                  //  hardwareMap.crservo.get("liftservo"),
+                  //  hardwareMap.servo.get("leftarm"),
+                 //  hardwareMap.servo.get("rightarm")
+            );
+            control = new MecanumBaseControl(this, true, true, false);
         control.InitCoreRobotModules();
-=======
-        wobble.Init(
-                hardwareMap.crservo.get("liftservo"),
-                hardwareMap.servo.get("leftarm"),
-                hardwareMap.servo.get("rightarm")
-        );
-        control = new MecanumBaseControl(this, true, true, true);
-        control.InitCoreRobotModules();
 
->>>>>>> Stashed changes
+//>>>>>>> Stashed changes
 
         controllerInput2 = new ControllerInput(gamepad2, 2);
         controllerInput1 = new ControllerInput(gamepad1, 1);
@@ -71,24 +89,18 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
     }
 
     @Override
-<<<<<<< Updated upstream
-    public void start(){control.StartCoreRobotModules();}
 
-    private final double ArmMultiplier = 2;
-    private double ArmDirection = 0;
-    private boolean LeftBumper = false;
-    private boolean RightBumper = false;
-    private double dir = 0;
 
-=======
-    public void start(){
+   public void start(){
         control.StartCoreRobotModules();
         wobble.start();
     }
->>>>>>> Stashed changes
+
 
     @Override
     public void loop() {
+
+
         controllerInput1.Loop();
         controllerInput2.Loop();
 
@@ -96,11 +108,10 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
             ManageDriving();
         }
 
-<<<<<<< Updated upstream
-        if(LeftBumper){ArmDirection++;}
-        if(RightBumper){ArmDirection--;}
-        wobble.SetWobbleLiftPower(ArmDirection*ArmMultiplier);
-=======
+       // if(LeftBumper){ArmDirection++;}
+       // if(RightBumper){ArmDirection--;}
+        //wobble.SetWobbleLiftPower(ArmDirection*ArmMultiplier);
+
         int dir = 0;
 
         if(ArmPos){dir++;}
@@ -109,7 +120,7 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
         wobble.SetWobbleLiftPower(dir*ArmMultiplier);
 
         wobble.Loop();
->>>>>>> Stashed changes
+
 
     }
 
@@ -117,7 +128,48 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
         double moveX = -gamepad1.left_stick_y*driveSpeed*speedMultiplier;
         double moveY = -gamepad1.left_stick_x*driveSpeed*speedMultiplier;
         double turn = gamepad1.right_stick_x*turnSpeed*speedMultiplier + turnOffset;
-        control.GetOrion().MoveRaw(moveX, moveY, turn);
+
+
+        if(gamepad1.a){
+            leftServo.setPosition(1);
+            rightServo.setPosition(1);
+        }
+
+        if(gamepad1.b){
+            leftServo.setPosition(0);
+            rightServo.setPosition(0);
+        }
+
+        if(gamepad1.dpad_up){
+            wobbleCR.setPower(1);
+        }
+        if(gamepad1.dpad_down){
+            wobbleCR.setPower(-1);
+
+        }
+        //if(gamepad1.dpad_up==false && gamepad1.dpad_down==false){
+        //    wobbleCR.setPower(0);
+
+        //}
+
+
+
+
+        FL.setPower(gamepad1.left_stick_y);
+        RL.setPower(gamepad1.left_stick_y);
+
+
+        FR.setPower(gamepad1.right_stick_y);
+        RR.setPower(gamepad1.right_stick_y);
+
+
+
+
+
+       // FL.setPower(gamepad1.left_stick_y);
+
+
+     //   control.GetOrion().MoveRaw(moveX, moveY, turn);
     }
 
     @Override
@@ -186,24 +238,12 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void LBPressed(double controllerNumber) {
-<<<<<<< Updated upstream
-        if(controllerNumber == 1) {
-            LeftBumper = true;
-        }
-=======
         if(controllerNumber == 1) {ArmPos = true;}
->>>>>>> Stashed changes
     }
 
     @Override
     public void RBPressed(double controllerNumber) {
-<<<<<<< Updated upstream
-        if(controllerNumber == 1) {
-            RightBumper = true;
-        }
-=======
         if(controllerNumber == 1) {ArmPos = true;}
->>>>>>> Stashed changes
     }
 
     @Override
@@ -237,24 +277,12 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void LBReleased(double controllerNumber) {
-<<<<<<< Updated upstream
-        if(controllerNumber == 1) {
-            LeftBumper = false;
-        }
-=======
         if(controllerNumber == 1) {ArmPos = false;}
->>>>>>> Stashed changes
     }
 
     @Override
     public void RBReleased(double controllerNumber) {
-<<<<<<< Updated upstream
-        if(controllerNumber == 1) {
-            RightBumper = false;
-        }
-=======
         if(controllerNumber == 1) {ArmNeg = false;}
->>>>>>> Stashed changes
     }
 
     @Override

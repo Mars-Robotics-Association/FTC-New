@@ -25,10 +25,11 @@ public class WobbleGoalController {
 
     //DigitalChannel UpperSensor;
 
-    public void Init(CRServo setLiftServo, Servo setLeftArm, Servo setRightArm){
-        LiftServo = setLiftServo;
-        LeftArm = setLeftArm;
-        RightArm = setRightArm;
+    public void Init(){
+        //LiftServo = setLiftServo;
+      //  LeftArm = setLeftArm;
+       // RightArm = setRightArm;
+
         /*
             LowerSensor = hardwareMap.get(DigitalChannel.class, "lowersensor_digital");
             LowerSensor.setMode(DigitalChannel.Mode.INPUT);
@@ -65,23 +66,23 @@ public class WobbleGoalController {
 
     public void GrabRing() {
 
-        LeftArm.setPosition(LeftRingGrab / 180);
-        RightArm.setPosition(RightRingGrab / 180);
+      //  LeftArm.setPosition(LeftRingGrab / 180);
+       // RightArm.setPosition(RightRingGrab / 180);
 
     }
     //Grabs a Ring.
 
     public void GrabWobbleGoal() {
 
-        LeftArm.setPosition(LeftWobbleGrab / 180);
-        RightArm.setPosition(RightWobbleGrab / 180);
+       // LeftArm.setPosition(LeftWobbleGrab / 180);
+     //   RightArm.setPosition(RightWobbleGrab / 180);
 
     }
     //Grabs a Wobble Goal.
 
     public void ReleaseArm(){
-            LeftArm.setPosition(0.5);
-            RightArm.setPosition(0.5);
+         //   LeftArm.setPosition(0.5);
+         //   RightArm.setPosition(0.5);
     }
     /*
         Releases the Ring or Wobble Goal.

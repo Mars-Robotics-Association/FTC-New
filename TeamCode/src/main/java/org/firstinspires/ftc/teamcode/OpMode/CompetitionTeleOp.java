@@ -27,7 +27,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
     private boolean busy = false;
     private double turnOffset = 0;
 
-    public static int payloadControllerNumber = 1;
+    public static int payloadControllerNumber = 2;
 
     @Override
     public void init() {
@@ -59,6 +59,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
             ManageDriving();
         }
         control.GetOrion().PrintVuforiaTelemetry(0);
+        control.GetOrion().PrintTensorflowTelemetry();
         telemetry.update();
     }
 

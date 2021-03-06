@@ -29,16 +29,16 @@ public class CuriosityPayloadController
     public static double bootOutPos = 0.45;
 
     public static double starpathDownPos = 0;
-    public static double starpathInterval = 0.14;
+    public static double starpathInterval = 0.13;
     public static double starpathUpPos = 0.32;
 
-    public static double loaderClearPos = 0.55;
-    public static double loaderLoadPos = 0.9;
+    public static double loaderClearPos = 0.65;
+    public static double loaderLoadPos = 1;
 
     public static double shooterSpeedMultiplier = -1;
-    public static double powerShotSpeedMultiplier = 0.75;
+    public static double powerShotSpeedMultiplier = 0.82;
 
-    public static double timeToShoot = 0.8;
+    public static double timeToShoot = 0.5;
     public static double timeToRetract = 0.5;
     public static double timeToMoveToNext = 0.5;
 

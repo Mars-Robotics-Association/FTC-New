@@ -22,8 +22,10 @@ public class WobbleGoalAutonomous extends LinearOpMode {
     public static double robotY = 4;
     public static double robotH = 180;
 
-    public static double powerShotStartAngle = -21;
-    public static double powerShotIncrament = -3.5;
+    public static double powerShotStartAngle = 2;
+    public static double powerShotIncrament = -6;
+
+    public static double tfUpperLimit = 150;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -39,30 +41,33 @@ public class WobbleGoalAutonomous extends LinearOpMode {
         control.StarpathToShooter();
 
         //Move to where it can see discs
-        orion.MoveLinear(10, 0, 0);
+        orion.MoveLinear(18, 12, 0);
 
         sleep(500);//wait for tensorflow to detect discs
-        int numberOfDiscs = orion.GetNumberOfDiscs();//figure out where to go
+        int numberOfDiscs = orion.GetNumberOfDiscs(tfUpperLimit);//figure out where to go\
 
-        //Go to square A
-        orion.MoveSpline(70, -8, 0, true);
+        //Go near square A
+        orion.MoveSpline(40, -4, 0, true);
 
         if(numberOfDiscs == 0){ //A
             //deposit wobble goal
-            orion.MoveLinear(60, -8, 0);
+            orion.MoveLinear(70, -6, 0);
+            orion.MoveLinear(60, -6, 0);
         }
         else if(numberOfDiscs > 0 && numberOfDiscs < 3){ //B
             //spline to B, deposit
-            orion.MoveSpline(94, 16, 0, true);
-            orion.MoveLinear(84, 16, 0);
+            orion.MoveSpline(90, 12, 0, true);
+            orion.MoveLinear(80, 12, 0);
         }
         else { //C
             //keep going forwards, deposit
             orion.MoveLinear(112, -8, 0);
             orion.MoveLinear(102, -8, 0);
         }
+        control.ShooterOn();
         orion.MoveLinear(60, 36, 0);
-
+        PowerShotRoutine();
+        orion.MoveLinear(75, 36, 0);
     }
 
     private void PowerShotRoutine(){

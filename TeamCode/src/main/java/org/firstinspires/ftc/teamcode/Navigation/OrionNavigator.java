@@ -134,7 +134,7 @@ public class OrionNavigator
     public void TurnRaw(double speed){rr.TurnRaw(speed);}
     public void TurnTo(double angle){rr.TurnTo(angle);}
 
-    public int GetNumberOfDiscs(){return tf.ReturnNumberOfDiscsInSight();}
+    public int GetNumberOfDiscs(double upperLimit){return tf.ReturnNumberOfDiscsInSight(upperLimit);}
 
     //TODO: ====TELEMETRY METHODS FOR DEBUG====
     public void PrintVuforiaTelemetry(int vumarkCode){
@@ -143,15 +143,7 @@ public class OrionNavigator
         opMode.telemetry.addLine("X: " + data[2] + ", Y: " + data[0] + ", Angle: " + data[4]);
     }
     public void PrintTensorflowTelemetry(){
-        //opMode.telemetry.addLine("===ALL TF OBJECTS===");
-        //List<Recognition> tfObjs = tf.GetRecognitions();
-        opMode.telemetry.addLine("===TF GetClosestDiscXYAngle() DATA===");
-        double[] data = tf.GetClosestDiscXYAngleLocal(tfDistCoefficient,tfXCoefficient);
-        //data = cs.ConvertToGlobalComplex(data[0], data[1], data[2]);
-        opMode.telemetry.addLine("x: " + data[0] + " y: " + data[1] + " angle: " + data[2]);
-
-        opMode.telemetry.addLine("===TF GetClosestDisc() DATA===");
-        data = tf.GetClosestDisc();
-        opMode.telemetry.addLine("xScreenPos: " + data[0] + "yScreenPos: " + data[1] + "width: " + data[2]);
+        opMode.telemetry.addLine("===TF data===");
+        tf.PrintTFTelemetry();
     }
 }

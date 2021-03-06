@@ -121,16 +121,27 @@ public class TensorFlowObjectDetector
         else return null;
     }
 
-    public int ReturnNumberOfDiscsInSight() { //returns number of discs, counting stacks as 3 discs
+    public int ReturnNumberOfDiscsInSight(double upperLimit) { //returns number of discs, counting stacks as 3 discs
         List<Recognition> items = GetRecognitions();
         int amount = 0;
         if(items != null){
             for (Recognition r : items) {
-                if(r.getLabel()==LABEL_SECOND_ELEMENT) amount += 1;
-                else if(r.getLabel()==LABEL_FIRST_ELEMENT) amount += 3;
+                if(r.getTop()<upperLimit) continue; //filter out objects that are too high (coordinate is less the further up on the screen object is)
+                else if(r.getLabel()==LABEL_SECOND_ELEMENT) amount += 1; //one disc
+                else if(r.getLabel()==LABEL_FIRST_ELEMENT) amount += 3; //disc stack
             }
         }
         return amount;
+    }
+    public void PrintTFTelemetry(){
+        List<Recognition> items = GetRecognitions();
+        int amount = 0;
+        if(items != null){
+            for (Recognition r : items) {
+                opMode.telemetry.addLine("Top: "+r.getTop()+" | Bottom: "+r.getBottom()+" | Left: "+r.getLeft()+"| Right: "+r.getRight());
+            }
+        }
+        opMode.telemetry.addData("Number of discs: ", ReturnNumberOfDiscsInSight(100000));
     }
 
     //Returns coords of the closest disc

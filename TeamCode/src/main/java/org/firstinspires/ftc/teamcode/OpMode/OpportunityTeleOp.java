@@ -47,7 +47,7 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
 
     private double speedMultiplier = 1;
 
-    private boolean busy = false;
+    private boolean busy = false;//used to test if it's ok to drive
     private double turnOffset = 0;
 
     private int payloadController = 2;
@@ -56,12 +56,15 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
     private boolean ArmPos = false;
     private boolean ArmNeg = false;
 
+//map wheels FR, FL, RR, RL to the robot configuration
         @Override
         public void init() {
             FR = hardwareMap.dcMotor.get("FR");
             FL = hardwareMap.dcMotor.get("FL");
             RR = hardwareMap.dcMotor.get("RR");
             RL = hardwareMap.dcMotor.get("RL");
+
+            //map the lift and the arms to the robot configuration
 
             wobbleCR = hardwareMap.crservo.get("wobbleCRServo");
             leftServo = hardwareMap.servo.get("leftServo");
@@ -130,14 +133,16 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
         double turn = gamepad1.right_stick_x*turnSpeed*speedMultiplier + turnOffset;
 
 
+
+
         if(gamepad1.a){
-            leftServo.setPosition(1);
+            leftServo.setPosition(0);
             rightServo.setPosition(1);
         }
 
         if(gamepad1.b){
-            leftServo.setPosition(0);
-            rightServo.setPosition(0);
+            leftServo.setPosition(1);
+            rightServo.setPosition(0);//reverses the direction of the arm
         }
 
         if(gamepad1.dpad_up){
@@ -153,7 +158,7 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
         //}
 
 
-
+        if(gamepad1.left_stick_y>0.5)
 
         FL.setPower(gamepad1.left_stick_y);
         RL.setPower(gamepad1.left_stick_y);

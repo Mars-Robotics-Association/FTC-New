@@ -36,7 +36,7 @@ public class CuriosityPayloadController
     public static double loaderLoadPos = 1;
 
     public static double shooterSpeedMultiplier = -1;
-    public static double powerShotSpeedMultiplier = 0.82;
+    public static double powerShotSpeedMultiplier = 0.9;
 
     public static double timeToShoot = 0.5;
     public static double timeToRetract = 0.5;
@@ -127,11 +127,15 @@ public class CuriosityPayloadController
         if(starpathPosition > 2 && !loadFromIntakeRunning && discsShot == 3){
             StarpathToIntake();
         }
+        if(!loadFromIntakeRunning) BootReset();
+        if(starpathPosition > 2){
+            StopIntake();
+            return;
+        }
         discsShot = 0;
         //run intake
         intakeServo1.setPosition(1);
         intakeServo2.setPosition(0);
-        if(!loadFromIntakeRunning) BootReset();
     }
     public void StopIntake(){
         intakeServo1.setPosition(0.5);

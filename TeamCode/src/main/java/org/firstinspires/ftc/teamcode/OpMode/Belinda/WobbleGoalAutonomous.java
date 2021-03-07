@@ -23,9 +23,11 @@ public class WobbleGoalAutonomous extends LinearOpMode {
     public static double robotH = 180;
 
     public static double powerShotStartAngle = 2;
+    public static double powerShotStartX = 60;
+    public static double powerShotStartY = 36;
     public static double powerShotIncrament = -6;
 
-    public static double tfUpperLimit = 150;
+    public static double tfUpperLimit = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -83,12 +85,14 @@ public class WobbleGoalAutonomous extends LinearOpMode {
         control.ModifyForPowerShot();
         //turn to second shot
         orion.Turn(powerShotIncrament);
+        //orion.MoveLinear(powerShotStartX, powerShotStartY+powerShotIncrament, 0);
         control.ShootOne();
         control.ShooterOn();
 
         control.ModifyForPowerShot();
         //turn to third shot
         orion.Turn(powerShotIncrament);
+        //orion.MoveLinear(powerShotStartX, powerShotStartY+powerShotIncrament+powerShotIncrament, 0);
         control.ShootOne();
 
         //Reset shooter

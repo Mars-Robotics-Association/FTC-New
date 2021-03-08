@@ -101,6 +101,7 @@ public class CuriosityUltimateGoalControl extends MecanumBaseControl
     public void LoadStarpath(){shooterIntake.LoadFromIntake();}
     public void StopLoadStarpath(){shooterIntake.StopLoadFromIntake();}
     public void RotateStarpathToNextPos(){shooterIntake.RotateStarpathToNextPos();}
+    public void RotateStarpathToPreviousPos(){shooterIntake.RotateStarpathToPreviousPos();}
     public void StarpathToShooter(){shooterIntake.StarPathToShooter();}
     public void StarpathToIntake(){shooterIntake.StarpathToIntake();}
     public boolean IsShooterRunning(){return shooterIntake.shooterRunning;}

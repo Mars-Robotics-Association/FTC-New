@@ -88,9 +88,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void XPressed(double controllerNumber) {
-        if(controllerNumber == payloadControllerNumber){
-            control.RotateStarpathToNextPos();
-        }
+
     }
 
     @Override
@@ -136,7 +134,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void LBPressed(double controllerNumber) {
-        if(controllerNumber == payloadControllerNumber) control.AlignAndShoot();
+        //if(controllerNumber == payloadControllerNumber) control.AlignAndShoot();
     }
 
     @Override
@@ -196,5 +194,69 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
         if(controllerNumber == payloadControllerNumber){
             control.StopLoadStarpath();
         }
+    }
+
+    @Override
+    public void DUpPressed(double controllerNumber) {
+        if(controllerNumber == payloadControllerNumber){
+            control.RotateStarpathToNextPos();
+        }
+    }
+
+    @Override
+    public void DDownPressed(double controllerNumber) {
+        if(controllerNumber == payloadControllerNumber){
+            control.RotateStarpathToPreviousPos();
+        }
+    }
+
+    @Override
+    public void DLeftPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DRightPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DUpHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DDownHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DLeftHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DRightHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DUpReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DDownReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DLeftReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DRightReleased(double controllerNumber) {
+
     }
 }

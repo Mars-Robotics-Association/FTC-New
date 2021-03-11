@@ -49,14 +49,16 @@ public class WobbleGoalAutonomous extends LinearOpMode {
         int numberOfDiscs = orion.GetNumberOfDiscs(tfUpperLimit);//figure out where to go\
 
         //Go near square A
-        orion.MoveSpline(40, -4, 0, true);
+        orion.MoveSpline(40, 0, 0, true);
 
         if(numberOfDiscs == 0){ //A
             //deposit wobble goal
             orion.MoveLinear(70, -6, 0);
             orion.MoveLinear(60, -6, 0);
         }
-        else if(numberOfDiscs > 0 && numberOfDiscs < 3){ //B
+
+
+        if(numberOfDiscs > 0 && numberOfDiscs < 3){ //B
             //spline to B, deposit
             orion.MoveSpline(90, 12, 0, true);
             orion.MoveLinear(80, 12, 0);
@@ -66,10 +68,21 @@ public class WobbleGoalAutonomous extends LinearOpMode {
             orion.MoveLinear(112, -8, 0);
             orion.MoveLinear(102, -8, 0);
         }
+
+        //Line up for high goal
         control.ShooterOn();
+        orion.MoveLinear(60, 12, 0);
+        orion.TurnTo(180);
+        control.ShootThree();
+
+        orion.MoveSpline(30,36,0, false);
+        orion.MoveSpline(4,28,0, false);
+        orion.MoveLinear(40,28,0);
+
+        /*control.ShooterOn();
         orion.MoveLinear(60, 36, 0);
         PowerShotRoutine();
-        orion.MoveLinear(75, 36, 0);
+        orion.MoveLinear(75, 36, 0);*/
     }
 
     private void PowerShotRoutine(){

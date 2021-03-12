@@ -39,7 +39,7 @@ public class SampleAutonomous extends LinearOpMode
         orion.MoveSpline(10,10,0, false); //moves robot along a spline path
 
         sleep(500);//wait for tensorflow to detect discs
-        int numberOfDiscs = orion.GetNumberOfDiscs();//figure out where to go
+        int numberOfDiscs = orion.GetNumberOfDiscs(10000);//figure out where to go
 
         telemetry.addLine("# of discs" + numberOfDiscs); //prints number of discs to telemetry
         telemetry.update();

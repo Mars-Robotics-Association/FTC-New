@@ -27,11 +27,11 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
     private boolean busy = false;
     private double turnOffset = 0;
 
-    public static int payloadControllerNumber = 1;
+    public static int payloadControllerNumber = 2;
 
     @Override
     public void init() {
-        control = new CuriosityUltimateGoalControl(this, true, false, false);
+        control = new CuriosityUltimateGoalControl(this, true, true, true);
         control.Init();
 
         controllerInput1 = new ControllerInput(gamepad1, 1);
@@ -42,7 +42,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
         telemetry.addData("Speed Multiplier", speedMultiplier);
         telemetry.update();
 
-        control.StarpathToIntake();
+        if(control.isUSE_PAYLOAD()) control.StarpathToIntake();
 
         msStuckDetectLoop = 15000;
     }
@@ -59,13 +59,14 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
             ManageDriving();
         }
         control.GetOrion().PrintVuforiaTelemetry(0);
+        control.GetOrion().PrintTensorflowTelemetry();
         telemetry.update();
     }
 
     private void ManageDriving() {
         double moveX = -gamepad1.left_stick_y*driveSpeed*speedMultiplier;
         double moveY = -gamepad1.left_stick_x*driveSpeed*speedMultiplier;
-        double turn = gamepad1.right_stick_x*turnSpeed*speedMultiplier + turnOffset;
+        double turn = -gamepad1.right_stick_x*turnSpeed*speedMultiplier + turnOffset;
         control.GetOrion().MoveRaw(moveX, moveY, turn);
     }
 
@@ -87,9 +88,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void XPressed(double controllerNumber) {
-        if(controllerNumber == payloadControllerNumber){
-            control.RotateStarpathToNextPos();
-        }
+
     }
 
     @Override
@@ -135,7 +134,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void LBPressed(double controllerNumber) {
-        if(controllerNumber == payloadControllerNumber) control.AlignAndShoot();
+        //if(controllerNumber == payloadControllerNumber) control.AlignAndShoot();
     }
 
     @Override
@@ -195,5 +194,69 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
         if(controllerNumber == payloadControllerNumber){
             control.StopLoadStarpath();
         }
+    }
+
+    @Override
+    public void DUpPressed(double controllerNumber) {
+        if(controllerNumber == payloadControllerNumber){
+            control.RotateStarpathToNextPos();
+        }
+    }
+
+    @Override
+    public void DDownPressed(double controllerNumber) {
+        if(controllerNumber == payloadControllerNumber){
+            control.RotateStarpathToPreviousPos();
+        }
+    }
+
+    @Override
+    public void DLeftPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DRightPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DUpHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DDownHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DLeftHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DRightHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DUpReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DDownReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DLeftReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void DRightReleased(double controllerNumber) {
+
     }
 }

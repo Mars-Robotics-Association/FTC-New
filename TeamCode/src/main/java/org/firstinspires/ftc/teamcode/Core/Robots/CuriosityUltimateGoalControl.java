@@ -26,9 +26,9 @@ public class CuriosityUltimateGoalControl extends MecanumBaseControl
 
     ////Variables////
     //Calibration
-    public static double shootXOffset = 60;
+    public static double shootXOffset = 70;
     public static double shootYOffset = 0;
-    public static double shootAngleOffset = 0;
+    public static double shootAngleOffset = 180;
 
     /**@param setOpMode pass the opmode running this down to access hardware map
      * @param useChassis whether to use the chassis of the robot
@@ -101,6 +101,7 @@ public class CuriosityUltimateGoalControl extends MecanumBaseControl
     public void LoadStarpath(){shooterIntake.LoadFromIntake();}
     public void StopLoadStarpath(){shooterIntake.StopLoadFromIntake();}
     public void RotateStarpathToNextPos(){shooterIntake.RotateStarpathToNextPos();}
+    public void RotateStarpathToPreviousPos(){shooterIntake.RotateStarpathToPreviousPos();}
     public void StarpathToShooter(){shooterIntake.StarPathToShooter();}
     public void StarpathToIntake(){shooterIntake.StarpathToIntake();}
     public boolean IsShooterRunning(){return shooterIntake.shooterRunning;}

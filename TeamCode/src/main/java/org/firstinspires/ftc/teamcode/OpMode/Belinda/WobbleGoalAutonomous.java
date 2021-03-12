@@ -19,11 +19,15 @@ public class WobbleGoalAutonomous extends LinearOpMode {
     public static double tfXCoef = 0.001;
 
     public static double robotX = 0;
-    public static double robotY = -4;
+    public static double robotY = 4;
     public static double robotH = 180;
 
-    public static double powerShotStartAngle = -21;
-    public static double powerShotIncrament = -3.5;
+    public static double powerShotStartAngle = 2;
+    public static double powerShotStartX = 60;
+    public static double powerShotStartY = 36;
+    public static double powerShotIncrament = -6;
+
+    public static double tfUpperLimit = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -39,33 +43,46 @@ public class WobbleGoalAutonomous extends LinearOpMode {
         control.StarpathToShooter();
 
         //Move to where it can see discs
-        orion.MoveLinear(10, 0, 0);
+        orion.MoveLinear(18, 12, 0);
 
         sleep(500);//wait for tensorflow to detect discs
-        int numberOfDiscs = orion.GetNumberOfDiscs();//figure out where to go
+        int numberOfDiscs = orion.GetNumberOfDiscs(tfUpperLimit);//figure out where to go\
 
-        //Go to square A
-        orion.MoveSpline(70, 12, 0, true);
+        //Go near square A
+        orion.MoveSpline(40, 0, 0, true);
 
         if(numberOfDiscs == 0){ //A
-            //deposit wobble goal and go to shoot position
-            orion.MoveLinear(60, 12, 0);
-            orion.MoveLinear(60, -36, 0);
+            //deposit wobble goal
+            orion.MoveLinear(70, -6, 0);
+            orion.MoveLinear(60, -6, 0);
         }
+
+
         if(numberOfDiscs > 0 && numberOfDiscs < 3){ //B
-            //spline to B, deposit, and go to shoot position
-            orion.MoveSpline(94, -12, 0, true);
-            orion.MoveLinear(84, -12, 0);
-            orion.MoveLinear(60, -36, 0);
+            //spline to B, deposit
+            orion.MoveSpline(90, 12, 0, true);
+            orion.MoveLinear(80, 12, 0);
         }
         else { //C
-            //keep going forwards, deposit, and go to shoot position
-            orion.MoveLinear(112, 12, 0);
-            orion.MoveLinear(102, 12, 0);
-            orion.MoveLinear(60, -36, 0);
+            //keep going forwards, deposit
+            orion.MoveLinear(112, -8, 0);
+            orion.MoveLinear(102, -8, 0);
         }
 
+        //Line up for high goal
+        control.ShooterOn();
+        orion.MoveLinear(60, 12, 0);
+        orion.TurnTo(180);
+        control.ShootThree();
 
+        orion.MoveSpline(30,36,0, false);
+        orion.MoveSpline(4,28,0, false);
+        orion.MoveLinear(40,28,0);
+
+        /*control.ShooterOn();
+        orion.MoveLinear(60, 36, 0);
+        PowerShotRoutine();
+        orion.MoveLinear(75, 36, 0);*/
     }
 
     private void PowerShotRoutine(){
@@ -81,12 +98,14 @@ public class WobbleGoalAutonomous extends LinearOpMode {
         control.ModifyForPowerShot();
         //turn to second shot
         orion.Turn(powerShotIncrament);
+        //orion.MoveLinear(powerShotStartX, powerShotStartY+powerShotIncrament, 0);
         control.ShootOne();
         control.ShooterOn();
 
         control.ModifyForPowerShot();
         //turn to third shot
         orion.Turn(powerShotIncrament);
+        //orion.MoveLinear(powerShotStartX, powerShotStartY+powerShotIncrament+powerShotIncrament, 0);
         control.ShootOne();
 
         //Reset shooter

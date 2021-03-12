@@ -32,4 +32,19 @@ public interface ControllerInputListener {
     void RBReleased(double controllerNumber);
     void LTReleased(double controllerNumber);
     void RTReleased(double controllerNumber);
+    
+    void DUpPressed(double controllerNumber);
+    void DDownPressed(double controllerNumber);
+    void DLeftPressed(double controllerNumber);
+    void DRightPressed(double controllerNumber);
+
+    void DUpHeld(double controllerNumber);
+    void DDownHeld(double controllerNumber);
+    void DLeftHeld(double controllerNumber);
+    void DRightHeld(double controllerNumber);
+
+    void DUpReleased(double controllerNumber);
+    void DDownReleased(double controllerNumber);
+    void DLeftReleased(double controllerNumber);
+    void DRightReleased(double controllerNumber);
 }

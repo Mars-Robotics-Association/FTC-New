@@ -46,6 +46,10 @@ public class ControllerInput
     private boolean RBDown = false;
     private boolean LTDown = false;
     private boolean RTDown = false;
+    private boolean DUpDown = false;
+    private boolean DDownDown = false;
+    private boolean DLeftDown = false;
+    private boolean DRightDown = false;
 
     //GETTERS
     public double GetLJSX()
@@ -99,6 +103,22 @@ public class ControllerInput
         for (ControllerInputListener controllerInput : listeners)
             controllerInput.LTPressed(id);
     }
+    public void DUpPressed() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.DUpPressed(id);
+    }
+    public void DDownPressed() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.DDownPressed(id);
+    }
+    public void DLeftPressed() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.DLeftPressed(id);
+    }
+    public void DRightPressed() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.DRightPressed(id);
+    }
 
     //Held
     public void AHeld() {
@@ -132,6 +152,22 @@ public class ControllerInput
     public void LTHeld() {
         for (ControllerInputListener controllerInput : listeners)
             controllerInput.LTHeld(id);
+    }
+    public void DUpHeld() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.DUpHeld(id);
+    }
+    public void DDownHeld() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.DDownHeld(id);
+    }
+    public void DLeftHeld() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.DLeftHeld(id);
+    }
+    public void DRightHeld() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.DRightHeld(id);
     }
 
     //Released
@@ -167,6 +203,22 @@ public class ControllerInput
         for (ControllerInputListener inputListener : listeners)
             inputListener.LTReleased(id);
     }
+    public void DUpReleased() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.DUpReleased(id);
+    }
+    public void DDownReleased() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.DDownReleased(id);
+    }
+    public void DLeftReleased() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.DLeftReleased(id);
+    }
+    public void DRightReleased() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.DRightReleased(id);
+    }
 
     public void Loop(){
         //DETECT EVENTS
@@ -179,6 +231,10 @@ public class ControllerInput
         if(gamepad.right_bumper == true && RBDown == false) RBPressed();
         if(gamepad.left_trigger > TriggerThreshold && LTDown == false) LTPressed();
         if(gamepad.right_trigger > TriggerThreshold && RTDown == false) RTPressed();
+        if(gamepad.dpad_up == true && DUpDown == false) DUpPressed();
+        if(gamepad.dpad_down == true && DDownDown == false) DDownPressed();
+        if(gamepad.dpad_left == true && DLeftDown == false) DLeftPressed();
+        if(gamepad.dpad_right == true && DRightDown == false) DRightPressed();
 
         //Held
         if(gamepad.a == true) AHeld();
@@ -189,6 +245,10 @@ public class ControllerInput
         if(gamepad.right_bumper == true) RBHeld();
         if(gamepad.left_trigger > TriggerThreshold) LTHeld();
         if(gamepad.right_trigger > TriggerThreshold) RTHeld();
+        if(gamepad.dpad_up == true) DUpHeld();
+        if(gamepad.dpad_down == true) DDownHeld();
+        if(gamepad.dpad_left == true) DLeftHeld();
+        if(gamepad.dpad_right == true) DRightHeld();
 
         //Released
         if(gamepad.a == false && ADown == true) AReleased();
@@ -199,6 +259,10 @@ public class ControllerInput
         if(gamepad.right_bumper == false && RBDown == true) RBReleased();
         if(gamepad.left_trigger <= TriggerThreshold && LTDown == true) LTReleased();
         if(gamepad.right_trigger <= TriggerThreshold && RTDown == true) RTReleased();
+        if(gamepad.dpad_up == false && DUpDown == true) DUpReleased();
+        if(gamepad.dpad_down == false && DDownDown == true) DDownReleased();
+        if(gamepad.dpad_left == false && DLeftDown == true) DLeftReleased();
+        if(gamepad.dpad_right == false && DRightDown == true) DRightReleased();
 
 
         //SET VARS TO CURRENT VALUES
@@ -210,6 +274,10 @@ public class ControllerInput
         RBDown = gamepad.right_bumper;
         LTDown = gamepad.left_trigger > TriggerThreshold;
         RTDown = gamepad.right_trigger > TriggerThreshold;
+        DUpDown = gamepad.dpad_up;
+        DDownDown = gamepad.dpad_down;
+        DLeftDown = gamepad.dpad_left;
+        DRightDown = gamepad.dpad_right;
     }
 
     public double CalculateLJSAngle(){

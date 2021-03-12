@@ -29,16 +29,16 @@ public class CuriosityPayloadController
     public static double bootOutPos = 0.45;
 
     public static double starpathDownPos = 0;
-    public static double starpathInterval = 0.14;
+    public static double starpathInterval = 0.13;
     public static double starpathUpPos = 0.32;
 
-    public static double loaderClearPos = 0.6;
+    public static double loaderClearPos = 0.65;
     public static double loaderLoadPos = 1;
 
     public static double shooterSpeedMultiplier = -1;
-    public static double powerShotSpeedMultiplier = 0.75;
+    public static double powerShotSpeedMultiplier = 0.9;
 
-    public static double timeToShoot = 0.8;
+    public static double timeToShoot = 0.5;
     public static double timeToRetract = 0.5;
     public static double timeToMoveToNext = 0.5;
 
@@ -89,7 +89,8 @@ public class CuriosityPayloadController
         discsShot = 3;
         starpathPosition = 0;
     }
-    private void StarpathMoveInterval(){starpathServo.setPosition(starpathServo.getPosition()+starpathInterval);}
+    private void StarpathAddInterval(){starpathServo.setPosition(starpathServo.getPosition()+starpathInterval);}
+    private void StarpathSubtractInterval(){starpathServo.setPosition(starpathServo.getPosition()-starpathInterval);}
     public void StarPathToShooter(){
         starpathServo.setPosition(starpathUpPos);
         discsShot = 0;
@@ -109,7 +110,6 @@ public class CuriosityPayloadController
     public void RotateStarpathToNextPos(){
         //if (intakeDetector.getDistance(DistanceUnit.CM) < 20 && starpathPosition == 5 || shooterDetector.getDistance(DistanceUnit.CM) < 20)
             //return;
-
         starpathPosition++;
 
         //if next pos is 6, reset back to 0
@@ -119,7 +119,17 @@ public class CuriosityPayloadController
         //if next pos is 3, go to the shooter
         else if(starpathPosition == 3) StarPathToShooter();
         //else, add with the interval
-        else StarpathMoveInterval();
+        else StarpathAddInterval();
+    }
+
+    public void RotateStarpathToPreviousPos(){
+        if(starpathPosition != 0) starpathPosition--;
+
+        if(starpathPosition == 2) starpathServo.setPosition(starpathInterval*2);
+        else if(starpathPosition == 0){
+            StarpathToIntake();
+        }
+        else StarpathSubtractInterval();
     }
 
     public void Intake(){
@@ -127,11 +137,15 @@ public class CuriosityPayloadController
         if(starpathPosition > 2 && !loadFromIntakeRunning && discsShot == 3){
             StarpathToIntake();
         }
+        if(!loadFromIntakeRunning) BootReset();
+        if(starpathPosition > 2){
+            StopIntake();
+            return;
+        }
         discsShot = 0;
         //run intake
         intakeServo1.setPosition(1);
         intakeServo2.setPosition(0);
-        if(!loadFromIntakeRunning) BootReset();
     }
     public void StopIntake(){
         intakeServo1.setPosition(0.5);
@@ -149,10 +163,9 @@ public class CuriosityPayloadController
         //wait
         if(loaderStartTime+1 > opMode.getRuntime()) return;
 
-        if(starpathPosition == 0 || starpathPosition == 1) BootReset();
-        else BootMiddle();
-        bootUsed = true;
+        BootReset();
 
+        bootUsed = true;
     }
     public void StopLoadFromIntake(){
         //rotate starpath to next pos

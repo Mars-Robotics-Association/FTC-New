@@ -112,7 +112,8 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
         controllerInput2.Loop();
 
         if(!busy) {
-            ManageDriving();
+            //ManageDrivingRoadrunner(); //Uncomment this if you are using odometry + a webcam
+            ManageDriveMovementCustom(); //Uncomment this if you are *not* using odometry + webcam
         }
 
        // if(LeftBumper){ArmDirection++;}
@@ -131,7 +132,7 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
 
     }
 
-    private void ManageDriving() {
+    private void ManageDrivingRoadrunner() {
         double moveX = -gamepad1.left_stick_y*driveSpeed*speedMultiplier;
         double moveY = -gamepad1.left_stick_x*driveSpeed*speedMultiplier;
         double turn = gamepad1.right_stick_x*turnSpeed*speedMultiplier + turnOffset;
@@ -179,6 +180,22 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
 
 
      //   control.GetOrion().MoveRaw(moveX, moveY, turn);
+    }
+
+    private void ManageDriveMovementCustom() {
+        //MOVE if left joystick magnitude > 0.1
+        if (controllerInput1.CalculateLJSMag() > 0.1) {
+            control.RawDrive(controllerInput1.CalculateLJSAngle(), controllerInput1.CalculateLJSMag() * driveSpeed, controllerInput1.GetRJSX() * turnSpeed);//drives at (angle, speed, turnOffset)
+            telemetry.addData("Moving at ", controllerInput1.CalculateLJSAngle());
+        }
+        //TURN if right joystick magnitude > 0.1 and not moving
+        else if (Math.abs(controllerInput1.GetRJSX()) > 0.1) {
+            control.RawTurn(controllerInput1.GetRJSX() * turnSpeed);//turns at speed according to rjs1
+            telemetry.addData("Turning", true);
+        }
+        else {
+            control.GetChassis().SetMotorSpeeds(0,0,0,0);
+        }
     }
 
     @Override

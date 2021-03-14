@@ -30,9 +30,13 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
     private DcMotor RR;
     private DcMotor RL;
 
+
+
     private CRServo wobbleCR;
     private Servo leftServo;
     private Servo rightServo;
+
+
 
 
  //   private Servo liftservo;
@@ -59,13 +63,13 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
 //map wheels FR, FL, RR, RL to the robot configuration
         @Override
         public void init() {
+            //map the wheels to the robot configuration
             FR = hardwareMap.dcMotor.get("FR");
             FL = hardwareMap.dcMotor.get("FL");
             RR = hardwareMap.dcMotor.get("RR");
             RL = hardwareMap.dcMotor.get("RL");
 
             //map the lift and the arms to the robot configuration
-
             wobbleCR = hardwareMap.crservo.get("wobbleCRServo");
             leftServo = hardwareMap.servo.get("leftServo");
             rightServo = hardwareMap.servo.get("rightServo");

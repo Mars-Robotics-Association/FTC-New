@@ -16,9 +16,11 @@ import org.firstinspires.ftc.teamcode.Core.Input.ControllerInputListener;
 import org.firstinspires.ftc.teamcode.Core.Robots.MecanumBaseControl;
 import org.firstinspires.ftc.teamcode.MechanicalControl.Kenobi.WobbleGoalController;
 
+//SimpleTeleOpKenobi (or whatever name is here) shows up on the phone
 @TeleOp(name = "SimpleTeleOpKenobi", group = "Competition")
-//shows up on phone^
+
 @Config
+//This name must match the file name
 public class SimpleTeleOp extends OpMode implements ControllerInputListener
 {
     ////Dependencies////
@@ -40,8 +42,8 @@ public class SimpleTeleOp extends OpMode implements ControllerInputListener
     private CRServo intakeServo;
     private CRServo feedServo;
 
-    // private CRServo wobbleLiftServo;
-    private Servo wobbleLiftServo;//try making lift a servo
+    // private CRServo wobbleLiftServo;//made the lift a servo instead of a CRServo
+    private Servo wobbleLiftServo;//making the lift a servo
     private Servo wobbleLeftServo;
     private Servo wobbleRightServo;
 
@@ -94,19 +96,9 @@ public class SimpleTeleOp extends OpMode implements ControllerInputListener
         intakeServo = hardwareMap.crservo.get("intakeServo");
         feedServo = hardwareMap.crservo.get("feedServo");
 
-
-
-
-        // wobble = new WobbleGoalController();
-        // wobble.Init(
-        //  hardwareMap.crservo.get("liftservo"),
-        //  hardwareMap.servo.get("leftarm"),
-        //  hardwareMap.servo.get("rightarm")
-
+        //You must set these booleans to use the mecanum wheels: set useChassis to true, usePayload to false, useNavigator to false
         control = new MecanumBaseControl(this, true, false, false);
         control.InitCoreRobotModules();
-
-//>>>>>>> Stashed changes
 
         controllerInput2 = new ControllerInput(gamepad2, 2);
         controllerInput1 = new ControllerInput(gamepad1, 1);
@@ -146,13 +138,7 @@ public class SimpleTeleOp extends OpMode implements ControllerInputListener
         if(ArmPos){dir++;}
         if(ArmNeg){dir--;}
 
-        //wobble.SetWobbleLiftPower(dir*ArmMultiplier);
-
-        //wobble.Loop();
-
-
-
-
+       //This code will turn the wheels (simple forward and backward - no use of mechanum functions
         //private void ManageDriving() {
         //  double moveX = -gamepad1.left_stick_y*driveSpeed*speedMultiplier;
         //  double moveY = -gamepad1.left_stick_x*driveSpeed*speedMultiplier;
@@ -160,6 +146,8 @@ public class SimpleTeleOp extends OpMode implements ControllerInputListener
 
 
 //GAMEPAD 1
+
+        //if the "A" button on gamepad 1 is pressed, the power on the intakeServo is set to 1 (max power)
         if (gamepad1.a) {
             intakeServo.setPower(1);
         }
@@ -466,14 +454,14 @@ public class SimpleTeleOp extends OpMode implements ControllerInputListener
     private void MangeDriveMovement(){
         //MOVE if left joystick magnitude > 0.1
         if (controllerInput1.CalculateLJSMag() > 0.1) {
-            //control.RawDrive(controllerInput1.CalculateLJSAngle(), controllerInput1.CalculateLJSMag() * driveSpeed, controllerInput1.GetRJSX() * turnWhileDrivingSpeed);//drives at (angle, speed, turnOffset)
-            control.GetOrion().MoveRaw(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed, controllerInput1.GetRJSX()*turnWhileDrivingSpeed);
+            control.RawDrive(controllerInput1.CalculateLJSAngle(), controllerInput1.CalculateLJSMag() * driveSpeed, controllerInput1.GetRJSX() * turnWhileDrivingSpeed);//drives at (angle, speed, turnOffset)
+            //control.GetOrion().MoveRaw(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed, controllerInput1.GetRJSX()*turnWhileDrivingSpeed);
             telemetry.addData("Moving at ", controllerInput1.CalculateLJSAngle());
         }
         //TURN if right joystick magnitude > 0.1 and not moving
         else if (Math.abs(controllerInput1.GetRJSX()) > 0.1) {
-            //control.RawTurn(controllerInput1.GetRJSX() * turnSpeed);//turns at speed according to rjs1
-            control.GetOrion().TurnRaw(controllerInput1.GetRJSX() * turnSpeed);
+            control.RawTurn(controllerInput1.GetRJSX() * turnSpeed *-1);//turns at speed according to rjs1
+            //control.GetOrion().TurnRaw(controllerInput1.GetRJSX() * turnSpeed);
             telemetry.addData("Turning", true);
         }
         else {

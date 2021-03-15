@@ -51,7 +51,10 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
 
     private double speedMultiplier = 1;
 
-    private boolean busy = false;//used to test if it's ok to drive
+    //busy is a variable that is used by other classes to make the
+    //driving functions wait so we are doing driving while doing other
+    //functions such as shooting
+    private boolean busy = false;
     private double turnOffset = 0;
 
     private int payloadController = 2;
@@ -59,6 +62,11 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
     private double ArmMultiplier = 1;
     private boolean ArmPos = false;
     private boolean ArmNeg = false;
+    @Override
+    public void init() {
+        wobble = new WobbleGoalController();
+        wobble.Init(this, hardwareMap.crservo.get("wobbleCRServo"), hardwareMap.servo.get("leftServo"), hardwareMap.servo.get("rightServo"));
+//this means this opmode is being passed, the hardware map statements as stated in the line above
 
 //map wheels FR, FL, RR, RL to the robot configuration
         @Override

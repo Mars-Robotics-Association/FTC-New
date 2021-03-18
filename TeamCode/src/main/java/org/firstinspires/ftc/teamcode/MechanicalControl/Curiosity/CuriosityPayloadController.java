@@ -29,8 +29,8 @@ public class CuriosityPayloadController
     public static double bootOutPos = 0.45;
 
     public static double starpathDownPos = 0;
-    public static double starpathInterval = 0.13;
-    public static double starpathUpPos = 0.32;
+    public static double starpathInterval = 0.09;
+    public static double starpathUpPos = 0.225;
 
     public static double loaderClearPos = 0.65;
     public static double loaderLoadPos = 1;

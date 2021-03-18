@@ -41,9 +41,10 @@ public class WobbleGoalAutonomous extends LinearOpMode {
         orion.SetPose(robotX, robotY, Math.toRadians(robotH));//robot starts on blue left line
 
         control.StarpathToShooter();
+        control.RotateStarpathToPreviousPos();
 
         //Move to where it can see discs
-        orion.MoveLinear(18, 12, 0);
+        orion.MoveLinear(18, 8, 0);
 
         sleep(500);//wait for tensorflow to detect discs
         int numberOfDiscs = orion.GetNumberOfDiscs(tfUpperLimit);//figure out where to go\
@@ -53,19 +54,17 @@ public class WobbleGoalAutonomous extends LinearOpMode {
 
         if(numberOfDiscs == 0){ //A
             //deposit wobble goal
-            orion.MoveLinear(70, -6, 0);
+            orion.MoveLinear(65, -6, 0);
             orion.MoveLinear(60, -6, 0);
         }
-
-
-        if(numberOfDiscs > 0 && numberOfDiscs < 3){ //B
+        else if(numberOfDiscs > 0 && numberOfDiscs < 3){ //B
             //spline to B, deposit
-            orion.MoveSpline(90, 12, 0, true);
+            orion.MoveSpline(85, 12, 0, true);
             orion.MoveLinear(80, 12, 0);
         }
         else { //C
             //keep going forwards, deposit
-            orion.MoveLinear(112, -8, 0);
+            orion.MoveLinear(107, -8, 0);
             orion.MoveLinear(102, -8, 0);
         }
 
@@ -73,16 +72,42 @@ public class WobbleGoalAutonomous extends LinearOpMode {
         control.ShooterOn();
         orion.MoveLinear(60, 12, 0);
         orion.TurnTo(180);
-        control.ShootThree();
+        HighGoalRoutine();
 
-        orion.MoveSpline(30,36,0, false);
-        orion.MoveSpline(4,28,0, false);
-        orion.MoveLinear(40,28,0);
+        orion.MoveLinear(40, -4, 0);
+        orion.MoveLinear(0, 4, 0);
+        orion.MoveLinear(0, 25, 0);
 
-        /*control.ShooterOn();
-        orion.MoveLinear(60, 36, 0);
-        PowerShotRoutine();
-        orion.MoveLinear(75, 36, 0);*/
+        orion.MoveSpline(40, 32, 0, true);
+
+        if(numberOfDiscs == 0){ //A
+            //deposit wobble goal
+            orion.MoveSpline(60, -6, -45, true);
+            orion.MoveLinear(55, -6, 0);
+        }
+        else if(numberOfDiscs > 0 && numberOfDiscs < 3){ //B
+            //spline to B, deposit
+            orion.MoveSpline(80, 12, 0, true);
+            orion.MoveLinear(75, 12, 0);
+        }
+        else { //C
+            //keep going forwards, deposit
+            orion.MoveSpline(102, -8, 0, true);
+            orion.MoveLinear(97, -8, 0);
+        }
+
+        orion.MoveLinear(65, 0, 0);
+    }
+
+    private void HighGoalRoutine(){
+        control.ShooterOn();
+        control.RotateStarpathToNextPos();
+        sleep(1500);
+        control.RotateStarpathToNextPos();
+        sleep(1500);
+        control.RotateStarpathToNextPos();
+        sleep(500);
+        control.ShooterOff();
     }
 
     private void PowerShotRoutine(){

@@ -57,6 +57,13 @@ public class SampleMecanumDrive extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);
 
+    public static String frontRightName = "FR";
+    public static String frontLeftName = "FL";
+    public static String backRightName = "RR";
+    public static String backLeftName = "RL";
+
+    public static boolean leftReversed = false;
+    public static boolean rightReversed = true;
 
     public enum Mode {
         IDLE,
@@ -141,10 +148,14 @@ public class SampleMecanumDrive extends MecanumDrive {
         }
 
         // TODO: reverse any motors using DcMotor.setDirection()
-        //leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        //leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        if(leftReversed) {
+            leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+            leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        }
+        if(rightReversed) {
+            rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+            rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        }
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));

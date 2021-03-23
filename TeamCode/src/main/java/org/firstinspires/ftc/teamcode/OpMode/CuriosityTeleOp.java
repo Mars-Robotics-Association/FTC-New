@@ -8,9 +8,9 @@ import org.firstinspires.ftc.teamcode.Core.Input.ControllerInput;
 import org.firstinspires.ftc.teamcode.Core.Input.ControllerInputListener;
 import org.firstinspires.ftc.teamcode.Core.Robots.CuriosityUltimateGoalControl;
 
-@TeleOp(name = "*COMPETITION TELEOP*", group = "Competition")
+@TeleOp(name = "*CURIOSITY TELEOP*", group = "Curiosity")
 @Config
-public class CompetitionTeleOp extends OpMode implements ControllerInputListener
+public class CuriosityTeleOp extends OpMode implements ControllerInputListener
 {
     ////Dependencies////
     private CuriosityUltimateGoalControl control;
@@ -74,7 +74,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
     public void APressed(double controllerNumber) {
         if(controllerNumber == 1) {
             if (speedMultiplier == 1) speedMultiplier = 0.5;
-            else if (speedMultiplier == 0.5) speedMultiplier = 0.25;
+            //else if (speedMultiplier == 0.5) speedMultiplier = 0.25;
             else speedMultiplier = 1;
         }
     }
@@ -93,7 +93,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void YPressed(double controllerNumber) {
-        if(controllerNumber== payloadControllerNumber) control.ShootOne();
+        if(controllerNumber== payloadControllerNumber) control.ShootThree();
     }
 
     @Override
@@ -130,6 +130,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void YReleased(double controllerNumber) {
+        control.StopShootThree();
     }
 
     @Override
@@ -170,7 +171,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
     @Override
     public void RTHeld(double controllerNumber) {
         if(controllerNumber == payloadControllerNumber){
-            control.LoadStarpath();
+            //control.LoadStarpath();
         }
     }
 
@@ -192,7 +193,7 @@ public class CompetitionTeleOp extends OpMode implements ControllerInputListener
     @Override
     public void RTReleased(double controllerNumber) {
         if(controllerNumber == payloadControllerNumber){
-            control.StopLoadStarpath();
+            //control.StopLoadStarpath();
         }
     }
 

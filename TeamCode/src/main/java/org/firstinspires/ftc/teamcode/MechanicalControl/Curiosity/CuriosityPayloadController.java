@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 @Config
 public class CuriosityPayloadController
 {
@@ -25,22 +27,26 @@ public class CuriosityPayloadController
     private DistanceSensor shooterDetector;
 
     ////CONFIG VARIABLES////
-    public static double bootInPos = 0.7;
-    public static double bootOutPos = 0.45;
+    //public static double bootInPos = 0.7;
+    //public static double bootOutPos = 0.45;
 
-    public static double starpathDownPos = 0;
-    public static double starpathInterval = 0.09;
-    public static double starpathUpPos = 0.225;
+    public static double starpathDownPos = 0.01;
+    public static double starpathInterval = 0.95;
+    public static double starpathUpPos = 0.24;
 
-    public static double loaderClearPos = 0.65;
-    public static double loaderLoadPos = 1;
+    //public static double loaderClearPos = 0.65;
+    //public static double loaderLoadPos = 1;
 
     public static double shooterSpeedMultiplier = -1;
     public static double powerShotSpeedMultiplier = 0.9;
 
     public static double timeToShoot = 0.5;
-    public static double timeToRetract = 0.5;
-    public static double timeToMoveToNext = 0.5;
+    public static double timeInitialSpinup = 2;
+    //public static double timeToRetract = 0.5;
+    //public static double timeToMoveToNext = 0.5;
+
+    public static double moveUpFromIntakeDistCM = 10;
+    public static boolean moveUpFromIntakeEnabled = false;
 
     ////PUBLIC VARIABLES////
     public boolean shooterRunning = false;
@@ -49,16 +55,17 @@ public class CuriosityPayloadController
 
     ////PRIVATE VARIABLES////
     private double shooterStartTime = 0;
-    private double loaderStartTime = 0;
-    private boolean loadFromIntakeRunning = false;
+    //private double loaderStartTime = 0;
+    //private boolean loadFromIntakeRunning = false;
     private int starpathPosition = 0; //starts at 0, 3 is to the shooter, 5 is max
     private int discsShot = 3;
-    private boolean loaderUsed = false;
-    private boolean starpathUsed = false;
-    private boolean bootUsed = false;
+    //private boolean loaderUsed = false;
+    //private boolean starpathUsed = false;
+    //private boolean bootUsed = false;
+    private boolean discDetectedInIntake = false;
     public boolean powerShot = false;
 
-    public void Init(OpMode setOpMode, DcMotor[] setShooterMotors, Servo setIntakeServo1, Servo setIntakeServo2, Servo setBootServo, Servo setStarpathServo, Servo setLoaderServo){
+    public void Init(OpMode setOpMode, DcMotor[] setShooterMotors, Servo setIntakeServo1, Servo setIntakeServo2, Servo setBootServo, Servo setStarpathServo, Servo setLoaderServo, DistanceSensor setIntakeSensor){
         opMode = setOpMode;
 
         shooterMotors = setShooterMotors;
@@ -69,7 +76,7 @@ public class CuriosityPayloadController
         starpathServo = setStarpathServo;
         loaderServo = setLoaderServo;
 
-
+        intakeDetector = setIntakeSensor;
     }
 
     private void SetShooterPower(double power){
@@ -80,9 +87,10 @@ public class CuriosityPayloadController
         }
     }
 
-    private void BootDisc(){bootServo.setPosition(bootInPos);}
+    //TODO: remove
+    /*private void BootDisc(){bootServo.setPosition(bootInPos);}
     private void BootMiddle(){bootServo.setPosition((bootOutPos+bootInPos)/2);}
-    private void BootReset(){bootServo.setPosition(bootOutPos);}
+    private void BootReset(){bootServo.setPosition(bootOutPos);}*/
 
     public void StarpathToIntake(){
         starpathServo.setPosition(starpathDownPos);
@@ -97,8 +105,9 @@ public class CuriosityPayloadController
         starpathPosition = 3;
     }
 
-    private void LoaderClear(){loaderServo.setPosition(loaderClearPos);}
-    private void LoaderLoad(){loaderServo.setPosition(loaderLoadPos);}
+    //TODO: remove
+    /*private void LoaderClear(){loaderServo.setPosition(loaderClearPos);}
+    private void LoaderLoad(){loaderServo.setPosition(loaderLoadPos);}*/
 
     public void ShooterOn(){
         double modifier = shooterSpeedMultiplier;
@@ -134,10 +143,20 @@ public class CuriosityPayloadController
 
     public void Intake(){
         //if starpath not at intake and its shot all discs, return it to intake
-        if(starpathPosition > 2 && !loadFromIntakeRunning && discsShot == 3){
+        if(starpathPosition > 2 && discsShot == 3){
             StarpathToIntake();
         }
-        if(!loadFromIntakeRunning) BootReset();
+
+        //TODO: remove
+        //if(!loadFromIntakeRunning) BootReset();
+
+        //Manages auto intaking
+        if(intakeDetector.getDistance(DistanceUnit.CM) < moveUpFromIntakeDistCM && !discDetectedInIntake){
+            if(starpathPosition < 2 && moveUpFromIntakeEnabled) StarpathAddInterval();
+            discDetectedInIntake = true;
+        }
+        if (!(intakeDetector.getDistance(DistanceUnit.CM) < moveUpFromIntakeDistCM)) discDetectedInIntake = false;
+
         if(starpathPosition > 2){
             StopIntake();
             return;
@@ -152,7 +171,8 @@ public class CuriosityPayloadController
         intakeServo2.setPosition(0.5);
     }
 
-    public void LoadFromIntake(){
+    //TODO: remove
+    /*public void LoadFromIntake(){
         //start timer
         if(!loadFromIntakeRunning)loaderStartTime = opMode.getRuntime();
         loadFromIntakeRunning = true;
@@ -166,15 +186,16 @@ public class CuriosityPayloadController
         BootReset();
 
         bootUsed = true;
-    }
-    public void StopLoadFromIntake(){
+    }*/
+    /*public void StopLoadFromIntake(){
         //rotate starpath to next pos
         if(starpathPosition < 3) RotateStarpathToNextPos();
         bootUsed = false;
         loadFromIntakeRunning = false;
-    }
+    }*/
 
-    public void ShootAsync(){
+    //TODO: remove
+    /*public void ShootAsync(){
         //start timer
         if(!shooterRunning)shooterStartTime = opMode.getRuntime();
         shooterRunning = true;
@@ -187,7 +208,7 @@ public class CuriosityPayloadController
 
         //load shooter -> it shoots
         if(!loaderUsed){
-            LoaderLoad();
+            //LoaderLoad();
             discsShot ++;
             loaderUsed = true;
             shooterStartTime = opMode.getRuntime();
@@ -215,18 +236,24 @@ public class CuriosityPayloadController
         //wait
         if(shooterStartTime+timeToShoot+timeToRetract+timeToMoveToNext > opMode.getRuntime()) return;
         shooterRunning = false;
-    }
-    public void StopShootAsync(){
+    }*/
+    /*public void StopShootAsync(){
         ShooterOff();
         LoaderClear();
         shooterRunning = false;
         loaderUsed = false;
         starpathUsed = false;
-    }
+    }*/
 
     public void ShootThree(){
         ShooterOn(); //Spin up shooter
         stopShooterOverride = false;
+
+        if(!shooterRunning)shooterStartTime = opMode.getRuntime();
+        shooterRunning = true;
+
+        //wait
+        while (shooterStartTime+timeInitialSpinup > opMode.getRuntime()) opMode.telemetry.addLine("waiting to spin up...");
 
         ShootOne();
         ShooterOn();
@@ -239,19 +266,24 @@ public class CuriosityPayloadController
         //Reset shooter
         ShooterOff();
     }
-    public void StopShootThree(){
+    public void StopShooting(){
         stopShooterOverride = true;
-        StopShootAsync();
+        shooterRunning = false;
+        ShooterOff();
     }
 
     public void ShootOne(){
-        ShootAsync();
-        while(shooterRunning && !stopShooterOverride){
-            ShootAsync();
-            opMode.telemetry.addLine("Shooting");
-            opMode.telemetry.update();
-        }
-        StopShootAsync();
+        if(!shooterRunning)shooterStartTime = opMode.getRuntime();
+        shooterRunning = true;
+
+        if(stopShooterOverride) return;
+
+        //start shooter
+        ShooterOn();
+        //wait
+        while (shooterStartTime+timeToShoot > opMode.getRuntime()) opMode.telemetry.addLine("waiting to shoot...");
+        //fire
+        StarpathAddInterval();
     }
 
     public void ModifyForPowerShot(){

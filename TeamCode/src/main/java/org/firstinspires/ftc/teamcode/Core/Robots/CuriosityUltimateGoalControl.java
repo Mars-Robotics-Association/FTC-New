@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.Core.Robots;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.MechanicalControl.Curiosity.CuriosityPayloadController;
@@ -51,8 +53,10 @@ public class CuriosityUltimateGoalControl extends MecanumBaseControl
             Servo starpathServo = currentOpMode.hardwareMap.servo.get("starpathServo");
             Servo bootServo = currentOpMode.hardwareMap.servo.get("bootServo");
 
+            DistanceSensor intakeSensor = currentOpMode.hardwareMap.get(Rev2mDistanceSensor.class, "intake sensor");
+
             shooterIntake = new CuriosityPayloadController();
-            shooterIntake.Init(currentOpMode, new DcMotor[]{shooterMotor1, shooterMotor2}, intakeServo1, intakeServo2, bootServo, starpathServo, loaderServo);
+            shooterIntake.Init(currentOpMode, new DcMotor[]{shooterMotor1, shooterMotor2}, intakeServo1, intakeServo2, bootServo, starpathServo, loaderServo, intakeSensor);
         }
 
         //TODO ===INIT CORE ROBOT===
@@ -86,9 +90,10 @@ public class CuriosityUltimateGoalControl extends MecanumBaseControl
     }
 
     public void ShootThree(){shooterIntake.ShootThree();}
+    public void StopShootThree(){shooterIntake.StopShooting();}
 
-    public void ShootAsync(){shooterIntake.ShootAsync();}
-    public void StopShootAsync(){shooterIntake.StopShootAsync();}
+    //public void ShootAsync(){shooterIntake.ShootAsync();}
+    //public void StopShootAsync(){shooterIntake.StopShootAsync();}
 
     public void ShooterOn(){shooterIntake.ShooterOn();}
     public void ShooterOff(){shooterIntake.ShooterOff();}
@@ -98,8 +103,8 @@ public class CuriosityUltimateGoalControl extends MecanumBaseControl
 
     public void Intake(){shooterIntake.Intake();}
     public void StopIntake(){shooterIntake.StopIntake();}
-    public void LoadStarpath(){shooterIntake.LoadFromIntake();}
-    public void StopLoadStarpath(){shooterIntake.StopLoadFromIntake();}
+    //public void LoadStarpath(){shooterIntake.LoadFromIntake();}
+    //public void StopLoadStarpath(){shooterIntake.StopLoadFromIntake();}
     public void RotateStarpathToNextPos(){shooterIntake.RotateStarpathToNextPos();}
     public void RotateStarpathToPreviousPos(){shooterIntake.RotateStarpathToPreviousPos();}
     public void StarpathToShooter(){shooterIntake.StarPathToShooter();}

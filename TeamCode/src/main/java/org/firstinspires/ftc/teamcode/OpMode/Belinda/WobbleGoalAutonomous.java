@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Core.Robots.CuriosityUltimateGoalControl;
 import org.firstinspires.ftc.teamcode.Navigation.OrionNavigator;
 
 @Config
-@Autonomous(name = "*WOBBLE GOAL*", group = "Competition")
+@Autonomous(name = "*WOBBLE GOAL*", group = "Curiosity")
 public class WobbleGoalAutonomous extends LinearOpMode {
     private CuriosityUltimateGoalControl control;
     private OrionNavigator orion;

@@ -42,6 +42,10 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     public static double ROT_RIGHT = 0;
     public static double ROT_FRONT = 90;
 
+    public static String LEFT_ENCODER_NAME = "FL";
+    public static String RIGHT_ENCODER_NAME = "FR";
+    public static String FRONT_ENCODER_NAME = "RR";
+
     private DcMotor leftEncoder, rightEncoder, frontEncoder;
 
     public StandardTrackingWheelLocalizer(HardwareMap hardwareMap) {
@@ -51,9 +55,9 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
                 new Pose2d(FORWARD_OFFSET, 0, Math.toRadians(ROT_FRONT)) // front
         ));
 
-        leftEncoder = hardwareMap.dcMotor.get("FL");
-        rightEncoder = hardwareMap.dcMotor.get("FR");
-        frontEncoder = hardwareMap.dcMotor.get("RR");
+        leftEncoder = hardwareMap.dcMotor.get(LEFT_ENCODER_NAME);
+        rightEncoder = hardwareMap.dcMotor.get(RIGHT_ENCODER_NAME);
+        frontEncoder = hardwareMap.dcMotor.get(FRONT_ENCODER_NAME);
     }
 
     public static double encoderTicksToInches(int ticks) {

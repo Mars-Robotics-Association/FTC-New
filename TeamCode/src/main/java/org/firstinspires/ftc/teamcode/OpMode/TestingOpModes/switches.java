@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode.OpMode.TestingOpModes;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-@Config
+//@Config
 @Autonomous(name = "SWITCHTEST")
+@Disabled
 public class switches extends LinearOpMode {
     TouchSensor switch1;
     TouchSensor switch2;

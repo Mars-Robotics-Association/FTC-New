@@ -1,69 +1,67 @@
 package org.firstinspires.ftc.teamcode.OpMode.TestingOpModes;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Core.Input.ControllerInput;
+import org.firstinspires.ftc.teamcode.Core.Input.ControllerInputListener;
 import org.firstinspires.ftc.teamcode.Core.Robots.BelindaControl;
-import org.firstinspires.ftc.teamcode.Navigation.OrionNavigator;
 
-@Config
-@Autonomous(name = "NavigationTest")
-public class NavigationTesting extends LinearOpMode {
+//The class for controlling the robot in teleop. Includes basic drive movement, shooter operations,
+//and advanced autonomous functions.
+
+//REQUIRED TO RUN: Phones | REV Hub | Demobot Chassis | Shooter | Odometry Unit
+//REQUIRED TO FUNCTION: Controllers
+
+//@Config
+@TeleOp(name = "*Testing OpMode*")
+@Disabled
+public class NavigationTesting extends OpMode {
+    ////Dependencies////
     private BelindaControl control;
-    private OrionNavigator orion;
-    private FtcDashboard dashboard;
+    private ControllerInput controllerInput1;
+    private ControllerInput controllerInput2;
+    FtcDashboard dashboard;
 
-    public static double startX = 0;
-    public static double startY = 0;
-    public static double startH = 0;
-
-    public static double moveX = 0;
-    public static double moveY = 0;
-    public static double moveH = 0;
-
-    public static double turnAngle = 0;
-
-    public static boolean isMovementSpline = false;
+    ////Variables////
+    //Tweaking Vars
+    public static double turnWhileDrivingSpeed = 0.5;//used to change how fast robot turns when driving
+    public static double driveSpeed = 0.8;//used to change how fast robot drives
+    public static double turnSpeed = 0.5;//used to change how fast robot turns
+    public static double headingP = 0.002;
+    public static double headingI = 0;
+    public static double headingD = 0.001;
+    //Utility Vars
+    private boolean busy = false;
 
     @Override
-    public void runOpMode() throws InterruptedException {
-        control = new BelindaControl(this,true,false,true);
+    public void init() {
+        //Sets up demobot control class
+        control = new BelindaControl(this, true, false, true);
         control.Init();
-        orion = control.GetOrion();
+
+        //Sets up controller inputs
+        /*controllerInput1 = new ControllerInput(gamepad1, 1);
+        controllerInput1.addListener(this);
+        controllerInput2 = new ControllerInput(gamepad2, 2);
+        controllerInput2.addListener(this);*/
+
         dashboard = FtcDashboard.getInstance();
         dashboard.setTelemetryTransmissionInterval(25);
-
-        waitForStart();
-        orion.SetPose(startX, startY, Math.toRadians(startH));
-
-        if(isMovementSpline) orion.MoveSpline(moveX, moveY, moveH, false);
-        else orion.MoveLinear(moveX, moveY, moveH);
-
-        /*if(moveX != 0 || moveY != 0) orion.MoveLinear(moveX, moveY, moveH);
-        orion.TurnTo(turnAngle);*/
-        while (!isStopRequested()){
-            orion.PrintVuforiaTelemetry(0);
-            orion.PrintTensorflowTelemetry();
-            telemetry.update();
-        }
     }
 
-    /*@Override
-    public void loop(){
-        orion.SetTFCoefficients(tfDistCoef, tfXCoef);
-        //orion.PrintVuforiaTelemetry(2);
-        //orion.GoToDisc();
-        orion.PrintTensorflowTelemetry();
+    @Override
+    public void start() {
+        control.Start();
+    }
 
-        //orion.MoveToVumark(2, 0, 0, 0,5, 5);
-
-        telemetry.update();
-
-        TelemetryPacket packet = new TelemetryPacket();
-        Canvas fieldOverlay = packet.fieldOverlay();
-        //packet.put("target X ", control.GetImu().GetAngularVelocity());
-        dashboard.sendTelemetryPacket(packet);
-    }*/
+    @Override
+    public void loop() {
+        return;
+    }
 }

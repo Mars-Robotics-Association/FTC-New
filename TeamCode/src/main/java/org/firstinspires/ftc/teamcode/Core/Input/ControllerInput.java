@@ -50,6 +50,8 @@ public class ControllerInput
     private boolean DDownDown = false;
     private boolean DLeftDown = false;
     private boolean DRightDown = false;
+    private boolean RJSDown = false;
+    private boolean LJSDown = false;
 
     //GETTERS
     public double GetLJSX()
@@ -119,6 +121,14 @@ public class ControllerInput
         for (ControllerInputListener controllerInput : listeners)
             controllerInput.DRightPressed(id);
     }
+    public void LJSPressed() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.LJSPressed(id);
+    }
+    public void RJSPressed() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.RJSPressed(id);
+    }
 
     //Held
     public void AHeld() {
@@ -168,6 +178,14 @@ public class ControllerInput
     public void DRightHeld() {
         for (ControllerInputListener controllerInput : listeners)
             controllerInput.DRightHeld(id);
+    }
+    public void LJSHeld() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.LJSHeld(id);
+    }
+    public void RJSHeld() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.RJSHeld(id);
     }
 
     //Released
@@ -219,6 +237,14 @@ public class ControllerInput
         for (ControllerInputListener controllerInput : listeners)
             controllerInput.DRightReleased(id);
     }
+    public void LJSReleased() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.LJSReleased(id);
+    }
+    public void RJSReleased() {
+        for (ControllerInputListener controllerInput : listeners)
+            controllerInput.RJSReleased(id);
+    }
 
     public void Loop(){
         //DETECT EVENTS
@@ -235,6 +261,8 @@ public class ControllerInput
         if(gamepad.dpad_down == true && DDownDown == false) DDownPressed();
         if(gamepad.dpad_left == true && DLeftDown == false) DLeftPressed();
         if(gamepad.dpad_right == true && DRightDown == false) DRightPressed();
+        if(gamepad.left_stick_button == true && LJSDown == false) LJSPressed();
+        if(gamepad.right_stick_button == true && RJSDown == false) RJSPressed();
 
         //Held
         if(gamepad.a == true) AHeld();
@@ -249,6 +277,8 @@ public class ControllerInput
         if(gamepad.dpad_down == true) DDownHeld();
         if(gamepad.dpad_left == true) DLeftHeld();
         if(gamepad.dpad_right == true) DRightHeld();
+        if(gamepad.left_stick_button == true) LJSHeld();
+        if(gamepad.right_stick_button == true) RJSHeld();
 
         //Released
         if(gamepad.a == false && ADown == true) AReleased();
@@ -263,6 +293,8 @@ public class ControllerInput
         if(gamepad.dpad_down == false && DDownDown == true) DDownReleased();
         if(gamepad.dpad_left == false && DLeftDown == true) DLeftReleased();
         if(gamepad.dpad_right == false && DRightDown == true) DRightReleased();
+        if(gamepad.left_stick_button == false && LJSDown == true) LJSReleased();
+        if(gamepad.right_stick_button == false && RJSDown == true) RJSReleased();
 
 
         //SET VARS TO CURRENT VALUES
@@ -278,6 +310,8 @@ public class ControllerInput
         DDownDown = gamepad.dpad_down;
         DLeftDown = gamepad.dpad_left;
         DRightDown = gamepad.dpad_right;
+        LJSDown = gamepad.left_stick_button;
+        RJSDown = gamepad.right_stick_button;
     }
 
     public double CalculateLJSAngle(){

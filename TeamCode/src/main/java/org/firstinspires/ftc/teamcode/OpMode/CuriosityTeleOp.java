@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Core.Input.ControllerInput;
 import org.firstinspires.ftc.teamcode.Core.Input.ControllerInputListener;
 import org.firstinspires.ftc.teamcode.Core.Robots.CuriosityUltimateGoalControl;
 
-@TeleOp(name = "*CURIOSITY TELEOP*", group = "Curiosity")
+@TeleOp(name = "*CURIOSITY*", group = "Curiosity")
 @Config
 public class CuriosityTeleOp extends OpMode implements ControllerInputListener
 {
@@ -56,19 +56,39 @@ public class CuriosityTeleOp extends OpMode implements ControllerInputListener
         controllerInput2.Loop();
 
         if(!busy) {
-            ManageDriving();
+            ManageDrivingRoadrunner();
         }
         control.GetOrion().PrintVuforiaTelemetry(0);
         control.GetOrion().PrintTensorflowTelemetry();
         telemetry.update();
     }
 
-    private void ManageDriving() {
+    ////DRIVING FUNCTIONS////
+
+    private void ManageDrivingRoadrunner() {
         double moveX = -gamepad1.left_stick_y*driveSpeed*speedMultiplier;
         double moveY = -gamepad1.left_stick_x*driveSpeed*speedMultiplier;
         double turn = -gamepad1.right_stick_x*turnSpeed*speedMultiplier + turnOffset;
         control.GetOrion().MoveRaw(moveX, moveY, turn);
     }
+
+    private void ManageDriveMovementCustom() {
+        //MOVE if left joystick magnitude > 0.1
+        if (controllerInput1.CalculateLJSMag() > 0.1) {
+            control.RawDrive(controllerInput1.CalculateLJSAngle(), controllerInput1.CalculateLJSMag() * driveSpeed, controllerInput1.GetRJSX() * turnSpeed);//drives at (angle, speed, turnOffset)
+            telemetry.addData("Moving at ", controllerInput1.CalculateLJSAngle());
+        }
+        //TURN if right joystick magnitude > 0.1 and not moving
+        else if (Math.abs(controllerInput1.GetRJSX()) > 0.1) {
+            control.RawTurn(controllerInput1.GetRJSX() * turnSpeed);//turns at speed according to rjs1
+            telemetry.addData("Turning", true);
+        }
+        else {
+            control.GetChassis().SetMotorSpeeds(0,0,0,0);
+        }
+    }
+
+    ////INPUT MAPPING////
 
     @Override
     public void APressed(double controllerNumber) {
@@ -88,7 +108,7 @@ public class CuriosityTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void XPressed(double controllerNumber) {
-
+        control.ResetGyro();
     }
 
     @Override
@@ -258,6 +278,36 @@ public class CuriosityTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void DRightReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void LJSPressed(double controllerNumber) {
+        if(controllerNumber == 1) control.SwitchHeadlessMode();
+    }
+
+    @Override
+    public void RJSPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void LJSHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void RJSHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void LJSReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void RJSReleased(double controllerNumber) {
 
     }
 }

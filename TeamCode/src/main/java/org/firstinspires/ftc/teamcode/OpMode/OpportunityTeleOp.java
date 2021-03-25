@@ -388,4 +388,34 @@ public class OpportunityTeleOp extends OpMode implements ControllerInputListener
     public void DRightReleased(double controllerNumber) {
 
     }
+
+    @Override
+    public void LJSPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void RJSPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void LJSHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void RJSHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void LJSReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void RJSReleased(double controllerNumber) {
+
+    }
 }

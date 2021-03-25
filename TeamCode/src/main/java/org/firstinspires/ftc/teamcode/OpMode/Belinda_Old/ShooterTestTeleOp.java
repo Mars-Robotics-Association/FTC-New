@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.teamcode.OpMode.Belinda;
+package org.firstinspires.ftc.teamcode.OpMode.Belinda_Old;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -9,7 +10,8 @@ import org.firstinspires.ftc.teamcode.Core.Input.ControllerInputListener;
 import org.firstinspires.ftc.teamcode.Core.Robots.CuriosityUltimateGoalControl;
 
 @TeleOp(name = "*SHOOTER TELEOP*")
-@Config
+//@Config
+@Disabled
 public class ShooterTestTeleOp extends OpMode implements ControllerInputListener
 {
     ////Dependencies////
@@ -247,6 +249,36 @@ public class ShooterTestTeleOp extends OpMode implements ControllerInputListener
 
     @Override
     public void DRightReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void LJSPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void RJSPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void LJSHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void RJSHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void LJSReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void RJSReleased(double controllerNumber) {
 
     }
 }

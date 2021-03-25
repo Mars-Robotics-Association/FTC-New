@@ -28,6 +28,7 @@
  */
 package org.firstinspires.ftc.teamcode.OpMode.TestingOpModes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -69,6 +70,7 @@ import org.firstinspires.ftc.teamcode.Navigation.Vuforia.VuMarkShooterTest;
  */
 
 @TeleOp(name="ConceptVuMarkNavigation", group ="Concept")
+@Disabled
 public class ConceptVuMarkNavigation extends LinearOpMode {
 
     public static final String TAG = "Vuforia VuMark Sample";

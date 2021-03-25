@@ -31,7 +31,8 @@ public class CuriosityPayloadController
     //public static double bootOutPos = 0.45;
 
     public static double starpathDownPos = 0.01;
-    public static double starpathInterval = 0.95;
+    public static double starpathIntervalIntake = 0.095;
+    public static double starpathIntervalShooter = 0.08;
     public static double starpathUpPos = 0.24;
 
     //public static double loaderClearPos = 0.65;
@@ -97,9 +98,13 @@ public class CuriosityPayloadController
         discsShot = 3;
         starpathPosition = 0;
     }
-    private void StarpathAddInterval(){starpathServo.setPosition(starpathServo.getPosition()+starpathInterval);}
-    private void StarpathSubtractInterval(){starpathServo.setPosition(starpathServo.getPosition()-starpathInterval);}
+
+    private void StarpathAddIntervalIntake(){starpathServo.setPosition(starpathServo.getPosition()+ starpathIntervalIntake);}
+    private void StarpathSubtractIntervalIntake(){starpathServo.setPosition(starpathServo.getPosition()- starpathIntervalIntake);}
+    private void StarpathAddIntervalShooter(){starpathServo.setPosition(starpathServo.getPosition()+ starpathIntervalShooter);}
+    private void StarpathSubtractIntervalShooter(){starpathServo.setPosition(starpathServo.getPosition()- starpathIntervalShooter);}
     public void StarPathToShooter(){
+
         starpathServo.setPosition(starpathUpPos);
         discsShot = 0;
         starpathPosition = 3;
@@ -128,31 +133,32 @@ public class CuriosityPayloadController
         //if next pos is 3, go to the shooter
         else if(starpathPosition == 3) StarPathToShooter();
         //else, add with the interval
-        else StarpathAddInterval();
+        else if(starpathPosition < 3) StarpathAddIntervalIntake();
+        else if(starpathPosition > 3) StarpathAddIntervalShooter();
     }
 
     public void RotateStarpathToPreviousPos(){
         if(starpathPosition != 0) starpathPosition--;
 
-        if(starpathPosition == 2) starpathServo.setPosition(starpathInterval*2);
+        if(starpathPosition == 2) starpathServo.setPosition(starpathIntervalIntake *2);
         else if(starpathPosition == 0){
             StarpathToIntake();
         }
-        else StarpathSubtractInterval();
+        else StarpathSubtractIntervalIntake();
     }
 
     public void Intake(){
-        //if starpath not at intake and its shot all discs, return it to intake
+        /*//if starpath not at intake and its shot all discs, return it to intake
         if(starpathPosition > 2 && discsShot == 3){
             StarpathToIntake();
-        }
+        }*/
 
         //TODO: remove
         //if(!loadFromIntakeRunning) BootReset();
 
         //Manages auto intaking
         if(intakeDetector.getDistance(DistanceUnit.CM) < moveUpFromIntakeDistCM && !discDetectedInIntake){
-            if(starpathPosition < 2 && moveUpFromIntakeEnabled) StarpathAddInterval();
+            if(starpathPosition < 2 && moveUpFromIntakeEnabled) StarpathAddIntervalIntake();
             discDetectedInIntake = true;
         }
         if (!(intakeDetector.getDistance(DistanceUnit.CM) < moveUpFromIntakeDistCM)) discDetectedInIntake = false;
@@ -283,7 +289,7 @@ public class CuriosityPayloadController
         //wait
         while (shooterStartTime+timeToShoot > opMode.getRuntime()) opMode.telemetry.addLine("waiting to shoot...");
         //fire
-        StarpathAddInterval();
+        StarpathAddIntervalIntake();
     }
 
     public void ModifyForPowerShot(){

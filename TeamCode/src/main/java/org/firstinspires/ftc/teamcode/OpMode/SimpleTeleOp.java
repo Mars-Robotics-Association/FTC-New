@@ -451,6 +451,36 @@ public class SimpleTeleOp extends OpMode implements ControllerInputListener
 
     }
 
+    @Override
+    public void LJSPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void RJSPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void LJSHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void RJSHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void LJSReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void RJSReleased(double controllerNumber) {
+
+    }
+
     private void MangeDriveMovement(){
         //MOVE if left joystick magnitude > 0.1
         if (controllerInput1.CalculateLJSMag() > 0.1) {

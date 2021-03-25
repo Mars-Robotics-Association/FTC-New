@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpMode.Belinda;
+package org.firstinspires.ftc.teamcode.OpMode.Belinda_Old;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.canvas.Canvas;
@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Core.Robots.BelindaControl;
 //REQUIRED TO RUN: Phones | REV Hub | Demobot Chassis | Shooter | Odometry Unit
 //REQUIRED TO FUNCTION: Controllers
 
-@Config
+//@Config
 @TeleOp(name = "*Belinda TeleOp*")
 @Disabled
 public class BelindaTeleop extends OpMode implements ControllerInputListener
@@ -294,6 +294,36 @@ public class BelindaTeleop extends OpMode implements ControllerInputListener
 
     @Override
     public void DRightReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void LJSPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void RJSPressed(double controllerNumber) {
+
+    }
+
+    @Override
+    public void LJSHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void RJSHeld(double controllerNumber) {
+
+    }
+
+    @Override
+    public void LJSReleased(double controllerNumber) {
+
+    }
+
+    @Override
+    public void RJSReleased(double controllerNumber) {
 
     }
 }

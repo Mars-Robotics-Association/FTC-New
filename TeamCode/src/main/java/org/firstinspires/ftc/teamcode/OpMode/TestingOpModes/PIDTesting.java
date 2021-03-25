@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Core.PIDController;
 import org.firstinspires.ftc.teamcode.Sensors.IMU;
 
-@Config
+//@Config
 @TeleOp
 @Disabled
 public class PIDTesting extends OpMode {

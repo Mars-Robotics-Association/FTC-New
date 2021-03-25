@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Core.PIDController;
-import org.firstinspires.ftc.teamcode.MechanicalControl.Belinda.BelindaChassis;
+import org.firstinspires.ftc.teamcode.MechanicalControl.MecanumChassis;
 import org.firstinspires.ftc.teamcode.Navigation.OrionNavigator;
 import org.firstinspires.ftc.teamcode.Sensors.IMU;
 
@@ -21,9 +21,11 @@ public class MecanumBaseControl
     public static double vumarkTurnCoefficient = -0.05;
     public static int targetVumarkID = 0;
 
+    public static double[] headingPID = {0,0,0};
+
     ////Dependencies////
     //Mechanical Components
-    protected BelindaChassis chassis;
+    protected MecanumChassis chassis;
     //Core
     protected PIDController pidController; //Look here: https://github.com/tekdemo/MiniPID-Java for how to use it
     protected IMU imu;
@@ -39,6 +41,7 @@ public class MecanumBaseControl
 
     //Util
     protected double gyroOffset;
+    protected boolean headlessMode = false;
 
     //TODO: ===ROBOT CONFIGURATION===
     protected boolean USE_CHASSIS = true;
@@ -78,7 +81,7 @@ public class MecanumBaseControl
             RL = currentOpMode.hardwareMap.dcMotor.get("RL");
         }
         if(USE_CHASSIS) {
-            chassis = new BelindaChassis(imu, FR, FL, RR, RL, currentOpMode.telemetry);//Create chassis instance w/ motors
+            chassis = new MecanumChassis(imu, FR, FL, RR, RL, currentOpMode.telemetry);//Create chassis instance w/ motors
             chassis.Init();
         }
     }
@@ -90,16 +93,25 @@ public class MecanumBaseControl
     }
 
     //TODO: UNIVERSAL PUBLIC METHODS
-    public void RawDrive(double angle, double speed, double turnOffset) {
-        //Used in continuously in teleop to move robot at any angle using imu and pid controller
-        //Enter angle to move, speed, and a turn offset for turning while moving
-        chassis.MoveAtAngle(angle, speed, turnOffset);
+    public void RawDrive(double inputAngle, double speed, double turnOffset){
+        double finalAngle = inputAngle;
+        if(headlessMode) finalAngle -= imu.GetRobotAngle();
+
+        chassis.SetHeadingPID(headingPID[0], headingPID[1], headingPID[2]);
+
+        chassis.MoveAtAngle(finalAngle, speed, turnOffset);
     }
     public void RawTurn(double speed){
         //Used continuously in teleop to turn the robot
         //Enter speed for turn- positive speed turns left, negative right
         chassis.SpotTurn(speed);
     }
+    public void ResetGyro(){
+        //Offsets the gryo so the current heading can be zero with GetRobotAngle()
+        //gyroOffset = imu.GetRawAngles().firstAngle;
+        imu.ResetGyro();
+    }
+    public void SwitchHeadlessMode(){headlessMode = !headlessMode;}
     public void Brake(){
         //Called once to brake the robot
         chassis.Brake();
@@ -124,18 +136,15 @@ public class MecanumBaseControl
     //TODO: UNIVERSAL GETTERS
     public OrionNavigator GetOrion(){return orion;}
     public IMU GetImu(){return imu;}
-    public BelindaChassis GetChassis(){return chassis;}
+    public MecanumChassis GetChassis(){return chassis;}
     public PIDController GetPID(){return chassis.GetHeadingPID();}
     public OpMode GetOpMode(){return currentOpMode;}
 
     //TODO: SETTER METHODS
     public void SetDrivePID(double p, double i, double d){
-        chassis.SetPIDCoefficients(p,i,d);
+        chassis.SetHeadingPID(p,i,d);
     }
 
     //TODO: PRIVATE METHODS
-    private void OffsetGyro(){
-        //Offsets the gryo so the current heading can be zero with GetRobotAngle()
-        gyroOffset = imu.GetRawAngles().firstAngle;
-    }
+
 }

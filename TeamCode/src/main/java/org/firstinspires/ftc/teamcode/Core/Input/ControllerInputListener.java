@@ -47,4 +47,13 @@ public interface ControllerInputListener {
     void DDownReleased(double controllerNumber);
     void DLeftReleased(double controllerNumber);
     void DRightReleased(double controllerNumber);
+
+    void LJSPressed(double controllerNumber);
+    void RJSPressed(double controllerNumber);
+
+    void LJSHeld(double controllerNumber);
+    void RJSHeld(double controllerNumber);
+
+    void LJSReleased(double controllerNumber);
+    void RJSReleased(double controllerNumber);
 }

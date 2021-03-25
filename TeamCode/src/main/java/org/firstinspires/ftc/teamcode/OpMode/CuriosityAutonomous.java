@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpMode.Belinda;
+package org.firstinspires.ftc.teamcode.OpMode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.Core.Robots.CuriosityUltimateGoalControl;
 import org.firstinspires.ftc.teamcode.Navigation.OrionNavigator;
 
 @Config
-@Autonomous(name = "*WOBBLE GOAL*", group = "Curiosity")
-public class WobbleGoalAutonomous extends LinearOpMode {
+@Autonomous(name = "*CURIOSITY*", group = "Curiosity")
+public class CuriosityAutonomous extends LinearOpMode {
     private CuriosityUltimateGoalControl control;
     private OrionNavigator orion;
     private FtcDashboard dashboard;
@@ -44,7 +44,7 @@ public class WobbleGoalAutonomous extends LinearOpMode {
         control.RotateStarpathToPreviousPos();
 
         //Move to where it can see discs
-        orion.MoveLinear(18, 8, 0);
+        orion.MoveLinear(16, 8, 0);
 
         sleep(500);//wait for tensorflow to detect discs
         int numberOfDiscs = orion.GetNumberOfDiscs(tfUpperLimit);//figure out where to go\
@@ -70,13 +70,13 @@ public class WobbleGoalAutonomous extends LinearOpMode {
 
         //Line up for high goal
         control.ShooterOn();
-        orion.MoveLinear(60, 12, 0);
+        orion.MoveLinear(60, 18, 0);
         orion.TurnTo(180);
         HighGoalRoutine();
 
         orion.MoveLinear(40, -4, 0);
-        orion.MoveLinear(0, 4, 0);
-        orion.MoveLinear(0, 25, 0);
+        orion.MoveLinear(4, 4, 0);
+        orion.MoveLinear(4, 25, 0);
 
         orion.MoveSpline(40, 32, 0, true);
 

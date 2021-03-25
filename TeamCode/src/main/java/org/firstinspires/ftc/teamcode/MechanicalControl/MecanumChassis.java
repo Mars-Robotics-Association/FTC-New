@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.MechanicalControl.Belinda;
+package org.firstinspires.ftc.teamcode.MechanicalControl;
 
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.Core.PIDController;
 //REQUIRED TO COMPILE: Phones | REV Hub
 //REQUIRED TO RUN: Chassis
 
-public class BelindaChassis
+public class MecanumChassis
 {
     ////Dependencies////
     private OpMode CurrentOpMode;
@@ -49,7 +49,7 @@ public class BelindaChassis
     }
 
     //Initializer
-    public BelindaChassis(IMU setImu, DcMotor fr, DcMotor fl, DcMotor rr, DcMotor rl, Telemetry telemetry){
+    public MecanumChassis(IMU setImu, DcMotor fr, DcMotor fl, DcMotor rr, DcMotor rl, Telemetry telemetry){
         imu = setImu;
         FR = fr;
         FL = fl;
@@ -183,7 +183,7 @@ public class BelindaChassis
         SetModeGoToEncoderPos();
         SetMotorSpeeds(0.5,0.5,0.5,0.5);
     }
-    public void SetPIDCoefficients(double p, double i, double d){
+    public void SetHeadingPID(double p, double i, double d){
         headingPIDController.setPID(p,i,d);
     }
 

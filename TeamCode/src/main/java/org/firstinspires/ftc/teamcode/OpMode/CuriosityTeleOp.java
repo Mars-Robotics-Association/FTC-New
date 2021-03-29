@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Core.Input.ControllerInput;
 import org.firstinspires.ftc.teamcode.Core.Input.ControllerInputListener;
 import org.firstinspires.ftc.teamcode.Core.Robots.CuriosityUltimateGoalControl;
 
-@TeleOp(name = "*CURIOSITY*", group = "Curiosity")
+@TeleOp(name = "*CURIOSITY TELEOP*", group = "Curiosity")
 @Config
 public class CuriosityTeleOp extends OpMode implements ControllerInputListener
 {

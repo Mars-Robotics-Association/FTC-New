@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Core.Robots.CuriosityUltimateGoalControl;
 import org.firstinspires.ftc.teamcode.Navigation.OrionNavigator;
 
 @Config
-@Autonomous(name = "*CURIOSITY*", group = "Curiosity")
+@Autonomous(name = "*CURIOSITY AUTO*", group = "Curiosity")
 public class CuriosityAutonomous extends LinearOpMode {
     private CuriosityUltimateGoalControl control;
     private OrionNavigator orion;
@@ -46,7 +46,7 @@ public class CuriosityAutonomous extends LinearOpMode {
         //Move to where it can see discs
         orion.MoveLinear(16, 8, 0);
 
-        sleep(500);//wait for tensorflow to detect discs
+        sleep(200);//wait for tensorflow to detect discs
         int numberOfDiscs = orion.GetNumberOfDiscs(tfUpperLimit);//figure out where to go\
 
         //Go near square A
@@ -54,17 +54,17 @@ public class CuriosityAutonomous extends LinearOpMode {
 
         if(numberOfDiscs == 0){ //A
             //deposit wobble goal
-            orion.MoveLinear(65, -6, 0);
+            orion.MoveLinear(68, -6, 0);
             orion.MoveLinear(60, -6, 0);
         }
         else if(numberOfDiscs > 0 && numberOfDiscs < 3){ //B
             //spline to B, deposit
-            orion.MoveSpline(85, 12, 0, true);
+            orion.MoveSpline(88, 12, 0, true);
             orion.MoveLinear(80, 12, 0);
         }
         else { //C
             //keep going forwards, deposit
-            orion.MoveLinear(107, -8, 0);
+            orion.MoveLinear(110, -8, 0);
             orion.MoveLinear(102, -8, 0);
         }
 
@@ -76,7 +76,7 @@ public class CuriosityAutonomous extends LinearOpMode {
 
         orion.MoveLinear(40, -4, 0);
         orion.MoveLinear(4, 4, 0);
-        orion.MoveLinear(4, 25, 0);
+        orion.MoveLinear(1, 26, 0);
 
         orion.MoveSpline(40, 32, 0, true);
 
